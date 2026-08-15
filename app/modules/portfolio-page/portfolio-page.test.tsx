@@ -19,7 +19,6 @@ describe("portfolio page", () => {
       "#main-content",
     );
     expect(screen.getByRole("main")).toHaveAttribute("id", "main-content");
-    expect(screen.getByRole("region", { name: "Profile" })).toBeVisible();
     expect(screen.getByRole("region", { name: "Selected work" })).toBeVisible();
     expect(screen.getByRole("region", { name: "Selected experience" })).toBeVisible();
     expect(screen.getByRole("contentinfo")).toBeVisible();

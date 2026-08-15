@@ -8,7 +8,7 @@ function Hero({ person }: { person: Portfolio["person"] }) {
         <div className={styles.redField} aria-hidden="true" />
         <div className={styles.blueField} aria-hidden="true" />
 
-        <div className={`${styles.identity} ${styles.metadata}`}>
+        <div className={`${styles.identity} ${styles.supportingText}`}>
           <p className={styles.identityName}>{person.name}</p>
           <p className={styles.identityLocation}>{person.location}</p>
         </div>
@@ -50,7 +50,7 @@ function Hero({ person }: { person: Portfolio["person"] }) {
               fetchPriority="high"
             />
           </picture>
-          <figcaption className={`${styles.metadata} ${styles.photoCredit}`}>
+          <figcaption className={`${styles.supportingText} ${styles.photoCredit}`}>
             Toronto waterfront. Photo by{" "}
             <a href="https://unsplash.com/photos/cn-tower-grayscale-photography-trq3hS53NYU">
               Osama Saeed
@@ -63,65 +63,37 @@ function Hero({ person }: { person: Portfolio["person"] }) {
   );
 }
 
-function Profile({ content }: { content: Portfolio }) {
-  return (
-    <section
-      className={`${styles.sectionFrame} ${styles.surfacePanel}`}
-      id="profile"
-      aria-labelledby="profile-heading"
-    >
-      <header className={styles.plainSectionHeader}>
-        <h2 className={`${styles.displayHeading} ${styles.profileHeading}`} id="profile-heading">
-          Profile
-        </h2>
-        <p className={`${styles.metadata} ${styles.profileLocation}`}>{content.person.location}</p>
-      </header>
-      <div className={styles.profileCopy}>
-        <p className={`${styles.featureText} ${styles.profileSummary}`}>{content.person.summary}</p>
-      </div>
-    </section>
-  );
-}
-
 function CaseStudyArticle({ study }: { study: CaseStudy }) {
   return (
     <article className={styles.caseStudy} id={study.id}>
       <header className={styles.caseStudyHeader}>
-        <p className={`${styles.metadata} ${styles.caseNumber}`}>{study.number}</p>
-        <div>
+        <div className={styles.caseStudyIdentity}>
           <h3 className={`${styles.cardHeading} ${styles.caseStudyTitle}`}>{study.title}</h3>
-          <p className={`${styles.metadata} ${styles.caseMeta}`}>
-            {study.organization} / {study.period}
+          <p className={styles.caseMeta}>
+            {study.organization}, {study.period}
           </p>
         </div>
+        <p className={`${styles.featureText} ${styles.caseSummary}`}>{study.summary}</p>
       </header>
 
-      <p className={`${styles.featureText} ${styles.caseSummary}`}>{study.summary}</p>
+      <div className={styles.caseStudyRule} aria-hidden="true" />
 
       <div className={styles.caseBody}>
-        <div className={styles.caseColumn}>
-          <h4 className={`${styles.metadata} ${styles.caseBodyHeading}`}>Background</h4>
+        <section className={styles.caseColumn}>
+          <h4 className={`${styles.cardHeading} ${styles.caseBodyHeading}`}>
+            Why it needed to change
+          </h4>
           <p>{study.context}</p>
-        </div>
-        <div className={styles.caseColumn}>
-          <h4 className={`${styles.metadata} ${styles.caseBodyHeading}`}>Work completed</h4>
-          <ol role="list">
-            {study.decisions.map((decision) => (
-              <li key={decision}>{decision}</li>
+        </section>
+        <section className={styles.caseColumn}>
+          <h4 className={`${styles.cardHeading} ${styles.caseBodyHeading}`}>What I worked on</h4>
+          <ul>
+            {study.contributions.map((contribution) => (
+              <li key={contribution}>{contribution}</li>
             ))}
-          </ol>
-        </div>
+          </ul>
+        </section>
       </div>
-
-      <ul
-        className={`${styles.metadata} ${styles.technologyList}`}
-        aria-label="Technologies used"
-        role="list"
-      >
-        {study.technologies.map((technology) => (
-          <li key={technology}>{technology}</li>
-        ))}
-      </ul>
     </article>
   );
 }
@@ -129,7 +101,7 @@ function CaseStudyArticle({ study }: { study: CaseStudy }) {
 function SelectedWork({ studies }: { studies: Portfolio["caseStudies"] }) {
   return (
     <section
-      className={`${styles.sectionFrame} ${styles.surfacePanel} ${styles.sectionFlow}`}
+      className={`${styles.sectionFrame} ${styles.sectionFlow}`}
       id="work"
       aria-labelledby="work-heading"
     >
@@ -178,8 +150,7 @@ function Experience({ experience }: { experience: Portfolio["experience"] }) {
               {item.organization}
             </h3>
             <p className={styles.experienceRole}>{item.role}</p>
-            <p className={`${styles.metadata} ${styles.experiencePeriod}`}>{item.period}</p>
-            <p className={styles.experienceDescription}>{item.description}</p>
+            <p className={`${styles.supportingText} ${styles.experiencePeriod}`}>{item.period}</p>
           </article>
         ))}
       </div>
@@ -207,7 +178,7 @@ function Contact({ person }: { person: Portfolio["person"] }) {
           {person.email}
         </a>
       </address>
-      <div className={`${styles.metadata} ${styles.contactMeta}`}>
+      <div className={`${styles.supportingText} ${styles.contactMeta}`}>
         <span>{person.name}</span>
         <span>{person.location}</span>
       </div>
@@ -223,7 +194,6 @@ export function PortfolioPage({ content }: { content: Portfolio }) {
       </a>
       <Hero person={content.person} />
       <main id="main-content" tabIndex={-1}>
-        <Profile content={content} />
         <SelectedWork studies={content.caseStudies} />
         <Experience experience={content.experience} />
       </main>

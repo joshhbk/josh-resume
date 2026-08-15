@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@fontsource-variable/archivo": "latest",
-    "@fontsource/ibm-plex-mono": "latest",
     "@fontsource/ibm-plex-sans": "latest",
     "isbot": "^5",
     "react": "^19.2.8",
