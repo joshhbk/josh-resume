@@ -406,14 +406,14 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1px;
-  margin-top: clamp(4rem, 8vw, 8rem);
+  margin-top: clamp(3rem, 6vw, 6rem);
   background: var(--rule-inverse);
   border-top: 1px solid var(--rule-inverse);
 }
 
 .experienceList article {
-  min-height: 26rem;
-  padding: 1.5rem 1.25rem;
+  min-height: 14rem;
+  padding: 1.5rem 1.25rem 2rem;
   background: var(--surface-accent-secondary);
 }
 
@@ -429,7 +429,7 @@
 }
 
 .experiencePeriod {
-  margin-top: 4rem;
+  margin-top: 2.5rem;
   line-height: 1;
 }
 
@@ -563,7 +563,7 @@
   }
 
   .experienceList article {
-    min-height: 22rem;
+    min-height: 12rem;
   }
 }
 
