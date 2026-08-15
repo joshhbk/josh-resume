@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.joshuahughes.portfolio-preview</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/joshuahughes/.nvm/versions/node/v24.13.0/bin/corepack</string>
+    <string>pnpm</string>
+    <string>start</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/joshuahughes/Developer/josh-resume</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/Users/joshuahughes/.nvm/versions/node/v24.13.0/bin:/opt/homebrew/bin:/usr/bin:/bin</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>StandardOutPath</key>
+  <string>/Users/joshuahughes/Library/Logs/josh-resume-preview.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/joshuahughes/Library/Logs/josh-resume-preview.error.log</string>
+</dict>
+</plist>
