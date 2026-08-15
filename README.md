@@ -8,7 +8,7 @@ The site is a Toronto-based personal portfolio with a red, blue and cream editor
 - Vite and strict TypeScript
 - Zod validation at the content boundary
 - CSS Modules
-- Vitest and Testing Library
+- Vitest, Testing Library and axe-core accessibility checks
 - Static prerendering for the root portfolio route
 
 ## Local development

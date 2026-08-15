@@ -23,14 +23,10 @@ function Hero({ person }: { person: Portfolio["person"] }) {
           <p>More than 12 years building and improving software products.</p>
         </div>
 
-        <button
-          className={styles.heroLink}
-          type="button"
-          onClick={() => document.querySelector("#work")?.scrollIntoView()}
-        >
+        <a className={styles.heroLink} href="#work">
           Selected work
           <span aria-hidden="true">↓</span>
-        </button>
+        </a>
 
         <figure className={styles.photo}>
           <picture>
@@ -62,9 +58,9 @@ function Hero({ person }: { person: Portfolio["person"] }) {
 
 function Profile({ content }: { content: Portfolio }) {
   return (
-    <section className={styles.profile} id="profile">
+    <section className={styles.profile} id="profile" aria-labelledby="profile-heading">
       <header className={styles.plainSectionHeader}>
-        <h2>Profile</h2>
+        <h2 id="profile-heading">Profile</h2>
         <p>{content.person.location}</p>
       </header>
       <div className={styles.profileCopy}>
@@ -96,7 +92,7 @@ function CaseStudyArticle({ study }: { study: CaseStudy }) {
         </div>
         <div>
           <h4>Work completed</h4>
-          <ol>
+          <ol role="list">
             {study.decisions.map((decision) => (
               <li key={decision}>{decision}</li>
             ))}
@@ -104,7 +100,7 @@ function CaseStudyArticle({ study }: { study: CaseStudy }) {
         </div>
       </div>
 
-      <ul className={styles.technologyList} aria-label="Technologies used">
+      <ul className={styles.technologyList} aria-label="Technologies used" role="list">
         {study.technologies.map((technology) => (
           <li key={technology}>{technology}</li>
         ))}
@@ -115,9 +111,9 @@ function CaseStudyArticle({ study }: { study: CaseStudy }) {
 
 function SelectedWork({ studies }: { studies: Portfolio["caseStudies"] }) {
   return (
-    <section className={styles.work} id="work">
+    <section className={styles.work} id="work" aria-labelledby="work-heading">
       <header className={styles.splitSectionHeader}>
-        <h2 aria-label="Selected work">
+        <h2 id="work-heading" aria-label="Selected work">
           <span aria-hidden="true">Selected</span>
           <span aria-hidden="true">work</span>
         </h2>
@@ -133,9 +129,9 @@ function SelectedWork({ studies }: { studies: Portfolio["caseStudies"] }) {
 
 function Experience({ experience }: { experience: Portfolio["experience"] }) {
   return (
-    <section className={styles.experience} id="experience">
+    <section className={styles.experience} id="experience" aria-labelledby="experience-heading">
       <header>
-        <h2>Selected experience</h2>
+        <h2 id="experience-heading">Selected experience</h2>
       </header>
       <div className={styles.experienceList}>
         {experience.map((item) => (
@@ -157,8 +153,10 @@ function Contact({ person }: { person: Portfolio["person"] }) {
       <div className={styles.contactRed} aria-hidden="true" />
       <div className={styles.contactBlue} aria-hidden="true" />
       <h2>Contact</h2>
-      <p>{person.contactMessage}</p>
-      <a href={`mailto:${person.email}`}>{person.email}</a>
+      <address>
+        <p>{person.contactMessage}</p>
+        <a href={`mailto:${person.email}`}>{person.email}</a>
+      </address>
       <div className={styles.contactMeta}>
         <span>{person.name}</span>
         <span>{person.location}</span>
@@ -174,7 +172,7 @@ export function PortfolioPage({ content }: { content: Portfolio }) {
         Skip to content
       </a>
       <Hero person={content.person} />
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <Profile content={content} />
         <SelectedWork studies={content.caseStudies} />
         <Experience experience={content.experience} />
