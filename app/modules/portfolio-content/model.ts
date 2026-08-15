@@ -26,18 +26,10 @@ export const portfolioSchema = z.object({
     location: z.string(),
     email: z.email(),
     summary: z.string(),
-    siteIntroduction: z.string(),
     contactMessage: z.string(),
   }),
   caseStudies: z.array(caseStudySchema).min(1),
   experience: z.array(experienceSchema).min(1),
-  capabilities: z.array(
-    z.object({
-      title: z.string(),
-      description: z.string(),
-    }),
-  ),
-  principles: z.array(z.string()),
 });
 
 export type Portfolio = z.infer<typeof portfolioSchema>;

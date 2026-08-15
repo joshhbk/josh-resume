@@ -1,13 +1,13 @@
 # Joshua Hughes — portfolio
 
-The site is a Toronto-based personal portfolio with a red, blue and white visual direction informed by the ring canvas used by All Japan Pro Wrestling in the mid-1980s.
+The site is a Toronto-based personal portfolio with a red, blue and cream editorial layout.
 
 ## Stack
 
 - React 19 and React Router Framework Mode
 - Vite and strict TypeScript
 - Zod validation at the content boundary
-- A CSS Module owned by the AJPW presentation module
+- CSS Modules
 - Vitest and Testing Library
 - Static prerendering for the root portfolio route
 
@@ -27,12 +27,6 @@ pnpm typecheck
 pnpm test
 pnpm build
 ```
-
-## Architecture
-
-The validated content module in `app/modules/portfolio-content` is the source of professional facts. The AJPW module in `app/modules/designs/ajpw` owns the complete presentation. The root route contains no portfolio logic and only connects those two interfaces.
-
-The repository vocabulary and current constraints live in `CONTEXT.md`. Decisions with longer-lived consequences are recorded in `docs/adr`.
 
 ## Mac mini preview
 

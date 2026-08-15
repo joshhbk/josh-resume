@@ -5,10 +5,8 @@ export const rawPortfolio = {
     location: "Toronto, Ontario",
     email: "joshuah@tcd.ie",
     summary:
-      "I’m a front-end engineer with more than 12 years of experience. I work mainly with React and TypeScript, building product features and improving large existing codebases.",
-    siteIntroduction:
-      "This site documents selected projects from my recent roles and the frontend architecture, design-system and tooling work behind them.",
-    contactMessage: "For questions about the work on this site, contact me by email.",
+      "I’m a software engineer with more than 12 years of experience building products and improving large existing codebases. I work on systems that need to evolve while teams continue shipping new work.",
+    contactMessage: "You can reach me by email.",
   },
   caseStudies: [
     {
@@ -69,7 +67,7 @@ export const rawPortfolio = {
       role: "Staff Front-End Engineer",
       period: "2025—present",
       description:
-        "Working on React architecture, build tooling and a new modular frontend platform.",
+        "Working on product architecture, build tooling and a modular platform used across applications.",
     },
     {
       organization: "Quartermaster",
@@ -92,33 +90,5 @@ export const rawPortfolio = {
       description:
         "Web and mobile products for live sports scores, statistics, news and prediction games.",
     },
-  ],
-  capabilities: [
-    {
-      title: "Frontend architecture",
-      description:
-        "Structuring React applications, setting module boundaries and planning changes to existing systems.",
-    },
-    {
-      title: "Design systems",
-      description:
-        "Building reusable components and keeping the implementation aligned with product design.",
-    },
-    {
-      title: "Build and test tooling",
-      description:
-        "Improving build times, test setup, type safety, generated API clients and CI checks.",
-    },
-    {
-      title: "Working across teams",
-      description:
-        "Writing code, reviewing technical designs, documenting decisions and helping teams plan migrations.",
-    },
-  ],
-  principles: [
-    "Make large changes in stages so product work can continue.",
-    "Write down important technical decisions and check them in CI where possible.",
-    "Use static types and runtime validation where each is useful.",
-    "Treat accessibility and interface quality as part of the engineering work.",
   ],
 };

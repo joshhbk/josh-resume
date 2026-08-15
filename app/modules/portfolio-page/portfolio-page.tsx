@@ -1,5 +1,5 @@
-import type { CaseStudy, Portfolio } from "../../portfolio-content/model";
-import styles from "./ajpw-portfolio.module.css";
+import type { CaseStudy, Portfolio } from "../portfolio-content/model";
+import styles from "./portfolio-page.module.css";
 
 function Hero({ person }: { person: Portfolio["person"] }) {
   return (
@@ -20,21 +20,15 @@ function Hero({ person }: { person: Portfolio["person"] }) {
             <span aria-hidden="true">Front-End</span>
             <span aria-hidden="true">Engineer</span>
           </h1>
-          <p>React and TypeScript. More than 12 years of product engineering.</p>
-        </div>
-
-        <div className={styles.heroDetails}>
-          <span>Product engineering</span>
-          <span>Frontend architecture</span>
-          <span>Design systems</span>
+          <p>More than 12 years building and improving software products.</p>
         </div>
 
         <button
           className={styles.heroLink}
           type="button"
-          onClick={() => document.querySelector("#profile")?.scrollIntoView()}
+          onClick={() => document.querySelector("#work")?.scrollIntoView()}
         >
-          Read the portfolio
+          Selected work
           <span aria-hidden="true">↓</span>
         </button>
 
@@ -75,7 +69,6 @@ function Profile({ content }: { content: Portfolio }) {
       </header>
       <div className={styles.profileCopy}>
         <p>{content.person.summary}</p>
-        <p>{content.person.siteIntroduction}</p>
       </div>
     </section>
   );
@@ -128,7 +121,6 @@ function SelectedWork({ studies }: { studies: Portfolio["caseStudies"] }) {
           <span aria-hidden="true">Selected</span>
           <span aria-hidden="true">work</span>
         </h2>
-        <p>Three projects from recent roles.</p>
       </header>
       <div className={styles.caseStudyList}>
         {studies.map((study) => (
@@ -143,7 +135,7 @@ function Experience({ experience }: { experience: Portfolio["experience"] }) {
   return (
     <section className={styles.experience} id="experience">
       <header>
-        <h2>Experience</h2>
+        <h2>Selected experience</h2>
       </header>
       <div className={styles.experienceList}>
         {experience.map((item) => (
@@ -154,33 +146,6 @@ function Experience({ experience }: { experience: Portfolio["experience"] }) {
             <p>{item.description}</p>
           </article>
         ))}
-      </div>
-    </section>
-  );
-}
-
-function Practice({ content }: { content: Portfolio }) {
-  return (
-    <section className={styles.practice}>
-      <header className={styles.plainSectionHeader}>
-        <h2>Areas of work</h2>
-        <p>Day-to-day engineering practice</p>
-      </header>
-      <div className={styles.capabilityGrid}>
-        {content.capabilities.map((capability) => (
-          <article key={capability.title}>
-            <h3>{capability.title}</h3>
-            <p>{capability.description}</p>
-          </article>
-        ))}
-      </div>
-      <div className={styles.principles}>
-        <h2>How I work</h2>
-        <ol>
-          {content.principles.map((principle) => (
-            <li key={principle}>{principle}</li>
-          ))}
-        </ol>
       </div>
     </section>
   );
@@ -202,7 +167,7 @@ function Contact({ person }: { person: Portfolio["person"] }) {
   );
 }
 
-export function AjpwPortfolio({ content }: { content: Portfolio }) {
+export function PortfolioPage({ content }: { content: Portfolio }) {
   return (
     <div className={styles.page}>
       <a className="skip-link" href="#main-content">
@@ -213,7 +178,6 @@ export function AjpwPortfolio({ content }: { content: Portfolio }) {
         <Profile content={content} />
         <SelectedWork studies={content.caseStudies} />
         <Experience experience={content.experience} />
-        <Practice content={content} />
       </main>
       <Contact person={content.person} />
     </div>

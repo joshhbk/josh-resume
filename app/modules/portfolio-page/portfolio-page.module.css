@@ -1,6 +1,6 @@
 .page {
-  --ajpw-red: #d32132;
-  --ajpw-blue: #1748a0;
+  --primary-red: #d32132;
+  --primary-blue: #1748a0;
   --deep-blue: #09296d;
   --canvas: #f3f0e8;
   --ink: #111;
@@ -36,7 +36,7 @@
   min-height: min(50rem, calc(100svh - clamp(1.5rem, 6vw, 6rem)));
   margin-inline: auto;
   overflow: hidden;
-  background: var(--ajpw-red);
+  background: var(--primary-red);
   box-shadow: 0 1.75rem 5rem rgb(2 13 44 / 42%);
   isolation: isolate;
 }
@@ -50,12 +50,12 @@
 
 .redField {
   z-index: -3;
-  background: var(--ajpw-red);
+  background: var(--primary-red);
 }
 
 .blueField {
   z-index: -2;
-  background: var(--ajpw-blue);
+  background: var(--primary-blue);
   clip-path: polygon(39% 0, 100% 0, 100% 100%, 67% 100%);
 }
 
@@ -110,19 +110,6 @@
   line-height: 1.45;
   color: var(--ink);
   background: var(--canvas);
-}
-
-.heroDetails {
-  position: absolute;
-  bottom: clamp(2.5rem, 7%, 4rem);
-  left: clamp(1.25rem, 3vw, 3rem);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.35rem;
-  font:
-    500 clamp(0.65rem, 0.78vw, 0.78rem) / 1.25 "IBM Plex Mono",
-    monospace;
 }
 
 .heroLink {
@@ -198,8 +185,7 @@
 }
 
 .profile,
-.work,
-.practice {
+.work {
   width: min(calc(100% - clamp(1.5rem, 6vw, 6rem)), 90rem);
   margin-inline: auto;
   background: var(--canvas);
@@ -214,8 +200,7 @@
   border-bottom: 1px solid var(--ink);
 }
 
-.plainSectionHeader h2,
-.principles h2 {
+.plainSectionHeader h2 {
   font:
     640 clamp(3.2rem, 8vw, 8rem) / 0.88 "Archivo Variable",
     sans-serif;
@@ -229,25 +214,15 @@
 }
 
 .profileCopy {
-  display: grid;
-  grid-template-columns: minmax(0, 2.1fr) minmax(16rem, 0.9fr);
-  gap: clamp(2rem, 7vw, 8rem);
   padding: clamp(3rem, 8vw, 8rem) clamp(1.25rem, 5vw, 5rem);
 }
 
-.profileCopy p:first-child {
+.profileCopy p {
   max-width: 26ch;
   font:
     540 clamp(1.8rem, 4vw, 4.2rem) / 1.02 "Archivo Variable",
     sans-serif;
   letter-spacing: -0.045em;
-}
-
-.profileCopy p:last-child {
-  align-self: end;
-  max-width: 47ch;
-  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
-  line-height: 1.55;
 }
 
 .work {
@@ -259,7 +234,7 @@
   min-height: clamp(27rem, 54vw, 45rem);
   overflow: hidden;
   color: #fff;
-  background: var(--ajpw-red);
+  background: var(--primary-red);
   isolation: isolate;
 }
 
@@ -272,7 +247,7 @@
 }
 
 .splitSectionHeader::before {
-  background: var(--ajpw-blue);
+  background: var(--primary-blue);
   clip-path: polygon(45% 0, 100% 0, 100% 100%, 72% 100%);
 }
 
@@ -298,15 +273,6 @@
   padding: 0.02em 0.1em 0.08em;
   color: var(--ink);
   background: var(--canvas);
-}
-
-.splitSectionHeader > p {
-  position: absolute;
-  right: clamp(1.5rem, 4vw, 4rem);
-  bottom: clamp(1.5rem, 4vw, 4rem);
-  font:
-    500 0.75rem/1.4 "IBM Plex Mono",
-    monospace;
 }
 
 .caseStudyList {
@@ -335,13 +301,13 @@
 .caseStudy::before {
   right: 50%;
   left: 0;
-  background: var(--ajpw-red);
+  background: var(--primary-red);
 }
 
 .caseStudy::after {
   right: 0;
   left: 50%;
-  background: var(--ajpw-blue);
+  background: var(--primary-blue);
 }
 
 .caseStudyHeader {
@@ -451,7 +417,7 @@
 .technologyList li::before {
   margin-right: 0.35rem;
   content: "■";
-  color: var(--ajpw-red);
+  color: var(--primary-red);
 }
 
 .experience {
@@ -459,7 +425,7 @@
   margin: clamp(1.5rem, 3vw, 3rem) auto 0;
   padding: clamp(2rem, 5vw, 5rem);
   color: #fff;
-  background: var(--ajpw-blue);
+  background: var(--primary-blue);
 }
 
 .experience > header h2 {
@@ -516,78 +482,6 @@
   line-height: 1.55;
 }
 
-.practice {
-  margin-top: clamp(1.5rem, 3vw, 3rem);
-}
-
-.capabilityGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.capabilityGrid article {
-  min-height: 24rem;
-  padding: clamp(2rem, 5vw, 5rem);
-  color: #fff;
-  background: var(--ajpw-red);
-}
-
-.capabilityGrid article:nth-child(2),
-.capabilityGrid article:nth-child(3) {
-  background: var(--ajpw-blue);
-}
-
-.capabilityGrid h3 {
-  max-width: 13ch;
-  font:
-    620 clamp(2rem, 4.3vw, 4.5rem) / 0.95 "Archivo Variable",
-    sans-serif;
-  letter-spacing: -0.05em;
-}
-
-.capabilityGrid p {
-  max-width: 42ch;
-  margin-top: clamp(3rem, 8vw, 7rem);
-  font-size: 0.95rem;
-  line-height: 1.55;
-}
-
-.principles {
-  display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
-  gap: clamp(3rem, 8vw, 8rem);
-  padding: clamp(3rem, 7vw, 7rem) clamp(1.25rem, 5vw, 5rem);
-}
-
-.principles h2 {
-  font-size: clamp(3rem, 7vw, 7rem);
-}
-
-.principles ol {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: principles;
-}
-
-.principles li {
-  display: grid;
-  grid-template-columns: 2.5rem 1fr;
-  gap: 1rem;
-  padding: 1.25rem 0;
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
-  line-height: 1.45;
-  border-top: 1px solid var(--ink);
-  counter-increment: principles;
-}
-
-.principles li::before {
-  content: counter(principles, decimal-leading-zero);
-  font:
-    500 0.68rem/1.9 "IBM Plex Mono",
-    monospace;
-}
-
 .contact {
   position: relative;
   width: min(calc(100% - clamp(1.5rem, 6vw, 6rem)), 90rem);
@@ -596,7 +490,7 @@
   padding: clamp(2rem, 5vw, 5rem);
   overflow: hidden;
   color: #fff;
-  background: var(--ajpw-red);
+  background: var(--primary-red);
   isolation: isolate;
 }
 
@@ -608,12 +502,12 @@
 
 .contactRed {
   z-index: -2;
-  background: var(--ajpw-red);
+  background: var(--primary-red);
 }
 
 .contactBlue {
   z-index: -1;
-  background: var(--ajpw-blue);
+  background: var(--primary-blue);
   clip-path: polygon(41% 0, 100% 0, 100% 100%, 71% 100%);
 }
 
@@ -695,10 +589,6 @@
     font-size: 0.9rem;
   }
 
-  .heroDetails {
-    display: none;
-  }
-
   .photo {
     bottom: 6.25rem;
     left: 9%;
@@ -723,7 +613,6 @@
   .profile,
   .work,
   .experience,
-  .practice,
   .contact {
     width: calc(100% - 1.3rem);
   }
@@ -733,14 +622,8 @@
     flex-direction: column;
   }
 
-  .profileCopy,
-  .caseBody,
-  .principles {
+  .caseBody {
     grid-template-columns: 1fr;
-  }
-
-  .profileCopy p:last-child {
-    align-self: auto;
   }
 
   .splitSectionHeader h2 {
@@ -769,22 +652,6 @@
     min-height: 22rem;
     border-bottom: 1px solid #fff;
   }
-
-  .capabilityGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .capabilityGrid article {
-    min-height: 20rem;
-  }
-
-  .capabilityGrid article:nth-child(3) {
-    background: var(--ajpw-red);
-  }
-
-  .capabilityGrid article:nth-child(4) {
-    background: var(--ajpw-blue);
-  }
 }
 
 @media (max-width: 500px) {
@@ -792,8 +659,7 @@
     display: none;
   }
 
-  .plainSectionHeader h2,
-  .principles h2 {
+  .plainSectionHeader h2 {
     font-size: clamp(3rem, 16vw, 4.8rem);
   }
 
@@ -829,10 +695,6 @@
 
   .experiencePeriod {
     margin-top: 2.5rem !important;
-  }
-
-  .capabilityGrid article {
-    min-height: 18rem;
   }
 
   .contact {
