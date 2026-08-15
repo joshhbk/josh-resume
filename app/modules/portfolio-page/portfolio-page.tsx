@@ -7,7 +7,6 @@ function Hero({ person }: { person: Portfolio["person"] }) {
       <div className={styles.poster}>
         <div className={styles.redField} aria-hidden="true" />
         <div className={styles.blueField} aria-hidden="true" />
-        <div className={styles.dividingLine} aria-hidden="true" />
 
         <div className={`${styles.identity} ${styles.metadata}`}>
           <p className={styles.identityName}>{person.name}</p>
