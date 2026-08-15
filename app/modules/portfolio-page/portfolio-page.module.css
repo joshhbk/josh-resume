@@ -1,43 +1,150 @@
+/* Foundations */
+
 .page {
-  --primary-red: #d32132;
-  --primary-blue: #1748a0;
-  --deep-blue: #09296d;
-  --canvas: #f3f0e8;
-  --ink: #111;
+  --color-red-600: #d32132;
+  --color-blue-600: #1748a0;
+  --color-blue-900: #09296d;
+  --color-cream-50: #f3f0e8;
+  --color-ink-900: #111;
+  --color-white: #fff;
+  --color-stone-500: #a19d94;
+
+  --surface-page: var(--color-blue-900);
+  --surface-panel: var(--color-cream-50);
+  --surface-accent-primary: var(--color-red-600);
+  --surface-accent-secondary: var(--color-blue-600);
+  --text-primary: var(--color-ink-900);
+  --text-inverse: var(--color-white);
+  --rule-strong: var(--color-ink-900);
+  --rule-subtle: var(--color-stone-500);
+  --rule-inverse: var(--color-white);
+  --focus-ring-inverse: var(--color-white);
+  --shadow-elevated: 0 1.75rem 5rem rgb(2 13 44 / 42%);
+
+  --font-display: "Archivo Variable", sans-serif;
+  --font-body: "IBM Plex Sans", sans-serif;
+  --font-metadata: "IBM Plex Mono", monospace;
+  --font-size-metadata: 0.75rem;
+  --tracking-display-tight: -0.065em;
+  --tracking-display-compact: -0.04em;
+
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-fluid-sm: clamp(1.25rem, 3vw, 2.25rem);
+  --space-fluid-md: clamp(1.5rem, 3vw, 3rem);
+  --space-fluid-lg: clamp(3rem, 7vw, 7rem);
+
+  --frame-max-inline-size: 90rem;
+  --frame-inline-inset: clamp(1.5rem, 6vw, 6rem);
+  --hero-inset: clamp(0.75rem, 3vw, 3rem);
+  --section-padding-inline: clamp(1.25rem, 5vw, 5rem);
+  --section-padding-block: clamp(2rem, 5vw, 5rem);
+  --section-gap: var(--space-fluid-md);
+
+  --layer-underlay-back: -3;
+  --layer-underlay-middle: -2;
+  --layer-underlay-front: -1;
+  --layer-media: 1;
+  --layer-heading: 2;
+  --layer-action: 3;
 
   min-width: 320px;
-  font-family: "IBM Plex Sans", sans-serif;
-  color: var(--ink);
-  background: var(--deep-blue);
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background: var(--surface-page);
 }
 
-.page h1,
-.page h2,
-.page h3,
-.page h4,
-.page p,
-.page dl,
-.page dd,
-.page figure {
+.page :where(h1, h2, h3, h4, p, figure) {
   margin: 0;
 }
+
+/* Shared recipes */
+
+.sectionFrame {
+  width: min(calc(100% - var(--frame-inline-inset)), var(--frame-max-inline-size));
+  margin-inline: auto;
+}
+
+.surfacePanel {
+  background: var(--surface-panel);
+}
+
+.sectionFlow {
+  margin-top: var(--section-gap);
+}
+
+.sectionInset {
+  padding: var(--section-padding-block) var(--section-padding-inline);
+}
+
+.displayHeading {
+  font-family: var(--font-display);
+  font-weight: 650;
+  letter-spacing: var(--tracking-display-tight);
+}
+
+.featureText {
+  font-family: var(--font-display);
+  font-weight: 540;
+  letter-spacing: -0.04em;
+}
+
+.cardHeading {
+  font-family: var(--font-display);
+  font-weight: 620;
+  letter-spacing: var(--tracking-display-compact);
+}
+
+.metadata {
+  font-family: var(--font-metadata);
+  font-size: var(--font-size-metadata);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.boxedHeading {
+  width: fit-content;
+  padding: 0.03em 0.1em 0.09em;
+  color: var(--text-primary);
+  background: var(--surface-panel);
+}
+
+.boxedAction {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text-primary);
+  background: var(--surface-panel);
+}
+
+.boxedAction:hover,
+.boxedAction:focus-visible {
+  outline: 2px solid var(--focus-ring-inverse);
+  outline-offset: 4px;
+}
+
+/* Page compositions */
 
 .hero {
   display: grid;
   min-height: 100svh;
-  padding: clamp(0.75rem, 3vw, 3rem);
-  color: #fff;
+  padding: var(--hero-inset);
+  color: var(--text-inverse);
 }
 
 .poster {
   position: relative;
   align-self: center;
-  width: min(100%, 90rem);
-  min-height: min(50rem, calc(100svh - clamp(1.5rem, 6vw, 6rem)));
+  width: min(100%, var(--frame-max-inline-size));
+  min-height: min(50rem, calc(100svh - var(--frame-inline-inset)));
   margin-inline: auto;
   overflow: hidden;
-  background: var(--primary-red);
-  box-shadow: 0 1.75rem 5rem rgb(2 13 44 / 42%);
+  background: var(--surface-accent-primary);
+  box-shadow: var(--shadow-elevated);
   isolation: isolate;
 }
 
@@ -49,19 +156,19 @@
 }
 
 .redField {
-  z-index: -3;
-  background: var(--primary-red);
+  z-index: var(--layer-underlay-back);
+  background: var(--surface-accent-primary);
 }
 
 .blueField {
-  z-index: -2;
-  background: var(--primary-blue);
+  z-index: var(--layer-underlay-middle);
+  background: var(--surface-accent-secondary);
   clip-path: polygon(39% 0, 100% 0, 100% 100%, 67% 100%);
 }
 
 .dividingLine {
-  z-index: -1;
-  background: var(--canvas);
+  z-index: var(--layer-underlay-front);
+  background: var(--surface-panel);
   clip-path: polygon(36.5% 0, 40.5% 0, 69% 100%, 65% 100%);
 }
 
@@ -70,75 +177,53 @@
   inset: clamp(1.25rem, 3vw, 2.75rem) clamp(1.25rem, 3vw, 3rem) auto;
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
-  font-weight: 600;
+  gap: var(--space-md);
   font-size: clamp(0.72rem, 0.9vw, 0.9rem);
   line-height: 1.2;
 }
 
+.identityName,
+.identityLocation {
+  font-weight: 600;
+}
+
 .titleBlock {
   position: absolute;
-  z-index: 2;
+  z-index: var(--layer-heading);
   top: clamp(7.5rem, 19%, 10.5rem);
   left: clamp(2rem, 28%, 26rem);
   width: min(47rem, 58%);
 }
 
-.titleBlock h1 {
+.heroTitle {
   display: grid;
   justify-items: start;
   gap: 0.08em;
-  font:
-    650 clamp(3.5rem, 7.5vw, 7.4rem) / 0.88 "Archivo Variable",
-    sans-serif;
-  letter-spacing: -0.065em;
+  font-size: clamp(3.5rem, 7.5vw, 7.4rem);
+  line-height: 0.88;
 }
 
-.titleBlock h1 span {
-  padding: 0.02em 0.09em 0.07em;
-  color: var(--ink);
-  background: var(--canvas);
-}
-
-.titleBlock p {
+.heroSummary {
   width: fit-content;
   max-width: 43ch;
-  margin-top: clamp(1.25rem, 3vw, 2.25rem);
+  margin-top: var(--space-fluid-sm);
   padding: 0.55rem 0.7rem;
   font-size: clamp(0.9rem, 1.2vw, 1.12rem);
   font-weight: 500;
   line-height: 1.45;
-  color: var(--ink);
-  background: var(--canvas);
+  color: var(--text-primary);
+  background: var(--surface-panel);
 }
 
 .heroLink {
   position: absolute;
-  z-index: 3;
+  z-index: var(--layer-action);
   right: calc(26% + clamp(0.75rem, 1vw, 1rem));
   bottom: clamp(1.25rem, 3vw, 2.75rem);
-  display: inline-flex;
-  align-items: center;
-  gap: 1rem;
-  min-height: 2.75rem;
-  padding: 0.7rem 0.9rem;
-  border: 0;
+  gap: var(--space-md);
   font-size: 0.78rem;
-  font-family: inherit;
-  font-weight: 600;
-  line-height: 1;
-  color: var(--ink);
-  background: var(--canvas);
   cursor: pointer;
   text-decoration: none;
-}
-
-.heroLink:hover,
-.heroLink:focus-visible,
-.contact address a:hover,
-.contact address a:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 4px;
 }
 
 .heroLink span {
@@ -147,13 +232,13 @@
 
 .photo {
   position: absolute;
-  z-index: 1;
+  z-index: var(--layer-media);
   bottom: -4.75rem;
   left: 50%;
   width: min(48%, 43rem);
   height: clamp(12rem, 31%, 16.5rem);
   padding: clamp(0.45rem, 0.8vw, 0.75rem);
-  background: var(--canvas);
+  background: var(--surface-panel);
   translate: -50% 0;
 }
 
@@ -168,28 +253,19 @@
   object-position: center 57%;
 }
 
-.photo figcaption {
+.photoCredit {
   position: absolute;
   right: calc(100% + 0.65rem);
   bottom: 1.5rem;
   width: max-content;
   transform: rotate(-90deg);
   transform-origin: right bottom;
-  font:
-    500 0.75rem/1.2 "IBM Plex Mono",
-    monospace;
-  color: #fff;
+  line-height: 1.2;
+  color: var(--text-inverse);
 }
 
-.photo figcaption a {
+.photoCredit a {
   text-underline-offset: 0.15em;
-}
-
-.profile,
-.work {
-  width: min(calc(100% - clamp(1.5rem, 6vw, 6rem)), 90rem);
-  margin-inline: auto;
-  background: var(--canvas);
 }
 
 .plainSectionHeader {
@@ -197,45 +273,37 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 2rem;
-  padding: clamp(2rem, 5vw, 5rem);
-  border-bottom: 1px solid var(--ink);
+  padding: var(--section-padding-block) var(--section-padding-inline);
+  border-bottom: 1px solid var(--rule-strong);
 }
 
-.plainSectionHeader h2 {
-  font:
-    640 clamp(3.2rem, 8vw, 8rem) / 0.88 "Archivo Variable",
-    sans-serif;
-  letter-spacing: -0.065em;
+.profileHeading {
+  font-size: clamp(3.2rem, 8vw, 8rem);
+  font-weight: 640;
+  line-height: 0.88;
 }
 
-.plainSectionHeader p {
-  font:
-    500 0.75rem/1.4 "IBM Plex Mono",
-    monospace;
+.profileLocation {
+  flex: none;
 }
 
 .profileCopy {
-  padding: clamp(3rem, 8vw, 8rem) clamp(1.25rem, 5vw, 5rem);
+  padding: clamp(3rem, 8vw, 8rem) var(--section-padding-inline);
 }
 
-.profileCopy p {
+.profileSummary {
   max-width: 26ch;
-  font:
-    540 clamp(1.8rem, 4vw, 4.2rem) / 1.02 "Archivo Variable",
-    sans-serif;
+  font-size: clamp(1.8rem, 4vw, 4.2rem);
+  line-height: 1.02;
   letter-spacing: -0.045em;
-}
-
-.work {
-  margin-top: clamp(1.5rem, 3vw, 3rem);
 }
 
 .splitSectionHeader {
   position: relative;
   min-height: clamp(27rem, 54vw, 45rem);
   overflow: hidden;
-  color: #fff;
-  background: var(--primary-red);
+  color: var(--text-inverse);
+  background: var(--surface-accent-primary);
   isolation: isolate;
 }
 
@@ -248,47 +316,40 @@
 }
 
 .splitSectionHeader::before {
-  background: var(--primary-blue);
+  background: var(--surface-accent-secondary);
   clip-path: polygon(45% 0, 100% 0, 100% 100%, 72% 100%);
 }
 
 .splitSectionHeader::after {
-  background: var(--canvas);
+  background: var(--surface-panel);
   clip-path: polygon(41% 0, 45% 0, 76% 100%, 72% 100%);
 }
 
-.splitSectionHeader h2 {
+.workHeading {
   position: absolute;
   top: 19%;
   left: 22%;
   display: grid;
   justify-items: start;
   gap: 0.1em;
-  font:
-    650 clamp(4rem, 10vw, 10rem) / 0.82 "Archivo Variable",
-    sans-serif;
+  font-size: clamp(4rem, 10vw, 10rem);
+  line-height: 0.82;
   letter-spacing: -0.07em;
-}
-
-.splitSectionHeader h2 span {
-  padding: 0.02em 0.1em 0.08em;
-  color: var(--ink);
-  background: var(--canvas);
 }
 
 .caseStudyList {
   display: grid;
-  gap: clamp(1.5rem, 3vw, 3rem);
-  padding-top: clamp(1.5rem, 3vw, 3rem);
-  background: var(--deep-blue);
+  gap: var(--section-gap);
+  padding-top: var(--section-gap);
+  background: var(--surface-page);
 }
 
 .caseStudy {
   --case-indent: calc(clamp(3.5rem, 8vw, 8rem) + clamp(1rem, 4vw, 4rem));
 
   position: relative;
-  padding: clamp(2rem, 6vw, 6rem) clamp(1.25rem, 5vw, 5rem);
-  background: var(--canvas);
+  padding: clamp(2rem, 6vw, 6rem) var(--section-padding-inline);
+  background: var(--surface-panel);
 }
 
 .caseStudy::before,
@@ -302,13 +363,13 @@
 .caseStudy::before {
   right: 50%;
   left: 0;
-  background: var(--primary-red);
+  background: var(--surface-accent-primary);
 }
 
 .caseStudy::after {
   right: 0;
   left: 50%;
-  background: var(--primary-blue);
+  background: var(--surface-accent-secondary);
 }
 
 .caseStudyHeader {
@@ -319,34 +380,30 @@
 
 .caseNumber {
   padding-top: 0.5rem;
-  font:
-    600 0.8rem/1 "IBM Plex Mono",
-    monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
 }
 
-.caseStudy h3 {
+.caseStudyTitle {
   max-width: 18ch;
-  font:
-    620 clamp(2.6rem, 6.5vw, 6.8rem) / 0.9 "Archivo Variable",
-    sans-serif;
+  font-size: clamp(2.6rem, 6.5vw, 6.8rem);
+  line-height: 0.9;
   letter-spacing: -0.065em;
 }
 
 .caseMeta {
-  margin-top: 1rem !important;
-  font:
-    600 0.75rem/1.4 "IBM Plex Mono",
-    monospace;
+  margin-top: var(--space-md);
+  font-weight: 600;
   text-transform: uppercase;
 }
 
 .caseSummary {
   max-width: 32ch;
-  margin-top: clamp(3rem, 7vw, 7rem) !important;
-  margin-left: var(--case-indent) !important;
-  font:
-    540 clamp(1.45rem, 3vw, 3rem) / 1.08 "Archivo Variable",
-    sans-serif;
+  margin-top: var(--space-fluid-lg);
+  margin-left: var(--case-indent);
+  font-size: clamp(1.45rem, 3vw, 3rem);
+  line-height: 1.08;
   letter-spacing: -0.035em;
 }
 
@@ -354,22 +411,21 @@
   display: grid;
   grid-template-columns: 1fr 1.45fr;
   gap: clamp(2rem, 7vw, 7rem);
-  margin-top: clamp(3rem, 7vw, 7rem);
+  margin-top: var(--space-fluid-lg);
   width: calc(100% - var(--case-indent));
   margin-left: var(--case-indent);
 }
 
-.caseBody > div {
+.caseColumn {
   min-width: 0;
   padding-top: 1rem;
-  border-top: 0.4rem solid var(--ink);
+  border-top: 0.4rem solid var(--rule-strong);
 }
 
-.caseBody h4 {
-  margin-bottom: 1.5rem;
-  font:
-    600 0.75rem/1 "IBM Plex Mono",
-    monospace;
+.caseBodyHeading {
+  margin-bottom: var(--space-lg);
+  font-weight: 600;
+  line-height: 1;
   text-transform: uppercase;
 }
 
@@ -391,15 +447,16 @@
   grid-template-columns: 2rem 1fr;
   gap: 0.5rem;
   padding: 0.9rem 0;
-  border-top: 1px solid #a19d94;
+  border-top: 1px solid var(--rule-subtle);
   counter-increment: work;
 }
 
 .caseBody li::before {
   content: counter(work, decimal-leading-zero);
-  font:
-    500 0.75rem/1.6 "IBM Plex Mono",
-    monospace;
+  font-family: var(--font-metadata);
+  font-size: var(--font-size-metadata);
+  font-weight: 500;
+  line-height: 1.6;
 }
 
 .technologyList {
@@ -409,9 +466,8 @@
   margin: 2.5rem 0 0;
   padding: 0;
   list-style: none;
-  font:
-    600 0.75rem/1 "IBM Plex Mono",
-    monospace;
+  font-weight: 600;
+  line-height: 1;
   text-transform: uppercase;
 }
 
@@ -424,68 +480,53 @@
   width: 0.45rem;
   height: 0.45rem;
   margin-right: 0.35rem;
-  background: var(--primary-red);
+  background: var(--surface-accent-primary);
   content: "";
   flex: none;
 }
 
 .experience {
-  width: min(calc(100% - clamp(1.5rem, 6vw, 6rem)), 90rem);
-  margin: clamp(1.5rem, 3vw, 3rem) auto 0;
-  padding: clamp(2rem, 5vw, 5rem);
-  color: #fff;
-  background: var(--primary-blue);
+  color: var(--text-inverse);
+  background: var(--surface-accent-secondary);
 }
 
-.experience > header h2 {
-  width: fit-content;
-  padding: 0.04em 0.1em 0.1em;
-  font:
-    650 clamp(3.4rem, 8vw, 8rem) / 0.85 "Archivo Variable",
-    sans-serif;
-  letter-spacing: -0.065em;
-  color: var(--ink);
-  background: var(--canvas);
+.experienceHeading {
+  font-size: clamp(3.4rem, 8vw, 8rem);
+  line-height: 0.85;
 }
 
 .experienceList {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
   margin-top: clamp(4rem, 8vw, 8rem);
-  border-top: 1px solid #fff;
+  background: var(--rule-inverse);
+  border-top: 1px solid var(--rule-inverse);
 }
 
 .experienceList article {
   min-height: 26rem;
   padding: 1.5rem 1.25rem;
-  border-right: 1px solid #fff;
+  background: var(--surface-accent-secondary);
 }
 
-.experienceList article:last-child {
-  border-right: 0;
-}
-
-.experienceList h3 {
-  font:
-    620 clamp(1.5rem, 2.2vw, 2.3rem) / 1 "Archivo Variable",
-    sans-serif;
-  letter-spacing: -0.04em;
+.experienceTitle {
+  font-size: clamp(1.5rem, 2.2vw, 2.3rem);
+  line-height: 1;
 }
 
 .experienceRole {
-  margin-top: 0.6rem !important;
+  margin-top: 0.6rem;
   font-size: 0.85rem;
   font-weight: 600;
 }
 
 .experiencePeriod {
-  margin-top: 4rem !important;
-  font:
-    500 0.75rem/1 "IBM Plex Mono",
-    monospace;
+  margin-top: 4rem;
+  line-height: 1;
 }
 
-.experienceList article > p:last-child {
+.experienceDescription {
   margin-top: 2rem;
   font-size: 0.86rem;
   line-height: 1.55;
@@ -493,13 +534,11 @@
 
 .contact {
   position: relative;
-  width: min(calc(100% - clamp(1.5rem, 6vw, 6rem)), 90rem);
   min-height: min(48rem, 85svh);
-  margin: clamp(1.5rem, 3vw, 3rem) auto clamp(0.75rem, 3vw, 3rem);
-  padding: clamp(2rem, 5vw, 5rem);
+  margin-bottom: var(--hero-inset);
   overflow: hidden;
-  color: #fff;
-  background: var(--primary-red);
+  color: var(--text-inverse);
+  background: var(--surface-accent-primary);
   isolation: isolate;
 }
 
@@ -510,45 +549,35 @@
 }
 
 .contactRed {
-  z-index: -2;
-  background: var(--primary-red);
+  z-index: var(--layer-underlay-middle);
+  background: var(--surface-accent-primary);
 }
 
 .contactBlue {
-  z-index: -1;
-  background: var(--primary-blue);
+  z-index: var(--layer-underlay-front);
+  background: var(--surface-accent-secondary);
   clip-path: polygon(41% 0, 100% 0, 100% 100%, 71% 100%);
 }
 
-.contact h2 {
-  width: fit-content;
-  padding: 0.03em 0.1em 0.09em;
-  font:
-    650 clamp(4rem, 11vw, 11rem) / 0.84 "Archivo Variable",
-    sans-serif;
+.contactHeading {
+  font-size: clamp(4rem, 11vw, 11rem);
+  line-height: 0.84;
   letter-spacing: -0.07em;
-  color: var(--ink);
-  background: var(--canvas);
 }
 
 .contact address {
   font-style: normal;
 }
 
-.contact address p {
+.contactMessage {
   max-width: 43ch;
   margin-top: clamp(3rem, 8vw, 8rem);
   font-size: clamp(1.15rem, 2.2vw, 2rem);
   line-height: 1.4;
 }
 
-.contact address a {
-  display: inline-block;
+.contactLink {
   margin-top: 2rem;
-  padding: 0.85rem 1rem;
-  font-weight: 600;
-  color: var(--ink);
-  background: var(--canvas);
   text-underline-offset: 0.2em;
 }
 
@@ -560,18 +589,13 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 0.4rem;
-  font:
-    500 0.75rem/1.3 "IBM Plex Mono",
-    monospace;
+  line-height: 1.3;
 }
 
 @media (max-width: 800px) {
-  .hero {
-    padding: 0.65rem;
-  }
-
-  .poster {
-    min-height: calc(100svh - 1.3rem);
+  .page {
+    --frame-inline-inset: 1.3rem;
+    --hero-inset: 0.65rem;
   }
 
   .blueField {
@@ -592,11 +616,11 @@
     width: 84%;
   }
 
-  .titleBlock h1 {
+  .heroTitle {
     font-size: clamp(2.9rem, 15vw, 4.6rem);
   }
 
-  .titleBlock p {
+  .heroSummary {
     max-width: 29ch;
     margin-top: 1rem;
     font-size: 0.9rem;
@@ -610,7 +634,7 @@
     translate: 0;
   }
 
-  .photo figcaption {
+  .photoCredit {
     right: auto;
     bottom: -1.15rem;
     left: 0;
@@ -623,13 +647,6 @@
     bottom: 1.1rem;
   }
 
-  .profile,
-  .work,
-  .experience,
-  .contact {
-    width: calc(100% - 1.3rem);
-  }
-
   .plainSectionHeader {
     align-items: flex-start;
     flex-direction: column;
@@ -639,7 +656,7 @@
     grid-template-columns: 1fr;
   }
 
-  .splitSectionHeader h2 {
+  .workHeading {
     top: 20%;
     left: 9%;
   }
@@ -650,7 +667,7 @@
 
   .caseSummary,
   .caseBody {
-    margin-left: 0 !important;
+    margin-left: 0;
   }
 
   .caseBody {
@@ -663,16 +680,15 @@
 
   .experienceList article {
     min-height: 22rem;
-    border-bottom: 1px solid #fff;
   }
 }
 
 @media (max-width: 500px) {
-  .identity p:last-child {
+  .identityLocation {
     display: none;
   }
 
-  .plainSectionHeader h2 {
+  .profileHeading {
     font-size: clamp(3rem, 16vw, 4.8rem);
   }
 
@@ -688,11 +704,11 @@
     clip-path: polygon(25% 0, 31% 0, 82% 100%, 76% 100%);
   }
 
-  .splitSectionHeader h2 {
+  .workHeading {
     font-size: clamp(3.5rem, 19vw, 5.6rem);
   }
 
-  .caseStudy h3 {
+  .caseStudyTitle {
     font-size: clamp(2.2rem, 11vw, 3.5rem);
   }
 
@@ -704,7 +720,7 @@
     padding-top: 0;
   }
 
-  .experience > header h2 {
+  .experienceHeading {
     max-width: 100%;
     font-size: clamp(2.75rem, 14vw, 4rem);
   }
@@ -716,18 +732,17 @@
   .experienceList article {
     min-height: auto;
     padding-block: 2rem;
-    border-right: 0;
   }
 
   .experiencePeriod {
-    margin-top: 2.5rem !important;
+    margin-top: 2.5rem;
   }
 
   .contact {
     min-height: 43rem;
   }
 
-  .contact h2 {
+  .contactHeading {
     font-size: clamp(4rem, 20vw, 6rem);
   }
 

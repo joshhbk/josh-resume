@@ -9,21 +9,29 @@ function Hero({ person }: { person: Portfolio["person"] }) {
         <div className={styles.blueField} aria-hidden="true" />
         <div className={styles.dividingLine} aria-hidden="true" />
 
-        <div className={styles.identity}>
-          <p>{person.name}</p>
-          <p>{person.location}</p>
+        <div className={`${styles.identity} ${styles.metadata}`}>
+          <p className={styles.identityName}>{person.name}</p>
+          <p className={styles.identityLocation}>{person.location}</p>
         </div>
 
         <div className={styles.titleBlock}>
-          <h1 aria-label={person.role}>
-            <span aria-hidden="true">Staff</span>
-            <span aria-hidden="true">Front-End</span>
-            <span aria-hidden="true">Engineer</span>
+          <h1 className={`${styles.displayHeading} ${styles.heroTitle}`} aria-label={person.role}>
+            <span className={styles.boxedHeading} aria-hidden="true">
+              Staff
+            </span>
+            <span className={styles.boxedHeading} aria-hidden="true">
+              Front-End
+            </span>
+            <span className={styles.boxedHeading} aria-hidden="true">
+              Engineer
+            </span>
           </h1>
-          <p>More than 12 years building and improving software products.</p>
+          <p className={styles.heroSummary}>
+            More than 12 years building and improving software products.
+          </p>
         </div>
 
-        <a className={styles.heroLink} href="#work">
+        <a className={`${styles.boxedAction} ${styles.heroLink}`} href="#work">
           Selected work
           <span aria-hidden="true">↓</span>
         </a>
@@ -43,7 +51,7 @@ function Hero({ person }: { person: Portfolio["person"] }) {
               fetchPriority="high"
             />
           </picture>
-          <figcaption>
+          <figcaption className={`${styles.metadata} ${styles.photoCredit}`}>
             Toronto waterfront. Photo by{" "}
             <a href="https://unsplash.com/photos/cn-tower-grayscale-photography-trq3hS53NYU">
               Osama Saeed
@@ -58,13 +66,19 @@ function Hero({ person }: { person: Portfolio["person"] }) {
 
 function Profile({ content }: { content: Portfolio }) {
   return (
-    <section className={styles.profile} id="profile" aria-labelledby="profile-heading">
+    <section
+      className={`${styles.sectionFrame} ${styles.surfacePanel}`}
+      id="profile"
+      aria-labelledby="profile-heading"
+    >
       <header className={styles.plainSectionHeader}>
-        <h2 id="profile-heading">Profile</h2>
-        <p>{content.person.location}</p>
+        <h2 className={`${styles.displayHeading} ${styles.profileHeading}`} id="profile-heading">
+          Profile
+        </h2>
+        <p className={`${styles.metadata} ${styles.profileLocation}`}>{content.person.location}</p>
       </header>
       <div className={styles.profileCopy}>
-        <p>{content.person.summary}</p>
+        <p className={`${styles.featureText} ${styles.profileSummary}`}>{content.person.summary}</p>
       </div>
     </section>
   );
@@ -74,24 +88,24 @@ function CaseStudyArticle({ study }: { study: CaseStudy }) {
   return (
     <article className={styles.caseStudy} id={study.id}>
       <header className={styles.caseStudyHeader}>
-        <p className={styles.caseNumber}>{study.number}</p>
+        <p className={`${styles.metadata} ${styles.caseNumber}`}>{study.number}</p>
         <div>
-          <h3>{study.title}</h3>
-          <p className={styles.caseMeta}>
+          <h3 className={`${styles.cardHeading} ${styles.caseStudyTitle}`}>{study.title}</h3>
+          <p className={`${styles.metadata} ${styles.caseMeta}`}>
             {study.organization} / {study.period}
           </p>
         </div>
       </header>
 
-      <p className={styles.caseSummary}>{study.summary}</p>
+      <p className={`${styles.featureText} ${styles.caseSummary}`}>{study.summary}</p>
 
       <div className={styles.caseBody}>
-        <div>
-          <h4>Background</h4>
+        <div className={styles.caseColumn}>
+          <h4 className={`${styles.metadata} ${styles.caseBodyHeading}`}>Background</h4>
           <p>{study.context}</p>
         </div>
-        <div>
-          <h4>Work completed</h4>
+        <div className={styles.caseColumn}>
+          <h4 className={`${styles.metadata} ${styles.caseBodyHeading}`}>Work completed</h4>
           <ol role="list">
             {study.decisions.map((decision) => (
               <li key={decision}>{decision}</li>
@@ -100,7 +114,11 @@ function CaseStudyArticle({ study }: { study: CaseStudy }) {
         </div>
       </div>
 
-      <ul className={styles.technologyList} aria-label="Technologies used" role="list">
+      <ul
+        className={`${styles.metadata} ${styles.technologyList}`}
+        aria-label="Technologies used"
+        role="list"
+      >
         {study.technologies.map((technology) => (
           <li key={technology}>{technology}</li>
         ))}
@@ -111,11 +129,23 @@ function CaseStudyArticle({ study }: { study: CaseStudy }) {
 
 function SelectedWork({ studies }: { studies: Portfolio["caseStudies"] }) {
   return (
-    <section className={styles.work} id="work" aria-labelledby="work-heading">
+    <section
+      className={`${styles.sectionFrame} ${styles.surfacePanel} ${styles.sectionFlow}`}
+      id="work"
+      aria-labelledby="work-heading"
+    >
       <header className={styles.splitSectionHeader}>
-        <h2 id="work-heading" aria-label="Selected work">
-          <span aria-hidden="true">Selected</span>
-          <span aria-hidden="true">work</span>
+        <h2
+          className={`${styles.displayHeading} ${styles.workHeading}`}
+          id="work-heading"
+          aria-label="Selected work"
+        >
+          <span className={styles.boxedHeading} aria-hidden="true">
+            Selected
+          </span>
+          <span className={styles.boxedHeading} aria-hidden="true">
+            work
+          </span>
         </h2>
       </header>
       <div className={styles.caseStudyList}>
@@ -129,17 +159,28 @@ function SelectedWork({ studies }: { studies: Portfolio["caseStudies"] }) {
 
 function Experience({ experience }: { experience: Portfolio["experience"] }) {
   return (
-    <section className={styles.experience} id="experience" aria-labelledby="experience-heading">
+    <section
+      className={`${styles.sectionFrame} ${styles.sectionFlow} ${styles.sectionInset} ${styles.experience}`}
+      id="experience"
+      aria-labelledby="experience-heading"
+    >
       <header>
-        <h2 id="experience-heading">Selected experience</h2>
+        <h2
+          className={`${styles.displayHeading} ${styles.boxedHeading} ${styles.experienceHeading}`}
+          id="experience-heading"
+        >
+          Selected experience
+        </h2>
       </header>
       <div className={styles.experienceList}>
         {experience.map((item) => (
           <article key={`${item.organization}-${item.period}`}>
-            <h3>{item.organization}</h3>
+            <h3 className={`${styles.cardHeading} ${styles.experienceTitle}`}>
+              {item.organization}
+            </h3>
             <p className={styles.experienceRole}>{item.role}</p>
-            <p className={styles.experiencePeriod}>{item.period}</p>
-            <p>{item.description}</p>
+            <p className={`${styles.metadata} ${styles.experiencePeriod}`}>{item.period}</p>
+            <p className={styles.experienceDescription}>{item.description}</p>
           </article>
         ))}
       </div>
@@ -149,15 +190,25 @@ function Experience({ experience }: { experience: Portfolio["experience"] }) {
 
 function Contact({ person }: { person: Portfolio["person"] }) {
   return (
-    <footer className={styles.contact} id="contact">
+    <footer
+      className={`${styles.sectionFrame} ${styles.sectionFlow} ${styles.sectionInset} ${styles.contact}`}
+      id="contact"
+    >
       <div className={styles.contactRed} aria-hidden="true" />
       <div className={styles.contactBlue} aria-hidden="true" />
-      <h2>Contact</h2>
+      <h2 className={`${styles.displayHeading} ${styles.boxedHeading} ${styles.contactHeading}`}>
+        Contact
+      </h2>
       <address>
-        <p>{person.contactMessage}</p>
-        <a href={`mailto:${person.email}`}>{person.email}</a>
+        <p className={styles.contactMessage}>{person.contactMessage}</p>
+        <a
+          className={`${styles.boxedAction} ${styles.contactLink}`}
+          href={`mailto:${person.email}`}
+        >
+          {person.email}
+        </a>
       </address>
-      <div className={styles.contactMeta}>
+      <div className={`${styles.metadata} ${styles.contactMeta}`}>
         <span>{person.name}</span>
         <span>{person.location}</span>
       </div>
