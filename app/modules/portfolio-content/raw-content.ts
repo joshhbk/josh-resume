@@ -13,13 +13,13 @@ export const rawPortfolio = {
       organization: "Arteria AI",
       period: "2025—present",
       summary:
-        "Three applications now share a modular platform that can run on the web or inside Microsoft Word.",
+        "I’m helping replace a mature frontend with a shared platform that supports several product experiences.",
       context:
-        "The product was spread across five repositories and two Git submodules. Related workflows lived on separate pages, shared code needed manual rebuilds, and the build and test setup had become slow.",
+        "Related workflows, shared code and delivery tooling had evolved separately, making the frontend harder to change consistently. Build and test feedback had also slowed.",
       contributions: [
-        "Combined the existing repositories into one workspace so the current product and its replacement could be developed together.",
-        "Organized the replacement around product modules that remain independent of their host application.",
-        "Reworked the build and test tooling and added strict TypeScript, generated API clients, runtime validation and CI checks.",
+        "Brought related frontend work into a shared development environment so the existing product and its replacement could evolve together.",
+        "Structured the new platform around reusable product modules that can support different environments.",
+        "Improved build and test tooling, type safety, API integration and automated checks.",
       ],
     },
     {
