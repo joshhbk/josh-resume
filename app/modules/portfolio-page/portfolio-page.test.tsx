@@ -10,7 +10,7 @@ describe("portfolio page", () => {
   it("renders the complete professional record", () => {
     const content = getPortfolio();
 
-    render(<PortfolioPage content={content} motion="quiet" />);
+    render(<PortfolioPage content={content} />);
 
     expect(screen.getByRole("heading", { name: content.person.role, level: 1 })).toBeVisible();
     expect(screen.getByRole("link", { name: "Selected work" })).toHaveAttribute("href", "#work");
@@ -25,13 +25,6 @@ describe("portfolio page", () => {
     expect(screen.getByRole("heading", { name: "Selected work", level: 2 })).toBeVisible();
     expect(screen.getByRole("heading", { name: "Selected experience", level: 2 })).toBeVisible();
     expect(screen.getByRole("heading", { name: "Contact", level: 2 })).toBeVisible();
-    expect(screen.getByRole("navigation", { name: "Animation versions" })).toBeVisible();
-    expect(screen.getAllByRole("link", { name: /^\d\. / })).toHaveLength(5);
-    expect(screen.getByRole("link", { name: /^1\. Quiet/ })).toHaveAttribute(
-      "aria-current",
-      "page",
-    );
-
     for (const study of content.caseStudies) {
       expect(screen.getByRole("heading", { name: study.title, level: 3 })).toBeVisible();
     }
@@ -42,7 +35,7 @@ describe("portfolio page", () => {
   });
 
   it("has no automated accessibility violations", async () => {
-    const { container } = render(<PortfolioPage content={getPortfolio()} motion="quiet" />);
+    const { container } = render(<PortfolioPage content={getPortfolio()} />);
     const results = await axe.run(container, {
       rules: {
         "color-contrast": { enabled: false },

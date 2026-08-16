@@ -1,6 +1,4 @@
 import type { CaseStudy, Portfolio } from "../portfolio-content/model";
-import type { MotionMode } from "./motion";
-import { MotionPreview } from "./motion-preview";
 import styles from "./portfolio-page.module.css";
 
 function Hero({ person }: { person: Portfolio["person"] }) {
@@ -101,7 +99,7 @@ function CaseStudyArticle({ study }: { study: CaseStudy }) {
 function SelectedWork({ studies }: { studies: Portfolio["caseStudies"] }) {
   return (
     <section
-      className={`${styles.sectionFrame} ${styles.sectionFlow} ${styles.selectedWork}`}
+      className={`${styles.sectionFrame} ${styles.sectionFlow}`}
       id="work"
       aria-labelledby="work-heading"
     >
@@ -186,13 +184,12 @@ function Contact({ person }: { person: Portfolio["person"] }) {
   );
 }
 
-export function PortfolioPage({ content, motion }: { content: Portfolio; motion: MotionMode }) {
+export function PortfolioPage({ content }: { content: Portfolio }) {
   return (
-    <div className={styles.page} data-motion={motion}>
+    <div className={styles.page}>
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
-      <MotionPreview activeMode={motion} />
       <Hero person={content.person} />
       <main id="main-content" tabIndex={-1}>
         <SelectedWork studies={content.caseStudies} />
