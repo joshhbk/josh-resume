@@ -28,13 +28,13 @@ export const rawPortfolio = {
       organization: "Quartermaster",
       period: "2023—2025",
       summary:
-        "Two web products began sharing the same documented component library, with matching language in Figma and production code.",
+        "Design and engineering gained a shared component language that could be used across products.",
       context:
-        "The product teams maintained separate versions of similar interface patterns, and Figma components did not reliably correspond to the components in production.",
+        "Similar interface patterns had evolved separately across products, and the design library did not always map cleanly to production code.",
       contributions: [
-        "Built and documented more than 30 reusable React components in Storybook.",
-        "Agreed component names and properties with product designers so the design and code libraries stayed aligned.",
-        "Moved the most heavily used product flows to TypeScript first and used Sentry data to prioritize reliability work.",
+        "Built and documented reusable components for web and mobile product work.",
+        "Worked with designers to align component structure and terminology between design and code.",
+        "Moved established product areas to TypeScript and used production data to prioritize reliability improvements.",
       ],
     },
     {
@@ -42,14 +42,13 @@ export const rawPortfolio = {
       title: "Product work and TypeScript migration",
       organization: "Memory",
       period: "2018—2023",
-      summary:
-        "Timely’s frontend changed type systems and date libraries while new product work continued.",
+      summary: "Maintained feature delivery while helping modernize a large, established frontend.",
       context:
-        "The roughly 300,000-line application covered time tracking, calendars, tasks and resource planning. A wholesale rewrite was not practical.",
+        "The application covered several connected product areas and combined newer code with older typing and date-handling approaches. A wholesale rewrite was not practical.",
       contributions: [
-        "Led frontend delivery for the Tasks and Planning features from early product work through release.",
-        "Migrated JavaScript and Flow code in stages so releases could continue throughout the transition.",
-        "Replaced Moment.js with Luxon to reduce bundle size and fix performance and maintenance problems in date-heavy parts of the app.",
+        "Led frontend delivery for new planning and task-management features.",
+        "Migrated legacy code toward TypeScript incrementally so regular releases could continue.",
+        "Replaced a legacy date library to reduce bundle size and improve reliability in date-heavy workflows.",
       ],
     },
   ],
