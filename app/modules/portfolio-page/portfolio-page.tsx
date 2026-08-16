@@ -80,9 +80,7 @@ function CaseStudyArticle({ study }: { study: CaseStudy }) {
 
       <div className={styles.caseBody}>
         <section className={styles.caseColumn}>
-          <h4 className={`${styles.cardHeading} ${styles.caseBodyHeading}`}>
-            Why it needed to change
-          </h4>
+          <h4 className={`${styles.cardHeading} ${styles.caseBodyHeading}`}>Project context</h4>
           <p>{study.context}</p>
         </section>
         <section className={styles.caseColumn}>

@@ -37,3 +37,18 @@ After syncing a change, run the production checks and build on the mini, then re
 ```sh
 launchctl kickstart -k gui/$(id -u)/com.joshuahughes.portfolio-preview
 ```
+
+## Cloudflare Pages
+
+The repository is ready for a static Cloudflare Pages deployment from GitHub. Use these build
+settings when creating the project:
+
+- Production branch: `main`
+- Framework preset: None
+- Build command: `pnpm build`
+- Build output directory: `build/client`
+- Root directory: repository root
+
+Node is pinned in `.node-version`, pnpm is pinned through the `packageManager` field, and no
+runtime environment variables are required. Production builds copy `public/_headers` into the
+output to apply security headers and long-lived caching to fingerprinted assets.

@@ -9,46 +9,42 @@ export const rawPortfolio = {
   caseStudies: [
     {
       id: "frontend-modernization",
-      title: "Frontend platform modernization",
+      title: "Frontend platform development",
       organization: "Arteria AI",
       period: "2025—present",
-      summary:
-        "I’m helping replace a mature frontend with a shared platform that supports several product experiences.",
+      summary: "Working on product delivery and shared frontend foundations.",
       context:
-        "Related workflows, shared code and delivery tooling had evolved separately, making the frontend harder to change consistently. Build and test feedback had also slowed.",
+        "The role includes feature development, application integration and developer tooling.",
       contributions: [
-        "Brought related frontend work into a shared development environment so the existing product and its replacement could evolve together.",
-        "Structured the new platform around reusable product modules that can support different environments.",
-        "Improved build and test tooling, type safety, API integration and automated checks.",
+        "Develop product features and reusable frontend modules.",
+        "Connect product modules with APIs and shared application services.",
+        "Improve build and test tooling, type safety and automated checks.",
       ],
     },
     {
       id: "design-system",
-      title: "Design system and TypeScript adoption",
+      title: "Design systems and product engineering",
       organization: "Quartermaster",
       period: "2023—2025",
-      summary:
-        "Design and engineering gained a shared component language that could be used across products.",
-      context:
-        "Similar interface patterns had evolved separately across products, and the design library did not always map cleanly to production code.",
+      summary: "Helped make product interfaces more consistent across web and mobile.",
+      context: "The role sat between product design and frontend engineering.",
       contributions: [
-        "Built and documented reusable components for web and mobile product work.",
-        "Worked with designers to align component structure and terminology between design and code.",
-        "Moved established product areas to TypeScript and used production data to prioritize reliability improvements.",
+        "Built and documented reusable components for web and mobile products.",
+        "Worked with designers to align shared language and component structure between design and code.",
+        "Contributed to TypeScript adoption and reliability improvements in established product areas.",
       ],
     },
     {
       id: "timely-product",
-      title: "Product work and TypeScript migration",
+      title: "Product engineering and modernization",
       organization: "Memory",
       period: "2018—2023",
-      summary: "Maintained feature delivery while helping modernize a large, established frontend.",
-      context:
-        "The application covered several connected product areas and combined newer code with older typing and date-handling approaches. A wholesale rewrite was not practical.",
+      summary: "Worked across several connected product areas in a large, established frontend.",
+      context: "The work balanced new feature development with measured technical change.",
       contributions: [
-        "Led frontend delivery for new planning and task-management features.",
-        "Migrated legacy code toward TypeScript incrementally so regular releases could continue.",
-        "Replaced a legacy date library to reduce bundle size and improve reliability in date-heavy workflows.",
+        "Led frontend implementation for new product features.",
+        "Expanded TypeScript coverage incrementally across established product areas.",
+        "Updated core dependencies to improve maintainability and frontend performance.",
       ],
     },
   ],
