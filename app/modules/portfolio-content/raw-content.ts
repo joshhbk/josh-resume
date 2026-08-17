@@ -3,11 +3,21 @@ export const rawPortfolio = {
     name: "Joshua Hughes",
     role: "Staff Front-End Engineer",
     location: "Toronto, Ontario",
-    github: {
-      handle: "joshhbk",
-      url: "https://github.com/joshhbk",
-    },
-    contactMessage: "You can find my public code and personal projects on GitHub.",
+    profiles: [
+      {
+        platform: "github",
+        label: "GitHub",
+        identity: "@joshhbk",
+        url: "https://github.com/joshhbk",
+      },
+      {
+        platform: "linkedin",
+        label: "LinkedIn",
+        identity: "Joshua Hughes",
+        url: "https://www.linkedin.com/in/joshua-hughes-ab189065?trk=contact-info",
+      },
+    ],
+    contactMessage: "You can find my public code and professional profile here.",
   },
   caseStudies: [
     {

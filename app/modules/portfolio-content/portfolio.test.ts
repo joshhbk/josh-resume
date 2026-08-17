@@ -6,7 +6,18 @@ describe("portfolio content", () => {
     const portfolio = getPortfolio();
 
     expect(portfolio.person.name).toBe("Joshua Hughes");
-    expect(portfolio.person.github.url).toBe("https://github.com/joshhbk");
+    expect(portfolio.person.profiles).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          platform: "github",
+          url: "https://github.com/joshhbk",
+        }),
+        expect.objectContaining({
+          platform: "linkedin",
+          url: "https://www.linkedin.com/in/joshua-hughes-ab189065?trk=contact-info",
+        }),
+      ]),
+    );
     expect(portfolio.person.contactMessage).not.toMatch(/looking for|seeking|available/i);
     expect(portfolio.caseStudies).toHaveLength(3);
     expect(portfolio.experience).toHaveLength(4);

@@ -468,10 +468,10 @@
   letter-spacing: -0.07em;
 }
 
-.githubContact {
+.profileContact {
   position: relative;
   z-index: var(--layer-heading);
-  max-width: 54rem;
+  max-width: 58rem;
   margin-top: clamp(3rem, 8vw, 8rem);
 }
 
@@ -481,14 +481,19 @@
   line-height: 1.4;
 }
 
-.githubLink {
+.profileLinks {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.profileLink {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: stretch;
   width: min(100%, 52rem);
   min-height: clamp(5.5rem, 10vw, 8rem);
-  margin-top: 2rem;
   overflow: hidden;
   color: var(--text-primary);
   text-decoration: none;
@@ -498,7 +503,12 @@
   isolation: isolate;
 }
 
-.githubLink::before {
+.profileLink[data-platform="linkedin"] {
+  width: min(calc(100% - clamp(0rem, 6vw, 4rem)), 52rem);
+  margin-left: clamp(0rem, 6vw, 4rem);
+}
+
+.profileLink::before {
   position: absolute;
   z-index: var(--layer-underlay-front);
   inset: 0;
@@ -508,15 +518,19 @@
   transition: clip-path 420ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.githubIdentity,
-.githubAction {
+.profileLink[data-platform="linkedin"]::before {
+  background: var(--surface-accent-primary);
+}
+
+.profileIdentity,
+.profileAction {
   position: relative;
   z-index: var(--layer-media);
   display: flex;
   align-items: center;
 }
 
-.githubIdentity {
+.profileIdentity {
   gap: clamp(0.75rem, 2vw, 1.25rem);
   min-width: 0;
   padding: clamp(1.1rem, 3vw, 2rem);
@@ -526,14 +540,14 @@
   letter-spacing: var(--tracking-display-compact);
 }
 
-.githubMark {
+.profileMark {
   flex: 0 0 auto;
   width: clamp(2rem, 5vw, 3.75rem);
   height: auto;
   transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.githubAction {
+.profileAction {
   justify-content: flex-end;
   gap: 0.6rem;
   padding: clamp(1rem, 2.5vw, 1.75rem);
@@ -542,29 +556,29 @@
   text-align: right;
 }
 
-.githubArrow {
+.profileArrow {
   display: inline-block;
   font-size: 1.6em;
   line-height: 0.5;
   transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.githubLink:hover::before,
-.githubLink:focus-visible::before {
+.profileLink:hover::before,
+.profileLink:focus-visible::before {
   clip-path: polygon(58% 0, 100% 0, 100% 100%, 38% 100%);
 }
 
-.githubLink:hover .githubMark,
-.githubLink:focus-visible .githubMark {
+.profileLink:hover .profileMark,
+.profileLink:focus-visible .profileMark {
   transform: rotate(-8deg) scale(1.08);
 }
 
-.githubLink:hover .githubArrow,
-.githubLink:focus-visible .githubArrow {
+.profileLink:hover .profileArrow,
+.profileLink:focus-visible .profileArrow {
   transform: translate(0.25rem, -0.25rem);
 }
 
-.githubLink:focus-visible {
+.profileLink:focus-visible {
   outline: 3px solid var(--focus-ring-inverse);
   outline-offset: 5px;
 }
@@ -701,23 +715,32 @@
     font-size: clamp(4rem, 20vw, 6rem);
   }
 
-  .githubLink {
+  .profileLink {
     min-height: 6rem;
   }
 
-  .githubIdentity {
+  .profileLink[data-platform="linkedin"] {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .profileIdentity {
     padding-inline: 1rem;
     font-size: clamp(1.35rem, 7vw, 2rem);
   }
 
-  .githubAction {
+  .profileLink[data-platform="linkedin"] .profileIdentity {
+    font-size: clamp(1.25rem, 6vw, 1.65rem);
+  }
+
+  .profileAction {
     max-width: 7.5rem;
     padding-inline: 0.85rem;
     font-size: 0.9rem;
   }
 
-  .githubLink:hover::before,
-  .githubLink:focus-visible::before {
+  .profileLink:hover::before,
+  .profileLink:focus-visible::before {
     clip-path: polygon(78% 0, 100% 0, 100% 100%, 61% 100%);
   }
 

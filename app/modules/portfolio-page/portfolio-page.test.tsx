@@ -24,10 +24,15 @@ describe("portfolio page", () => {
     expect(screen.getByRole("contentinfo")).toBeVisible();
     expect(screen.getByRole("heading", { name: "Selected work", level: 2 })).toBeVisible();
     expect(screen.getByRole("heading", { name: "Selected experience", level: 2 })).toBeVisible();
-    expect(screen.getByRole("heading", { name: "GitHub", level: 2 })).toBeVisible();
-    expect(screen.getByRole("link", { name: /@joshhbk.*View profile/i })).toHaveAttribute(
+    expect(screen.getByRole("heading", { name: "Profiles", level: 2 })).toBeVisible();
+    expect(screen.getByRole("navigation", { name: "Professional profiles" })).toBeVisible();
+    expect(screen.getByRole("link", { name: /@joshhbk.*GitHub/i })).toHaveAttribute(
       "href",
       "https://github.com/joshhbk",
+    );
+    expect(screen.getByRole("link", { name: /Joshua Hughes.*LinkedIn/i })).toHaveAttribute(
+      "href",
+      "https://www.linkedin.com/in/joshua-hughes-ab189065?trk=contact-info",
     );
     expect(container.querySelector('a[href^="mailto:"]')).toBeNull();
     for (const study of content.caseStudies) {
