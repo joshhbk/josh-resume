@@ -1,3 +1,5 @@
+import { ExternalLink } from "lucide-react";
+
 import type { CaseStudy, Portfolio } from "../portfolio-content/model";
 import styles from "./portfolio-page.module.css";
 
@@ -209,9 +211,9 @@ function Contact({ person }: { person: Portfolio["person"] }) {
                 <span>{profile.identity}</span>
               </span>
               <span className={styles.profileAction}>
-                {profile.label}
+                <span className={styles.profileActionLabel}>{profile.label}</span>
                 <span className={styles.profileArrow} aria-hidden="true">
-                  ↗
+                  <ExternalLink />
                 </span>
               </span>
             </a>
