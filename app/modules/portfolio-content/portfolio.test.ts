@@ -6,6 +6,7 @@ describe("portfolio content", () => {
     const portfolio = getPortfolio();
 
     expect(portfolio.person.name).toBe("Joshua Hughes");
+    expect(portfolio.person.github.url).toBe("https://github.com/joshhbk");
     expect(portfolio.person.contactMessage).not.toMatch(/looking for|seeking|available/i);
     expect(portfolio.caseStudies).toHaveLength(3);
     expect(portfolio.experience).toHaveLength(4);

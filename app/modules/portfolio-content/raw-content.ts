@@ -3,8 +3,11 @@ export const rawPortfolio = {
     name: "Joshua Hughes",
     role: "Staff Front-End Engineer",
     location: "Toronto, Ontario",
-    email: "joshuah@tcd.ie",
-    contactMessage: "You can reach me by email.",
+    github: {
+      handle: "joshhbk",
+      url: "https://github.com/joshhbk",
+    },
+    contactMessage: "You can find my public code and personal projects on GitHub.",
   },
   caseStudies: [
     {

@@ -21,7 +21,10 @@ export const portfolioSchema = z.object({
     name: z.string(),
     role: z.string(),
     location: z.string(),
-    email: z.email(),
+    github: z.object({
+      handle: z.string().min(1),
+      url: z.url(),
+    }),
     contactMessage: z.string(),
   }),
   caseStudies: z.array(caseStudySchema).min(1),

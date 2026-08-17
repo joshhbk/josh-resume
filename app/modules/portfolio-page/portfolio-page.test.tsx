@@ -10,7 +10,7 @@ describe("portfolio page", () => {
   it("renders the complete professional record", () => {
     const content = getPortfolio();
 
-    render(<PortfolioPage content={content} />);
+    const { container } = render(<PortfolioPage content={content} />);
 
     expect(screen.getByRole("heading", { name: content.person.role, level: 1 })).toBeVisible();
     expect(screen.getByRole("link", { name: "Selected work" })).toHaveAttribute("href", "#work");
@@ -24,7 +24,12 @@ describe("portfolio page", () => {
     expect(screen.getByRole("contentinfo")).toBeVisible();
     expect(screen.getByRole("heading", { name: "Selected work", level: 2 })).toBeVisible();
     expect(screen.getByRole("heading", { name: "Selected experience", level: 2 })).toBeVisible();
-    expect(screen.getByRole("heading", { name: "Contact", level: 2 })).toBeVisible();
+    expect(screen.getByRole("heading", { name: "GitHub", level: 2 })).toBeVisible();
+    expect(screen.getByRole("link", { name: /@joshhbk.*View profile/i })).toHaveAttribute(
+      "href",
+      "https://github.com/joshhbk",
+    );
+    expect(container.querySelector('a[href^="mailto:"]')).toBeNull();
     for (const study of content.caseStudies) {
       expect(screen.getByRole("heading", { name: study.title, level: 3 })).toBeVisible();
     }
