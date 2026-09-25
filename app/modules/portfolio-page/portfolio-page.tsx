@@ -1,35 +1,126 @@
 import { ExternalLink } from "lucide-react";
+import { useState } from "react";
 
 import type { CaseStudy, Portfolio } from "../portfolio-content/model";
+import { DepthLab } from "./depth-lab";
 import styles from "./portfolio-page.module.css";
+import {
+  defaultDepthSettings,
+  TorontoScene,
+  type SceneMode,
+  type WeatherMode,
+} from "./toronto-scene";
 
-function Hero({ person }: { person: Portfolio["person"] }) {
+const sceneModes: SceneMode[] = ["day", "night", "live"];
+const labelGroups = [
+  {
+    name: "Paper",
+    styles: [
+      { id: "handmade", name: "Deckled" },
+      { id: "folded", name: "Folded letter" },
+      { id: "newsprint", name: "Newsprint" },
+    ],
+  },
+  {
+    name: "Tickets",
+    styles: [
+      { id: "ticket", name: "Classic" },
+      { id: "punch", name: "Punch pass" },
+      { id: "receipt", name: "Fare receipt" },
+    ],
+  },
+] as const;
+type LabelStyle = (typeof labelGroups)[number]["styles"][number]["id"];
+
+function Hero({
+  person,
+  sceneMode,
+  onSceneModeChange,
+  weatherMode,
+  onWeatherModeChange,
+  labelStyle,
+  onLabelStyleChange,
+}: {
+  person: Portfolio["person"];
+  sceneMode: SceneMode;
+  onSceneModeChange: (mode: SceneMode) => void;
+  weatherMode: WeatherMode;
+  onWeatherModeChange: (mode: WeatherMode) => void;
+  labelStyle: LabelStyle;
+  onLabelStyleChange: (style: LabelStyle) => void;
+}) {
   return (
     <header className={styles.hero}>
       <div className={styles.poster}>
-        <div className={styles.redField} aria-hidden="true" />
-        <div className={styles.blueField} aria-hidden="true" />
-
-        <div className={`${styles.identity} ${styles.supportingText}`}>
-          <p className={styles.identityName}>{person.name}</p>
-          <p className={styles.identityLocation}>{person.location}</p>
+        <div className={styles.sceneControls} role="group" aria-label="Skyline lighting">
+          {sceneModes.map((mode) => (
+            <button
+              className={styles.sceneModeButton}
+              type="button"
+              aria-pressed={sceneMode === mode}
+              onClick={() => onSceneModeChange(mode)}
+              key={mode}
+            >
+              {mode === "live" ? "Live" : mode === "day" ? "Day" : "Night"}
+            </button>
+          ))}
         </div>
 
+        <label className={styles.weatherControl}>
+          <span>Weather</span>
+          <select
+            aria-label="Skyline weather"
+            value={weatherMode}
+            onChange={(event) => onWeatherModeChange(event.target.value as WeatherMode)}
+          >
+            <option value="live">Live</option>
+            <option value="clear">Clear</option>
+            <option value="cloudy">Clouds</option>
+            <option value="rain">Rain</option>
+            <option value="snow">Snow</option>
+          </select>
+        </label>
+
+        {import.meta.env.DEV && (
+          <div className={styles.labelControls} role="group" aria-label="Title label style">
+            {labelGroups.map((group) => (
+              <div className={styles.labelGroup} key={group.name}>
+                <p className={styles.labelControlsTitle}>{group.name}</p>
+                {group.styles.map(({ id, name }) => (
+                  <button
+                    className={styles.labelChoice}
+                    data-choice={id}
+                    type="button"
+                    aria-label={`${group.name}: ${name}`}
+                    aria-pressed={labelStyle === id}
+                    onClick={() => onLabelStyleChange(id)}
+                    key={id}
+                  >
+                    {name}
+                  </button>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
+
         <div className={styles.titleBlock}>
-          <h1 className={`${styles.displayHeading} ${styles.heroTitle}`} aria-label={person.role}>
-            <span className={styles.boxedHeading} aria-hidden="true">
-              Staff
-            </span>
-            <span className={styles.boxedHeading} aria-hidden="true">
-              Front-End
-            </span>
-            <span className={styles.boxedHeading} aria-hidden="true">
-              Engineer
-            </span>
-          </h1>
-          <p className={styles.heroSummary}>
-            More than 12 years building and improving software products.
-          </p>
+          <div className={styles.titleLabel} data-label-style={labelStyle}>
+            <p className={styles.labelEyebrow}>
+              {person.name} · {person.location}
+            </p>
+            <h1 className={`${styles.displayHeading} ${styles.heroTitle}`} aria-label={person.role}>
+              <span aria-hidden="true">Staff</span>
+              <span aria-hidden="true">Front-End</span>
+              <span aria-hidden="true">Engineer</span>
+            </h1>
+            <p className={styles.heroSummary}>
+              More than 12 years building and improving software products.
+            </p>
+            <p className={styles.labelFooter} aria-hidden="true">
+              Portfolio · 2026
+            </p>
+          </div>
         </div>
 
         <a className={`${styles.boxedAction} ${styles.heroLink}`} href="#work">
@@ -37,29 +128,14 @@ function Hero({ person }: { person: Portfolio["person"] }) {
           <span aria-hidden="true">↓</span>
         </a>
 
-        <figure className={styles.photo}>
-          <picture>
-            <source
-              type="image/webp"
-              srcSet="/images/toronto-skyline-960.webp 960w, /images/toronto-skyline-1600.webp 1600w"
-              sizes="(max-width: 700px) 82vw, 48vw"
-            />
-            <img
-              src="/images/toronto-skyline.jpg"
-              alt="Toronto skyline with the CN Tower"
-              width="1800"
-              height="1200"
-              fetchPriority="high"
-            />
-          </picture>
-          <figcaption className={`${styles.supportingText} ${styles.photoCredit}`}>
-            Toronto waterfront. Photo by{" "}
-            <a href="https://unsplash.com/photos/cn-tower-grayscale-photography-trq3hS53NYU">
-              Osama Saeed
-            </a>
-            .
-          </figcaption>
-        </figure>
+        <p className={`${styles.supportingText} ${styles.photoCredit}`}>
+          Photo:{" "}
+          <a href="https://unsplash.com/photos/cn-tower-grayscale-photography-trq3hS53NYU">
+            Osama Saeed
+          </a>
+          {" · "}
+          <a href="https://open-meteo.com/">Weather</a>
+        </p>
       </div>
     </header>
   );
@@ -229,12 +305,29 @@ function Contact({ person }: { person: Portfolio["person"] }) {
 }
 
 export function PortfolioPage({ content }: { content: Portfolio }) {
+  const [sceneMode, setSceneMode] = useState<SceneMode>("live");
+  const [weatherMode, setWeatherMode] = useState<WeatherMode>("live");
+  const [labelStyle, setLabelStyle] = useState<LabelStyle>("handmade");
+  const [depth, setDepth] = useState(defaultDepthSettings);
+
   return (
     <div className={styles.page}>
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
-      <Hero person={content.person} />
+      <figure className={styles.sceneBackdrop}>
+        <TorontoScene mode={sceneMode} weatherMode={weatherMode} depth={depth} />
+      </figure>
+      {import.meta.env.DEV && <DepthLab value={depth} onChange={setDepth} />}
+      <Hero
+        person={content.person}
+        sceneMode={sceneMode}
+        onSceneModeChange={setSceneMode}
+        weatherMode={weatherMode}
+        onWeatherModeChange={setWeatherMode}
+        labelStyle={labelStyle}
+        onLabelStyleChange={setLabelStyle}
+      />
       <main id="main-content" tabIndex={-1}>
         <SelectedWork studies={content.caseStudies} />
         <Experience experience={content.experience} />
