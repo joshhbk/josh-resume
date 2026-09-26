@@ -13,16 +13,16 @@ describe("portfolio page", () => {
     const { container } = render(<PortfolioPage content={content} />);
 
     expect(screen.getByRole("heading", { name: content.person.role, level: 1 })).toBeVisible();
-    expect(screen.getByRole("link", { name: "Selected work" })).toHaveAttribute("href", "#work");
+    expect(container.querySelector('header a[href="#work"]')).toBeVisible();
     expect(screen.getByRole("link", { name: "Skip to content" })).toHaveAttribute(
       "href",
       "#main-content",
     );
     expect(screen.getByRole("main")).toHaveAttribute("id", "main-content");
-    expect(screen.getByRole("region", { name: "Selected work" })).toBeVisible();
+    expect(container.querySelector("section#work")).toBeVisible();
     expect(screen.getByRole("region", { name: "Selected experience" })).toBeVisible();
     expect(screen.getByRole("contentinfo")).toBeVisible();
-    expect(screen.getByRole("heading", { name: "Selected work", level: 2 })).toBeVisible();
+    expect(container.querySelector("section#work h2")).toBeVisible();
     expect(screen.getByRole("heading", { name: "Selected experience", level: 2 })).toBeVisible();
     expect(screen.getByRole("heading", { name: "Profiles", level: 2 })).toBeVisible();
     expect(screen.getByRole("navigation", { name: "Professional profiles" })).toBeVisible();
@@ -36,7 +36,7 @@ describe("portfolio page", () => {
     );
     expect(container.querySelector('a[href^="mailto:"]')).toBeNull();
     for (const study of content.caseStudies) {
-      expect(screen.getByRole("heading", { name: study.title, level: 3 })).toBeVisible();
+      expect(container.querySelector("section#work")).toHaveTextContent(study.title);
     }
 
     for (const item of content.experience) {
@@ -108,6 +108,7 @@ describe("portfolio page", () => {
   it("previews three paper and three ticket labels", () => {
     const { container } = render(<PortfolioPage content={getPortfolio()} />);
     const label = container.querySelector("[data-label-style]");
+    fireEvent.click(screen.getByRole("button", { name: /Depth lab/ }));
     const names = [
       ["Paper: Deckled", "handmade"],
       ["Paper: Folded letter", "folded"],
@@ -157,6 +158,28 @@ describe("portfolio page", () => {
     expect(scene?.style.getPropertyValue("--water-lift")).toBe("0px");
     expect(scene?.style.getPropertyValue("--building-shadow-y")).toBe("13px");
     expect(screen.getByRole("slider", { name: "Cursor parallax" })).toHaveValue("1");
+  });
+
+  it("previews five distinct work entrances through the depth lab", () => {
+    const { container } = render(<PortfolioPage content={getPortfolio()} />);
+    fireEvent.click(screen.getByRole("button", { name: /Depth lab/ }));
+
+    const choices = [
+      ["Lift the city", "lift"],
+      ["Streetcar route", "transit"],
+      ["Field guide", "guide"],
+      ["Paper theatre", "theatre"],
+      ["Postcards", "postcards"],
+    ] as const;
+
+    for (const [name, variant] of choices) {
+      const button = screen.getByRole("button", { name: new RegExp(name) });
+      fireEvent.click(button);
+      expect(button).toHaveAttribute("aria-pressed", "true");
+      expect(container.firstElementChild).toHaveAttribute("data-work-variant", variant);
+      expect(container.querySelectorAll("section#work")).toHaveLength(1);
+      expect(container.querySelector('header a[href="#work"]')).toBeVisible();
+    }
   });
 
   it("previews clouds and rain independently of the lighting", () => {

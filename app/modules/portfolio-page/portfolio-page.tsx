@@ -1,8 +1,9 @@
 import { ExternalLink } from "lucide-react";
 import { useState } from "react";
 
-import type { CaseStudy, Portfolio } from "../portfolio-content/model";
+import type { Portfolio } from "../portfolio-content/model";
 import { DepthLab } from "./depth-lab";
+import { defaultLabelStyle, type LabelStyle } from "./label-options";
 import styles from "./portfolio-page.module.css";
 import {
   defaultDepthSettings,
@@ -10,27 +11,10 @@ import {
   type SceneMode,
   type WeatherMode,
 } from "./toronto-scene";
+import { defaultWorkVariant, type WorkVariant } from "./work-variant-options";
+import { WorkPrompt, WorkSection } from "./work-variants";
 
 const sceneModes: SceneMode[] = ["day", "night", "live"];
-const labelGroups = [
-  {
-    name: "Paper",
-    styles: [
-      { id: "handmade", name: "Deckled" },
-      { id: "folded", name: "Folded letter" },
-      { id: "newsprint", name: "Newsprint" },
-    ],
-  },
-  {
-    name: "Tickets",
-    styles: [
-      { id: "ticket", name: "Classic" },
-      { id: "punch", name: "Punch pass" },
-      { id: "receipt", name: "Fare receipt" },
-    ],
-  },
-] as const;
-type LabelStyle = (typeof labelGroups)[number]["styles"][number]["id"];
 
 function Hero({
   person,
@@ -39,7 +23,7 @@ function Hero({
   weatherMode,
   onWeatherModeChange,
   labelStyle,
-  onLabelStyleChange,
+  workVariant,
 }: {
   person: Portfolio["person"];
   sceneMode: SceneMode;
@@ -47,10 +31,10 @@ function Hero({
   weatherMode: WeatherMode;
   onWeatherModeChange: (mode: WeatherMode) => void;
   labelStyle: LabelStyle;
-  onLabelStyleChange: (style: LabelStyle) => void;
+  workVariant: WorkVariant;
 }) {
   return (
-    <header className={styles.hero}>
+    <header className={styles.hero} id="top">
       <div className={styles.poster}>
         <div className={styles.sceneControls} role="group" aria-label="Skyline lighting">
           {sceneModes.map((mode) => (
@@ -81,29 +65,6 @@ function Hero({
           </select>
         </label>
 
-        {import.meta.env.DEV && (
-          <div className={styles.labelControls} role="group" aria-label="Title label style">
-            {labelGroups.map((group) => (
-              <div className={styles.labelGroup} key={group.name}>
-                <p className={styles.labelControlsTitle}>{group.name}</p>
-                {group.styles.map(({ id, name }) => (
-                  <button
-                    className={styles.labelChoice}
-                    data-choice={id}
-                    type="button"
-                    aria-label={`${group.name}: ${name}`}
-                    aria-pressed={labelStyle === id}
-                    onClick={() => onLabelStyleChange(id)}
-                    key={id}
-                  >
-                    {name}
-                  </button>
-                ))}
-              </div>
-            ))}
-          </div>
-        )}
-
         <div className={styles.titleBlock}>
           <div className={styles.titleLabel} data-label-style={labelStyle}>
             <p className={styles.labelEyebrow}>
@@ -123,10 +84,9 @@ function Hero({
           </div>
         </div>
 
-        <a className={`${styles.boxedAction} ${styles.heroLink}`} href="#work">
-          Selected work
-          <span aria-hidden="true">↓</span>
-        </a>
+        <div className={styles.workPrompt} data-work-variant={workVariant}>
+          <WorkPrompt variant={workVariant} />
+        </div>
 
         <p className={`${styles.supportingText} ${styles.photoCredit}`}>
           Photo:{" "}
@@ -138,69 +98,6 @@ function Hero({
         </p>
       </div>
     </header>
-  );
-}
-
-function CaseStudyArticle({ study }: { study: CaseStudy }) {
-  return (
-    <article className={styles.caseStudy} id={study.id}>
-      <header className={styles.caseStudyHeader}>
-        <div className={styles.caseStudyIdentity}>
-          <h3 className={`${styles.cardHeading} ${styles.caseStudyTitle}`}>{study.title}</h3>
-          <p className={styles.caseMeta}>
-            {study.organization}, {study.period}
-          </p>
-        </div>
-        <p className={`${styles.featureText} ${styles.caseSummary}`}>{study.summary}</p>
-      </header>
-
-      <div className={styles.caseStudyRule} aria-hidden="true" />
-
-      <div className={styles.caseBody}>
-        <section className={styles.caseColumn}>
-          <h4 className={`${styles.cardHeading} ${styles.caseBodyHeading}`}>Project context</h4>
-          <p>{study.context}</p>
-        </section>
-        <section className={styles.caseColumn}>
-          <h4 className={`${styles.cardHeading} ${styles.caseBodyHeading}`}>What I worked on</h4>
-          <ul>
-            {study.contributions.map((contribution) => (
-              <li key={contribution}>{contribution}</li>
-            ))}
-          </ul>
-        </section>
-      </div>
-    </article>
-  );
-}
-
-function SelectedWork({ studies }: { studies: Portfolio["caseStudies"] }) {
-  return (
-    <section
-      className={`${styles.sectionFrame} ${styles.sectionFlow}`}
-      id="work"
-      aria-labelledby="work-heading"
-    >
-      <header className={styles.splitSectionHeader}>
-        <h2
-          className={`${styles.displayHeading} ${styles.workHeading}`}
-          id="work-heading"
-          aria-label="Selected work"
-        >
-          <span className={styles.boxedHeading} aria-hidden="true">
-            Selected
-          </span>
-          <span className={styles.boxedHeading} aria-hidden="true">
-            work
-          </span>
-        </h2>
-      </header>
-      <div className={styles.caseStudyList}>
-        {studies.map((study) => (
-          <CaseStudyArticle key={study.id} study={study} />
-        ))}
-      </div>
-    </section>
   );
 }
 
@@ -307,18 +204,28 @@ function Contact({ person }: { person: Portfolio["person"] }) {
 export function PortfolioPage({ content }: { content: Portfolio }) {
   const [sceneMode, setSceneMode] = useState<SceneMode>("live");
   const [weatherMode, setWeatherMode] = useState<WeatherMode>("live");
-  const [labelStyle, setLabelStyle] = useState<LabelStyle>("handmade");
+  const [labelStyle, setLabelStyle] = useState<LabelStyle>(defaultLabelStyle);
   const [depth, setDepth] = useState(defaultDepthSettings);
+  const [workVariant, setWorkVariant] = useState<WorkVariant>(defaultWorkVariant);
 
   return (
-    <div className={styles.page}>
+    <div className={styles.page} data-work-variant={workVariant}>
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
       <figure className={styles.sceneBackdrop}>
         <TorontoScene mode={sceneMode} weatherMode={weatherMode} depth={depth} />
       </figure>
-      {import.meta.env.DEV && <DepthLab value={depth} onChange={setDepth} />}
+      {import.meta.env.DEV && (
+        <DepthLab
+          value={depth}
+          onChange={setDepth}
+          workVariant={workVariant}
+          onWorkVariantChange={setWorkVariant}
+          labelStyle={labelStyle}
+          onLabelStyleChange={setLabelStyle}
+        />
+      )}
       <Hero
         person={content.person}
         sceneMode={sceneMode}
@@ -326,10 +233,10 @@ export function PortfolioPage({ content }: { content: Portfolio }) {
         weatherMode={weatherMode}
         onWeatherModeChange={setWeatherMode}
         labelStyle={labelStyle}
-        onLabelStyleChange={setLabelStyle}
+        workVariant={workVariant}
       />
       <main id="main-content" tabIndex={-1}>
-        <SelectedWork studies={content.caseStudies} />
+        <WorkSection variant={workVariant} studies={content.caseStudies} />
         <Experience experience={content.experience} />
       </main>
       <Contact person={content.person} />

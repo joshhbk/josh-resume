@@ -1,0 +1,563 @@
+.liftPrompt,
+.streetcarPrompt {
+  position: relative;
+  z-index: 1;
+  color: #17354a;
+  text-decoration: none;
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.liftPrompt:focus-visible,
+.streetcarPrompt:focus-visible,
+.streetcarStopNav a:focus-visible,
+.liftSummary:focus-visible {
+  outline: 3px solid #e5573c;
+  outline-offset: 5px;
+}
+
+.liftPrompt {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: min(34rem, 100%);
+  min-height: 6rem;
+  padding: 1.2rem 2rem 1.3rem;
+  background: #f4e8cc;
+  box-shadow:
+    0 -0.6rem 0 #d2b894,
+    0 -1.15rem 0 #a7896b,
+    0 -1.7rem 1rem rgb(22 35 40 / 25%);
+}
+
+.liftPrompt::before,
+.liftWork::before,
+.liftSheet::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  opacity: 0.26;
+  background-image: repeating-linear-gradient(0deg, transparent 0 3px, rgb(83 64 45 / 8%) 3px 4px);
+}
+
+.liftPrompt:hover {
+  transform: translateY(-0.65rem);
+}
+
+.liftPromptHandle {
+  width: 1rem;
+  height: 2.5rem;
+  border: 2px solid #b69973;
+  border-radius: 99px;
+}
+
+.liftPromptText {
+  display: grid;
+  gap: 0.15rem;
+  flex: 1;
+}
+
+.liftPromptSmall {
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.liftPromptText strong {
+  font:
+    650 clamp(1.55rem, 3vw, 2.3rem)/1.05 "Archivo Variable",
+    sans-serif;
+  letter-spacing: -0.055em;
+}
+
+.liftPromptArrow {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.liftWork {
+  position: relative;
+  width: min(calc(100% - 2rem), 90rem);
+  margin: 0 auto 2rem;
+  padding: clamp(3.5rem, 7vw, 7rem) clamp(1rem, 6vw, 6rem) 3rem;
+  background: #efe2c9;
+  box-shadow:
+    0 1.2rem 0 #c7a581,
+    0 2rem 3rem rgb(5 20 33 / 35%);
+  isolation: isolate;
+}
+
+.liftEdge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1.2rem;
+  overflow: hidden;
+}
+
+.liftEdge span {
+  position: absolute;
+  right: 2%;
+  left: 2%;
+  height: 0.3rem;
+  background: #c7a581;
+}
+
+.liftEdge span:nth-child(1) {
+  top: 0;
+}
+.liftEdge span:nth-child(2) {
+  top: 0.35rem;
+  right: 3%;
+  left: 3%;
+  background: #dabd99;
+}
+.liftEdge span:nth-child(3) {
+  top: 0.7rem;
+  right: 4%;
+  left: 4%;
+  background: #e5d0ad;
+}
+
+.liftHeader {
+  position: relative;
+  max-width: 45rem;
+  margin-bottom: 3rem;
+}
+
+.liftOverline,
+.liftSheetLabel,
+.liftFootnote {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.liftOverline {
+  color: #9b4738;
+}
+
+.liftHeader h2 {
+  margin: 0.65rem 0 0.7rem;
+  font:
+    680 clamp(2.8rem, 6vw, 5.5rem)/0.96 "Archivo Variable",
+    sans-serif;
+  letter-spacing: -0.07em;
+}
+
+.liftHeader > p:last-child {
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.liftStack {
+  position: relative;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.liftSheet {
+  position: relative;
+  background: #faf1df;
+  box-shadow:
+    0.45rem 0.55rem 0 #c7a581,
+    0.8rem 1rem 1.4rem rgb(80 54 33 / 14%);
+}
+
+.liftSheet:nth-child(2) {
+  margin-left: clamp(0.25rem, 2vw, 1.5rem);
+  background: #f8edd8;
+}
+.liftSheet:nth-child(3) {
+  margin-left: clamp(0.5rem, 4vw, 3rem);
+  background: #f6e8d1;
+}
+
+.liftSummary {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.8rem, 3vw, 2rem);
+  min-height: 7rem;
+  padding: 1.2rem clamp(1rem, 3vw, 2rem);
+  cursor: pointer;
+  list-style: none;
+}
+
+.liftSummary::-webkit-details-marker {
+  display: none;
+}
+.liftSummary:hover {
+  background: rgb(199 165 129 / 13%);
+}
+
+.liftSheetNumber {
+  align-self: flex-start;
+  font:
+    500 1rem/1 "IBM Plex Sans",
+    sans-serif;
+  color: #a35d49;
+}
+
+.liftSheetIdentity {
+  display: grid;
+  flex: 1;
+  gap: 0.4rem;
+}
+.liftSheetLabel {
+  color: #9b4738;
+}
+
+.liftSheetTitle {
+  font:
+    620 clamp(1.35rem, 2.7vw, 2.3rem)/1.1 "Archivo Variable",
+    sans-serif;
+  letter-spacing: -0.05em;
+}
+
+.liftSheetAction {
+  align-self: flex-start;
+  font-size: 1.8rem;
+  transition: transform 220ms ease;
+}
+.liftSheet[open] .liftSheetAction {
+  transform: rotate(90deg);
+}
+
+.liftSheetContent {
+  position: relative;
+  z-index: 1;
+  padding: 0 clamp(1rem, 3vw, 2rem) clamp(1.5rem, 4vw, 3rem) clamp(3rem, 7vw, 6.5rem);
+}
+
+.liftLead {
+  max-width: 55rem;
+  margin: 0 0 2rem;
+  font:
+    540 clamp(1.4rem, 2.5vw, 2.1rem)/1.24 "Archivo Variable",
+    sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.liftColumns,
+.streetcarColumns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 5vw, 5rem);
+}
+
+.liftColumns h3,
+.streetcarColumns h4 {
+  margin: 0 0 0.65rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.liftColumns p,
+.liftColumns li,
+.streetcarColumns p,
+.streetcarColumns li {
+  line-height: 1.55;
+}
+
+.liftColumns ul,
+.streetcarColumns ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+.liftColumns li + li,
+.streetcarColumns li + li {
+  margin-top: 0.5rem;
+}
+
+.liftFootnote {
+  margin: 2.5rem 0 0;
+  text-align: right;
+  color: #78634d;
+}
+
+.streetcarPrompt {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 5.8rem;
+  background: #f8f3e5;
+  border: 0.28rem solid #bd2c27;
+  border-radius: 0.3rem;
+  box-shadow:
+    0.45rem 0.55rem 0 #3e423a,
+    0.8rem 0.95rem 1.3rem rgb(11 31 41 / 25%);
+}
+
+.streetcarPrompt:hover {
+  transform: translateY(-0.5rem);
+}
+
+.streetcarPromptRoute,
+.streetcarRouteShield {
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  min-width: 5.5rem;
+  padding: 0.5rem;
+  font:
+    760 2.4rem/1 "Archivo Variable",
+    sans-serif;
+  letter-spacing: -0.07em;
+  color: #fff9ea;
+  background: #bd2c27;
+}
+
+.streetcarPromptText {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.65rem 1.3rem;
+}
+.streetcarPromptText strong {
+  font:
+    680 clamp(1.3rem, 2.4vw, 1.8rem)/1.1 "Archivo Variable",
+    sans-serif;
+  letter-spacing: -0.04em;
+}
+.streetcarPromptText small {
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.streetcarPromptArrow {
+  padding: 0 1.1rem 0 0;
+  font-size: 2rem;
+}
+
+.streetcarWork {
+  width: min(calc(100% - 2rem), 90rem);
+  margin: 0 auto 2rem;
+  padding: clamp(2rem, 5vw, 5rem);
+  color: #1a343c;
+  background: #f3efe2;
+  border-top: 0.8rem solid #b7352b;
+  box-shadow: 0 1.5rem 3rem rgb(4 23 32 / 32%);
+}
+
+.streetcarMasthead {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #1b363f;
+}
+.streetcarRouteShield {
+  align-self: center;
+  min-width: 6.5rem;
+  aspect-ratio: 1;
+  border-radius: 0.4rem;
+  font-size: 2.7rem;
+}
+.streetcarEyebrow {
+  margin: 0 0 0.5rem;
+  color: #aa3029;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+.streetcarMasthead h2 {
+  margin: 0;
+  font:
+    720 clamp(2.5rem, 6vw, 5rem)/0.95 "Archivo Variable",
+    sans-serif;
+  letter-spacing: -0.07em;
+}
+.streetcarMasthead p:last-child {
+  margin: 0.75rem 0 0;
+}
+
+.streetcarStopNav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.6rem 0 2.5rem;
+}
+.streetcarStopNav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.55rem 0.8rem;
+  color: #183643;
+  border: 1px solid #b7afa0;
+  text-decoration: none;
+  font-weight: 650;
+}
+.streetcarStopNav a:hover {
+  color: #fff9ea;
+  background: #b7352b;
+  border-color: #b7352b;
+}
+.streetcarStopNav a span {
+  color: #ad3d32;
+  font-size: 0.7rem;
+}
+.streetcarStopNav a:hover span {
+  color: inherit;
+}
+
+.streetcarStops {
+  position: relative;
+  padding: 0 0 0 clamp(2.5rem, 6vw, 6rem);
+}
+.streetcarStops::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: clamp(0.9rem, 2.5vw, 2.5rem);
+  width: 0.55rem;
+  background: #b7352b;
+  content: "";
+}
+.streetcarStop {
+  position: relative;
+  display: flex;
+  margin-bottom: 2rem;
+  scroll-margin-top: 1.5rem;
+}
+.streetcarStopMarker {
+  position: absolute;
+  top: 1.1rem;
+  left: calc(-1 * clamp(2.5rem, 6vw, 6rem));
+  display: grid;
+  place-items: center;
+  width: clamp(2.3rem, 5vw, 4.8rem);
+  height: clamp(2.3rem, 5vw, 4.8rem);
+  color: #fff9ea;
+  background: #b7352b;
+  border: 0.28rem solid #f3efe2;
+  border-radius: 50%;
+  font-weight: 700;
+  box-shadow: 0 0 0 2px #b7352b;
+}
+.streetcarStopCard {
+  width: 100%;
+  padding: clamp(1.2rem, 3vw, 2.7rem);
+  background: #fffaf0;
+  border: 1px solid #cbc1ad;
+  box-shadow: 0.4rem 0.4rem 0 #d0bc9c;
+}
+.streetcarStopHeader {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #c8bfae;
+}
+.streetcarStopOverline {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a3392d;
+}
+.streetcarStopOrg {
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.streetcarStopCard h3 {
+  margin: 1rem 0;
+  font:
+    660 clamp(1.8rem, 3vw, 2.8rem)/1.08 "Archivo Variable",
+    sans-serif;
+  letter-spacing: -0.05em;
+}
+.streetcarLead {
+  max-width: 55rem;
+  margin: 0 0 1.7rem;
+  font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+  line-height: 1.4;
+}
+.streetcarColumns {
+  padding-top: 1.5rem;
+  border-top: 1px dashed #b4aa99;
+}
+.streetcarTerminus {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-left: clamp(2.5rem, 6vw, 6rem);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+.streetcarTerminus span {
+  color: #b7352b;
+  font-size: 1.6rem;
+}
+
+@media (max-width: 700px) {
+  .liftPrompt {
+    gap: 0.7rem;
+    padding-inline: 1rem;
+  }
+  .liftPromptHandle {
+    display: none;
+  }
+  .liftWork,
+  .streetcarWork {
+    width: 100%;
+    padding-inline: 1rem;
+  }
+  .liftColumns,
+  .streetcarColumns {
+    grid-template-columns: 1fr;
+  }
+  .liftSheetContent {
+    padding-left: 1.2rem;
+  }
+  .liftSheet:nth-child(2),
+  .liftSheet:nth-child(3) {
+    margin-left: 0;
+  }
+  .streetcarPromptRoute {
+    min-width: 4.2rem;
+    font-size: 1.8rem;
+  }
+  .streetcarPromptText {
+    padding-inline: 0.75rem;
+  }
+  .streetcarPromptArrow {
+    padding-right: 0.6rem;
+  }
+  .streetcarMasthead {
+    align-items: flex-start;
+  }
+  .streetcarRouteShield {
+    min-width: 4.2rem;
+    font-size: 1.8rem;
+  }
+  .streetcarStops {
+    padding-left: 3rem;
+  }
+  .streetcarStops::before {
+    left: 0.75rem;
+  }
+  .streetcarStopMarker {
+    left: -3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liftPrompt,
+  .streetcarPrompt,
+  .liftSheetAction {
+    transition: none;
+  }
+}
