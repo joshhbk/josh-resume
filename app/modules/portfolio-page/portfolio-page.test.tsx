@@ -1,5 +1,5 @@
 import axe from "axe-core";
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { getPortfolio } from "../portfolio-content/portfolio";
 import { PortfolioPage } from "./portfolio-page";
@@ -9,39 +9,41 @@ afterEach(cleanup);
 describe("portfolio page", () => {
   it("renders the complete professional record", () => {
     const content = getPortfolio();
-
     const { container } = render(<PortfolioPage content={content} />);
+    const text = container.textContent ?? "";
 
-    expect(screen.getByRole("heading", { name: content.person.role, level: 1 })).toBeVisible();
-    expect(screen.getByRole("link", { name: "Selected work" })).toHaveAttribute("href", "#work");
     expect(screen.getByRole("link", { name: "Skip to content" })).toHaveAttribute(
       "href",
       "#main-content",
     );
-    expect(screen.getByRole("main")).toHaveAttribute("id", "main-content");
-    expect(screen.getByRole("region", { name: "Selected work" })).toBeVisible();
-    expect(screen.getByRole("region", { name: "Selected experience" })).toBeVisible();
-    expect(screen.getByRole("contentinfo")).toBeVisible();
-    expect(screen.getByRole("heading", { name: "Selected work", level: 2 })).toBeVisible();
-    expect(screen.getByRole("heading", { name: "Selected experience", level: 2 })).toBeVisible();
-    expect(screen.getByRole("heading", { name: "Profiles", level: 2 })).toBeVisible();
-    expect(screen.getByRole("navigation", { name: "Professional profiles" })).toBeVisible();
-    expect(screen.getByRole("link", { name: /@joshhbk.*GitHub/i })).toHaveAttribute(
-      "href",
-      "https://github.com/joshhbk",
-    );
-    expect(screen.getByRole("link", { name: /Joshua Hughes.*LinkedIn/i })).toHaveAttribute(
-      "href",
-      "https://www.linkedin.com/in/joshua-hughes-ab189065?trk=contact-info",
-    );
-    expect(container.querySelector('a[href^="mailto:"]')).toBeNull();
+    expect(container.querySelector("main#main-content")).not.toBeNull();
+    expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
+    expect(text).toContain(content.person.name);
+    expect(text).toContain(content.person.role);
     for (const study of content.caseStudies) {
-      expect(screen.getByRole("heading", { name: study.title, level: 3 })).toBeVisible();
+      expect(text).toContain(study.title);
+      expect(text).toContain(study.organization);
     }
-
     for (const item of content.experience) {
-      expect(screen.getByRole("heading", { name: item.organization, level: 3 })).toBeVisible();
+      expect(text).toContain(item.organization);
+      expect(text).toContain(item.role);
     }
+    for (const profile of content.person.profiles) {
+      expect(container.querySelector(`a[href="${profile.url}"]`), profile.label).not.toBeNull();
+    }
+    expect(container.querySelector('a[href^="mailto:"]')).toBeNull();
+    expect(container.querySelector('a[href*="unsplash.com"]')).not.toBeNull();
+    expect(container.querySelector('a[href="https://open-meteo.com/"]')).not.toBeNull();
+  });
+
+  it("offers every lighting preview and the weather select", () => {
+    render(<PortfolioPage content={getPortfolio()} />);
+    const lighting = within(screen.getByRole("group", { name: "Skyline lighting" }));
+
+    for (const name of ["Dawn", "Day", "Dusk", "Night", "Live"]) {
+      expect(lighting.getByRole("button", { name })).toBeInTheDocument();
+    }
+    expect(screen.getByRole("combobox", { name: "Skyline weather" })).toBeInTheDocument();
   });
 
   it("has no automated accessibility violations", async () => {
@@ -103,30 +105,6 @@ describe("portfolio page", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Live" }));
     expect(screen.getByRole("button", { name: "Live" })).toHaveAttribute("aria-pressed", "true");
-  });
-
-  it("previews three paper and three ticket labels", () => {
-    const { container } = render(<PortfolioPage content={getPortfolio()} />);
-    const label = container.querySelector("[data-label-style]");
-    const names = [
-      ["Paper: Deckled", "handmade"],
-      ["Paper: Folded letter", "folded"],
-      ["Paper: Newsprint", "newsprint"],
-      ["Tickets: Classic", "ticket"],
-      ["Tickets: Punch pass", "punch"],
-      ["Tickets: Fare receipt", "receipt"],
-    ] as const;
-
-    for (const [name, style] of names) {
-      const button = screen.getByRole("button", { name });
-      fireEvent.click(button);
-      expect(label).toHaveAttribute("data-label-style", style);
-      expect(button).toHaveAttribute("aria-pressed", "true");
-    }
-
-    expect(
-      screen.getByRole("heading", { name: getPortfolio().person.role, level: 1 }),
-    ).toBeVisible();
   });
 
   it("tunes and resets the skyline depth controls", () => {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import styles from "./portfolio-page.module.css";
-import { defaultDepthSettings, type DepthSettings } from "./toronto-scene";
+import styles from "./toronto-scene.module.css";
+import { defaultDepthSettings, useScene, type DepthSettings } from "./scene-provider";
 
 const storageKey = "toronto-depth-settings";
 const controls = [
@@ -19,13 +19,11 @@ function isDepthSettings(value: unknown): value is DepthSettings {
   });
 }
 
-export function DepthLab({
-  value,
-  onChange,
-}: {
-  value: DepthSettings;
-  onChange: (settings: DepthSettings) => void;
-}) {
+export function DepthLab() {
+  const {
+    state: { depth: value },
+    actions: { setDepth: onChange },
+  } = useScene();
   const [open, setOpen] = useState(false);
   const [saved, setSaved] = useState(false);
 

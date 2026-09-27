@@ -1,0 +1,784 @@
+/* Toronto paper scene: backdrop, artwork, weather and the development depth lab. */
+
+.sceneBackdrop {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  margin: 0;
+  overflow: hidden;
+  font-family: "IBM Plex Sans", sans-serif;
+  pointer-events: none;
+}
+
+.depthLab {
+  position: fixed;
+  z-index: 20;
+  right: clamp(1.25rem, 5vw, 5rem);
+  bottom: 1.25rem;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color: #fff1d5;
+}
+
+.depthLab button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.depthLab button:focus-visible,
+.depthLab input:focus-visible {
+  outline: 2px solid #fff1d5;
+  outline-offset: 3px;
+}
+
+.depthLab .depthLabToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-width: 9rem;
+  margin-left: auto;
+  padding: 0.72rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fff1d5;
+  background: #172d3a;
+  border: 1px solid #d9a66d;
+  box-shadow: 0.25rem 0.3rem 0 rgb(14 35 51 / 28%);
+}
+
+.depthLabToggle span {
+  font-size: 1.1rem;
+  line-height: 0.7;
+}
+
+.depthLabPanel {
+  width: min(20rem, calc(100vw - 2.5rem));
+  max-height: min(72svh, 39rem);
+  margin-bottom: 0.65rem;
+  padding: 1rem;
+  overflow-y: auto;
+  background: #172d3a;
+  border: 1px solid #d9a66d;
+  box-shadow: 0.65rem 0.8rem 1.4rem rgb(9 24 38 / 34%);
+}
+
+.depthLabHeader {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.depthLabKicker {
+  margin: 0 0 0.3rem;
+  font-size: 0.61rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #e7b987;
+  text-transform: uppercase;
+}
+
+.depthLabHeader h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.1;
+}
+
+.depthLabHeader button {
+  padding: 0 0.25rem;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #fff1d5;
+  background: none;
+  border: 0;
+}
+
+.depthLabIntro {
+  margin: 0.8rem 0 1.1rem;
+  font-size: 0.68rem;
+  line-height: 1.5;
+  color: #d5d8d2;
+}
+
+.depthLabControls {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.depthLabControl {
+  display: grid;
+  gap: 0.28rem;
+  font-size: 0.72rem;
+}
+
+.depthLabControlHeading {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-weight: 700;
+}
+
+.depthLabControl output {
+  color: #f0bb82;
+}
+
+.depthLabDetail {
+  font-size: 0.62rem;
+  color: #b9c6c8;
+}
+
+.depthLabControl input {
+  width: 100%;
+  margin: 0.3rem 0 0;
+  accent-color: #e5ad76;
+  cursor: pointer;
+}
+
+.depthLabActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+}
+
+.depthLabActions button {
+  min-height: 2rem;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #203546;
+  background: #f2e7d1;
+  border: 0;
+}
+
+.depthLabActions button:last-child {
+  background: #e5ad76;
+}
+
+@media (min-width: 1100px) {
+  .depthLab {
+    right: 17.5rem;
+  }
+}
+
+.scene {
+  --scene-sky-wash: #fff5db;
+  --scene-water-light: #fff6d8;
+  --scene-backdrop: #e9d7b9;
+  --scene-backdrop-light: #fff5df;
+  --paper-edge: rgb(255 246 221 / 70%);
+  --paper-edge-soft: rgb(255 246 221 / 34%);
+  --paper-shadow: rgb(34 43 47 / 36%);
+  --paper-shadow-deep: rgb(25 34 44 / 48%);
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(
+    circle at 52% 14%,
+    var(--scene-backdrop-light),
+    var(--scene-backdrop)
+  );
+  transition: background-color 1.5s ease;
+}
+
+.scene[data-phase="dawn"] {
+  --scene-sky-wash: #f9a98c;
+  --scene-water-light: #f3c39f;
+  --scene-backdrop: #e9c5ae;
+  --scene-backdrop-light: #ffebcb;
+}
+
+.scene[data-phase="dusk"] {
+  --scene-sky-wash: #df927e;
+  --scene-water-light: #f7bc8f;
+  --scene-backdrop: #bf927f;
+  --scene-backdrop-light: #f2cda9;
+}
+
+.scene[data-phase="night"] {
+  --scene-sky-wash: #172b4d;
+  --scene-water-light: #f4d69b;
+  --scene-backdrop: #0c1a33;
+  --scene-backdrop-light: #293f60;
+  --paper-edge: rgb(178 202 224 / 39%);
+  --paper-edge-soft: rgb(178 202 224 / 20%);
+  --paper-shadow: rgb(2 10 24 / 66%);
+  --paper-shadow-deep: rgb(2 8 20 / 78%);
+}
+
+.scene::before {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  background: url("/images/toronto-paper-grain.svg") repeat;
+  background-size: 192px 192px;
+  opacity: 0.19;
+  mix-blend-mode: soft-light;
+  content: "";
+}
+
+.scene[data-phase="night"]::before {
+  opacity: 0.13;
+}
+
+.sceneBase,
+.scenePlanes,
+.sceneOverlay {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.sceneBase {
+  transition: filter 1.5s ease;
+}
+
+.skyPlane {
+  transform: translate(var(--sky-x, 0px), var(--sky-y, 0px));
+  transition:
+    transform 120ms ease-out,
+    filter 1.5s ease;
+}
+
+.scene[data-weather="cloudy"] .skyPlane {
+  filter: brightness(0.97);
+}
+
+.scene[data-weather="rain"] .skyPlane {
+  filter: brightness(0.91) saturate(0.85);
+}
+
+.scene[data-phase="night"][data-weather="rain"] .skyPlane {
+  filter: brightness(0.95);
+}
+
+.skyBandBack {
+  fill: #e6d2b4;
+  transition: fill 900ms ease;
+}
+
+.skyBandMiddle {
+  fill: #f0e1c7;
+  filter: drop-shadow(0 8px 4px rgb(110 85 62 / 12%));
+  transition: fill 900ms ease;
+}
+
+.skyBandFront {
+  fill: #e9dcc4;
+  filter: drop-shadow(0 10px 5px rgb(110 85 62 / 12%));
+  transition: fill 900ms ease;
+}
+
+.daySkyArt,
+.nightSkyArt {
+  transition: opacity 900ms ease;
+}
+
+.nightSkyArt {
+  opacity: 0;
+}
+
+.weatherCloudBack,
+.weatherCloudFront {
+  fill: #d7c4a8;
+  filter: drop-shadow(0 var(--edge-offset, -1px) 0 var(--paper-edge))
+    drop-shadow(0 var(--cloud-shadow-y, 12px) var(--cloud-shadow-blur, 8px) var(--paper-shadow));
+  transition:
+    fill 900ms ease,
+    opacity 1.5s ease;
+}
+
+.weatherCloudBack {
+  opacity: var(--cloud-opacity, 0);
+  animation: cloudDrift 31s ease-in-out infinite alternate;
+}
+
+.weatherCloudFront {
+  fill: #c2ac93;
+  opacity: var(--cloud-front-opacity, 0);
+  animation: cloudDrift 39s ease-in-out infinite alternate-reverse;
+}
+
+.scene[data-phase="night"] .weatherCloudBack {
+  fill: #47617c;
+}
+
+.scene[data-phase="night"] .weatherCloudFront {
+  fill: #314d6b;
+}
+
+.scenePlanes {
+  z-index: 1;
+  overflow: visible;
+  pointer-events: none;
+  transition: filter 1.5s ease;
+}
+
+.landPlane,
+.leftBuildingPlane,
+.rightBuildingPlane,
+.centerBuildingPlane,
+.towerPlane,
+.treesPlane,
+.shorePlane,
+.waterPlane {
+  transition:
+    transform 120ms ease-out,
+    fill 900ms ease,
+    opacity 900ms ease;
+}
+
+.landPlane {
+  transform: translate(var(--land-x, 0px), calc(var(--land-y, 0px) + var(--land-lift, 0px)));
+}
+
+.leftBuildingPlane,
+.rightBuildingPlane,
+.centerBuildingPlane {
+  filter: drop-shadow(0 var(--edge-offset, -1px) 0 var(--paper-edge-soft))
+    drop-shadow(
+      2px var(--building-shadow-y, 13px) var(--building-shadow-blur, 7px) var(--paper-shadow)
+    );
+}
+
+.buildingArt {
+  filter: url(#toronto-paper-key);
+  transition: opacity 900ms ease;
+}
+
+.towerArt {
+  transition: opacity 900ms ease;
+}
+
+.dayArt,
+.nightArt {
+  transition: opacity 900ms ease;
+}
+
+.nightArt {
+  opacity: 0;
+}
+
+.centerRoofEdge {
+  fill: #dcc9a9;
+}
+
+.towerPlane {
+  filter: drop-shadow(-1px var(--edge-offset, -1px) 0 var(--paper-edge-soft))
+    drop-shadow(1px var(--tower-shadow-y, 11px) var(--tower-shadow-blur, 5px) var(--paper-shadow));
+}
+
+.treesPlane {
+  fill: #24465a;
+  filter: drop-shadow(
+    1px var(--trees-shadow-y, 17px) var(--trees-shadow-blur, 9px) var(--paper-shadow-deep)
+  );
+}
+
+.treeHighlights {
+  fill: none;
+  stroke: #789b9f;
+  stroke-width: 5;
+  opacity: 0;
+}
+
+.shorePlane {
+  fill: #d3b38a;
+  filter: drop-shadow(0 var(--edge-offset-strong, -2px) 0 var(--paper-edge))
+    drop-shadow(
+      0 var(--shore-shadow-y, 12px) var(--shore-shadow-blur, 6px) var(--paper-shadow-deep)
+    );
+}
+
+.shoreLine {
+  fill: none;
+  stroke: #f3dec0;
+  stroke-width: 5;
+  opacity: 0;
+}
+
+.waterPlane {
+  fill: #84b3c1;
+  filter: drop-shadow(0 var(--edge-offset-strong, -2px) 0 var(--paper-edge-soft))
+    drop-shadow(0 var(--water-shadow-y, 10px) var(--water-shadow-blur, 5px) var(--paper-shadow));
+  transform: translate(var(--water-x, 0px), calc(var(--water-y, 0px) + var(--water-lift, 0px)));
+}
+
+.waterMarks {
+  fill: none;
+  stroke: #e7ecda;
+  stroke-linecap: round;
+  stroke-width: 5;
+  opacity: 0.2;
+}
+
+.scene[data-phase="dawn"] :is(.sceneBase, .scenePlanes) {
+  filter: sepia(0.12) saturate(1.1) hue-rotate(-8deg);
+}
+
+.scene[data-phase="dusk"] :is(.sceneBase, .scenePlanes) {
+  filter: sepia(0.2) saturate(1.05) brightness(0.85);
+}
+
+.scene[data-phase="night"] .skyBandBack {
+  fill: #1b2b49;
+}
+.scene[data-phase="night"] .skyBandMiddle {
+  fill: #263b59;
+}
+.scene[data-phase="night"] .skyBandFront {
+  fill: #354b67;
+}
+.scene[data-phase="night"] .nightSkyArt {
+  opacity: 1;
+}
+.scene[data-phase="night"] .daySkyArt {
+  opacity: 0;
+}
+.scene[data-phase="night"] .treesPlane {
+  fill: #112a42;
+}
+.scene[data-phase="night"] .shorePlane {
+  fill: #687287;
+}
+.scene[data-phase="night"] .waterPlane {
+  fill: #254767;
+}
+.scene[data-phase="night"] .centerRoofEdge {
+  fill: #9c9b91;
+}
+.scene[data-phase="night"] .shoreLine {
+  stroke: #bfc2b8;
+}
+.scene[data-phase="night"] .treeHighlights {
+  opacity: 0;
+}
+.scene[data-phase="night"] .waterMarks {
+  opacity: 0.2;
+}
+.scene[data-phase="night"] .shoreLine {
+  opacity: 0;
+}
+.scene[data-phase="night"] .buildingArt {
+  opacity: 0;
+}
+.scene[data-phase="night"] .towerArt {
+  opacity: 0;
+}
+.scene[data-phase="night"] .nightArt {
+  opacity: 1;
+}
+.scene[data-phase="night"] .dayArt {
+  opacity: 0;
+}
+
+.sceneOverlay {
+  z-index: 2;
+  pointer-events: none;
+}
+
+.scene::after {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 4px rgb(255 247 229 / 54%),
+    inset 0 11px 16px rgb(62 46 39 / 24%),
+    inset 0 -10px 14px rgb(18 41 61 / 24%);
+  content: "";
+}
+
+.skyWash {
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+.scene[data-phase="dawn"] .skyWash,
+.scene[data-phase="dusk"] .skyWash,
+.scene[data-phase="night"] .skyWash {
+  opacity: 0.45;
+}
+
+.scene[data-phase="night"] .skyWash {
+  opacity: 0.18;
+}
+
+.sunHalo,
+.moonHalo {
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+.sunHalo {
+  fill: #ffdba2;
+}
+
+.moonHalo {
+  fill: #fff2cf;
+}
+
+.moonAura {
+  fill: #dbe5dc;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+.nightStars {
+  fill: #fff0c4;
+  stroke: #fff0c4;
+  stroke-width: 2;
+  opacity: 0;
+  filter: drop-shadow(0 0 4px rgb(255 240 196 / 72%));
+  transition: opacity 1.5s ease;
+}
+
+.scene[data-phase="dawn"] .sunHalo,
+.scene[data-phase="dusk"] .sunHalo {
+  opacity: 0.5;
+}
+
+.scene[data-phase="night"] .moonHalo {
+  opacity: 0.85;
+}
+
+.scene[data-phase="night"] :is(.moonAura, .nightStars) {
+  opacity: 0.78;
+}
+
+.scene[data-phase="night"] .moonAura {
+  opacity: 0.2;
+}
+
+.waterGlow {
+  opacity: 0.72;
+  animation: waterDrift 7s ease-in-out infinite alternate;
+}
+
+.waterGlints {
+  fill: none;
+  stroke: var(--scene-water-light);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  opacity: 0.52;
+  animation: waterDrift 6s ease-in-out infinite alternate-reverse;
+}
+
+.paperFrame {
+  fill: #1b3b54;
+  filter: drop-shadow(0 0 7px rgb(11 30 48 / 48%));
+}
+
+.paperMat {
+  fill: #f4e8d0;
+  filter: drop-shadow(0 3px 4px var(--paper-shadow-deep));
+  transition: fill 900ms ease;
+}
+
+.scene[data-phase="night"] .paperMat {
+  fill: #aeb9bd;
+}
+
+.snowFar,
+.snowNear {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease;
+}
+
+.rainFar,
+.rainNear {
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.rainStreaks {
+  fill: none;
+  stroke: #67899b;
+  stroke-linecap: round;
+}
+
+.rainMarks {
+  transform: skewX(var(--rain-lean, 0deg));
+}
+
+.rainFar {
+  stroke-width: 1.5;
+}
+
+.rainNear {
+  stroke-width: 2;
+}
+
+.scene[data-phase="night"] .rainStreaks {
+  stroke: #b5ced9;
+}
+
+.scene[data-weather="rain"] .rainFar {
+  opacity: var(--rain-opacity, 0);
+  animation: rainFall 3.8s linear infinite;
+}
+
+.scene[data-weather="rain"] .rainNear {
+  opacity: var(--rain-opacity, 0);
+  animation: rainFall 2.8s linear infinite;
+}
+
+.rainRipples {
+  fill: none;
+  stroke: #e3f1e9;
+  stroke-linecap: round;
+  stroke-width: 2.5;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.scene[data-weather="rain"] .rainRipples {
+  opacity: 0.72;
+  animation: ripplePulse 2.3s ease-in-out infinite alternate;
+}
+
+.snowFar {
+  fill: #f0f4ec;
+}
+
+.snowNear {
+  fill: #fff6e9;
+}
+
+.scene[data-weather="snow"] .snowFar {
+  opacity: 0.65;
+  animation: snowFall 13s linear infinite;
+}
+
+.scene[data-weather="snow"] .snowNear {
+  opacity: 0.92;
+  animation: snowFall 8.5s linear infinite;
+}
+
+.snowSway {
+  animation: snowSway 4.7s ease-in-out infinite alternate;
+}
+
+.snowNear .snowSway {
+  animation-duration: 3.9s;
+}
+
+/* Motion passes: a full-scene HTML layer, and switches for built-in effects a pass replaces. */
+
+.screenSlot {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.scene[data-fx-replaces~="clouds"] :is(.weatherCloudBack, .weatherCloudFront),
+.scene[data-fx-replaces~="rain"] :is(.rainFar, .rainNear, .rainRipples),
+.scene[data-fx-replaces~="snow"] :is(.snowFar, .snowNear),
+.scene[data-fx-replaces~="sun"] .sunHalo,
+.scene[data-fx-replaces~="moon"] :is(.moonHalo, .moonAura),
+.scene[data-fx-replaces~="stars"] .nightStars,
+.scene[data-fx-replaces~="water"] :is(.waterGlints, .waterGlow, .waterMarks) {
+  display: none;
+}
+
+.sceneStamp {
+  position: absolute;
+  z-index: 4;
+  right: 0.8rem;
+  bottom: 0.7rem;
+  padding: 0.25rem 0.45rem;
+  font-size: clamp(0.48rem, 0.7vw, 0.65rem);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #173c75;
+  background: #fff5df;
+  box-shadow: 3px 3px 0 rgb(13 30 59 / 22%);
+}
+
+@keyframes cloudDrift {
+  to {
+    translate: var(--cloud-travel, 22px) 0;
+  }
+}
+
+@keyframes waterDrift {
+  to {
+    translate: 20px 0;
+    opacity: 0.5;
+  }
+}
+
+@keyframes rainFall {
+  to {
+    translate: 0 256px;
+  }
+}
+
+@keyframes ripplePulse {
+  to {
+    opacity: 0.3;
+    translate: 0 3px;
+  }
+}
+
+@keyframes snowFall {
+  to {
+    translate: 0 256px;
+  }
+}
+
+@keyframes snowSway {
+  from {
+    translate: calc(var(--snow-drift, 0px) - 7px) 0;
+  }
+  to {
+    translate: calc(var(--snow-drift, 0px) + 7px) 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skyPlane,
+  .cityPlane,
+  .leftBuildingPlane,
+  .rightBuildingPlane,
+  .centerBuildingPlane,
+  .towerPlane,
+  .treesPlane,
+  .shorePlane,
+  .waterPlane,
+  .scene *,
+  .scene {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .depthLab {
+    right: 1rem;
+    bottom: 0.8rem;
+  }
+
+  .depthLab .depthLabToggle {
+    min-width: 0;
+    gap: 0.45rem;
+    padding: 0.55rem 0.6rem;
+    font-size: 0.67rem;
+  }
+
+  .depthLabPanel {
+    max-height: 67svh;
+  }
+
+  .sceneStamp {
+    display: none;
+  }
+}

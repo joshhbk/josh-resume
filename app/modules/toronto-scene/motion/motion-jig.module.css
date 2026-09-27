@@ -1,0 +1,147 @@
+.jig {
+  position: fixed;
+  z-index: 31;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  display: grid;
+  justify-items: start;
+  gap: 0.5rem;
+  max-width: calc(100vw - 2.5rem);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color: #fff1d5;
+}
+
+.jig button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: 0;
+}
+
+.jig button:focus-visible {
+  outline: 2px solid #ffdd57;
+  outline-offset: 2px;
+}
+
+.jig .toggle {
+  display: grid;
+  gap: 0.15rem;
+  min-height: 2.75rem;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: left;
+  background: rgb(14 22 33 / 94%);
+  border: 1px solid rgb(255 241 213 / 28%);
+  box-shadow: 0 0.75rem 2rem rgb(3 10 22 / 45%);
+}
+
+.toggleState {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: #ffdd57;
+}
+
+.panel {
+  display: grid;
+  gap: 0.75rem;
+  width: min(34rem, calc(100vw - 2.5rem));
+  max-height: calc(100svh - 6rem);
+  padding: 0.75rem;
+  overflow: auto;
+  background: rgb(14 22 33 / 96%);
+  border: 1px solid rgb(255 241 213 / 28%);
+  box-shadow: 0 1.25rem 3rem rgb(3 10 22 / 50%);
+}
+
+.picker {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.picker legend {
+  margin-bottom: 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(255 241 213 / 70%);
+}
+
+.passList {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: rgb(255 241 213 / 14%);
+}
+
+.jig .pass {
+  display: grid;
+  grid-template-columns: 1.25rem 1fr;
+  gap: 0.1rem 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  text-align: left;
+  background: rgb(14 22 33);
+}
+
+.jig .pass:hover {
+  background: rgb(28 42 60);
+}
+
+.pass[aria-pressed="true"] {
+  box-shadow: inset 3px 0 0 #ffdd57;
+}
+
+.pass[aria-busy="true"] .passName::after {
+  content: " …";
+}
+
+.passKey {
+  grid-row: span 2;
+  font-size: 0.68rem;
+  color: #ffdd57;
+}
+
+.passName {
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.passPitch {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: rgb(255 241 213 / 70%);
+}
+
+.previews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.previewRow {
+  display: flex;
+  gap: 1px;
+  background: rgb(255 241 213 / 14%);
+}
+
+.jig .preview {
+  min-height: 2rem;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.7rem;
+  background: rgb(14 22 33);
+}
+
+.jig .preview:hover {
+  background: rgb(28 42 60);
+}
+
+.jig .preview[aria-pressed="true"] {
+  color: #0e1621;
+  background: #ffdd57;
+}

@@ -1,0 +1,262 @@
+/*
+ * Scroll time-lapse. The engine writes --tl-* custom properties on the scene root; these rules
+ * turn them into a visual scrub of the day on top of the real phase (the phase itself is unchanged).
+ * `.root.root.root` beats the scene's phase rules, which reach about (0,3,0).
+ */
+
+.root {
+  --tl-night: 0;
+  --tl-warm: 0;
+  --tl-bright: 1;
+  --tl-wash-opacity: 0;
+  --tl-shadow-x: 2px;
+  --tl-shadow-y: 1;
+  --tl-sky-scale: 1;
+  --tl-land-scale: 1;
+  --tl-water-scale: 1;
+  --tl-cloud-x: 0px;
+  --tl-cloud-stretch: 1;
+  --tl-night-pct: calc(var(--tl-night) * 100%);
+}
+
+/* The light: golden-hour warmth and exposure over both artwork sheets. */
+.root.root.root :is([data-scene-sheet="base"], [data-scene-sheet="planes"]) {
+  filter: sepia(calc(var(--tl-warm) * 0.17)) saturate(calc(1 + var(--tl-warm) * 0.08))
+    hue-rotate(calc(var(--tl-warm) * -6deg)) brightness(var(--tl-bright));
+  transition: none;
+}
+
+/*
+ * Day and night artwork crossfade with the scrubbed hour. The day art stays fully opaque
+ * underneath and only the night art (drawn after it) fades in on top, so the cutouts never
+ * turn see-through mid-fade.
+ */
+.root.root.root [data-scene-sheet="planes"] image:first-of-type,
+.root.root.root [data-scene-layer="sky-art-day"] {
+  opacity: 1;
+  transition: none;
+}
+
+.root.root.root [data-scene-sheet="planes"] image:last-of-type,
+.root.root.root [data-scene-layer="sky-art-night"] {
+  opacity: var(--tl-night);
+  transition: none;
+}
+
+.root.root.root [data-scene-layer="sky-band-back"] {
+  fill: color-mix(in oklab, #e6d2b4, #1b2b49 var(--tl-night-pct));
+  transition: none;
+}
+
+.root.root.root [data-scene-layer="sky-band-middle"] {
+  fill: color-mix(in oklab, #f0e1c7, #263b59 var(--tl-night-pct));
+  transition: none;
+}
+
+.root.root.root [data-scene-layer="sky-band-front"] {
+  fill: color-mix(in oklab, #e9dcc4, #354b67 var(--tl-night-pct));
+  transition: none;
+}
+
+.root.root.root [data-scene-layer="clouds-back"] {
+  fill: color-mix(in oklab, #d7c4a8, #47617c var(--tl-night-pct));
+}
+
+.root.root.root [data-scene-layer="clouds-front"] {
+  fill: color-mix(in oklab, #c2ac93, #314d6b var(--tl-night-pct));
+}
+
+.root.root.root [data-scene-layer="trees"] {
+  fill: color-mix(in oklab, #24465a, #112a42 var(--tl-night-pct));
+}
+
+.root.root.root [data-scene-layer="shore"] {
+  fill: color-mix(in oklab, #d3b38a, #687287 var(--tl-night-pct));
+}
+
+.root.root.root [data-scene-layer="water"] {
+  fill: color-mix(in oklab, #84b3c1, #254767 var(--tl-night-pct));
+}
+
+.root.root.root [data-scene-layer="mat"] {
+  fill: color-mix(in oklab, #f4e8d0, #aeb9bd var(--tl-night-pct));
+  transition: none;
+}
+
+.root.root.root [data-scene-layer="sky-wash"] {
+  opacity: var(--tl-wash-opacity);
+  transition: none;
+}
+
+/* The sun and moon ride their arcs; the stars wheel around a pole above the tower. */
+.root.root.root [data-scene-layer="sun"] {
+  fill: color-mix(in oklab, #ffe09a, #ff8a52 var(--tl-sun-low, 0%));
+  opacity: var(--tl-sun-opacity, 0);
+  translate: var(--tl-sun-x, 0px) var(--tl-sun-y, 0px);
+  transition: none;
+}
+
+.root.root.root :is([data-scene-layer="moon"], [data-scene-layer="moon-aura"]) {
+  translate: var(--tl-moon-x, 0px) var(--tl-moon-y, 0px);
+  transition: none;
+}
+
+.root.root.root [data-scene-layer="moon"] {
+  opacity: var(--tl-moon-opacity, 0);
+}
+
+.root.root.root [data-scene-layer="moon-aura"] {
+  opacity: calc(var(--tl-moon-opacity, 0) * 0.24);
+}
+
+.root.root.root [data-scene-layer="stars"],
+.starTrails {
+  transform-box: view-box;
+  transform-origin: 780px -260px;
+  rotate: var(--tl-star-turn, 0deg);
+}
+
+.root.root.root [data-scene-layer="stars"] {
+  opacity: var(--tl-star-opacity, 0);
+  transition: none;
+}
+
+/* Clouds race and smear sideways as the clock runs. */
+.root.root [data-scene-layer^="clouds-"] {
+  transform-box: view-box;
+  transform-origin: 768px 300px;
+  transform: translateX(var(--tl-cloud-x)) scaleX(var(--tl-cloud-stretch));
+}
+
+/* Hitchcock dolly: the sky pushes in while the city and water pull back, about the tower. */
+.root.root [data-scene-layer="sky"],
+.root.root [data-scene-layer="land"],
+.root.root [data-scene-layer="water"] {
+  transform-box: view-box;
+  transform-origin: 787px 610px;
+}
+
+.root.root [data-scene-layer="sky"] {
+  scale: var(--tl-sky-scale);
+}
+
+.root.root [data-scene-layer="land"] {
+  scale: var(--tl-land-scale);
+}
+
+.root.root [data-scene-layer="water"] {
+  scale: var(--tl-water-scale);
+}
+
+/* Paper shadows swing away from the light. */
+.root.root [data-scene-layer^="buildings-"] {
+  filter: drop-shadow(0 var(--edge-offset, -1px) 0 var(--paper-edge-soft))
+    drop-shadow(
+      var(--tl-shadow-x) calc(var(--building-shadow-y, 13px) * var(--tl-shadow-y))
+        var(--building-shadow-blur, 7px) var(--paper-shadow)
+    );
+}
+
+.root.root [data-scene-layer="tower"] {
+  filter: drop-shadow(-1px var(--edge-offset, -1px) 0 var(--paper-edge-soft))
+    drop-shadow(
+      var(--tl-shadow-x) calc(var(--tower-shadow-y, 11px) * var(--tl-shadow-y))
+        var(--tower-shadow-blur, 5px) var(--paper-shadow)
+    );
+}
+
+.root.root [data-scene-layer="trees"] {
+  filter: drop-shadow(
+    var(--tl-shadow-x) calc(var(--trees-shadow-y, 17px) * var(--tl-shadow-y))
+      var(--trees-shadow-blur, 9px) var(--paper-shadow-deep)
+  );
+}
+
+/* Sky-slot artwork: long cast shadows on the back sheet and long-exposure trails. */
+.casts {
+  fill: var(--paper-shadow-deep);
+}
+
+.cast {
+  opacity: 0.11;
+}
+
+.sunTrail,
+.moonTrail {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sunTrail {
+  stroke: #ffd98c;
+  stroke-width: 58;
+}
+
+.moonTrail {
+  stroke: #eef3e6;
+  stroke-width: 22;
+}
+
+.starTrails {
+  fill: none;
+  stroke: #fff0c4;
+  stroke-linecap: round;
+  stroke-width: 2.2;
+}
+
+/* The camera's timecode tag, beside the scene stamp. */
+.timecode {
+  position: absolute;
+  right: 0.8rem;
+  bottom: 2.35rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5em;
+  padding: 0.28rem 0.5rem;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: clamp(0.5rem, 0.72vw, 0.66rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  color: #173c75;
+  text-transform: uppercase;
+  background: #fff5df;
+  box-shadow: 0 2px 5px rgb(13 30 59 / 22%);
+}
+
+.timecodeDot {
+  align-self: center;
+  width: 0.5em;
+  height: 0.5em;
+  background: #c8412f;
+  border-radius: 50%;
+  opacity: 0.25;
+}
+
+.timecode[data-state="running"] .timecodeDot {
+  opacity: 1;
+}
+
+.timecode[data-state="live"] .timecodeDot {
+  background: #2f7a55;
+  opacity: 1;
+}
+
+.timecodeRate {
+  min-width: 4.5ch;
+  color: #8a5a3c;
+}
+
+@media (max-width: 500px) {
+  .timecode {
+    bottom: 0.7rem;
+    font-size: 0.55rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timecodeDot {
+    opacity: 1 !important;
+  }
+}
