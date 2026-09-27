@@ -1,33 +1,26 @@
 import { useRef, type CSSProperties, type ReactNode } from "react";
 
-import type { PassProps, ScenePass } from "./motion/motion-types";
+import type { PassProps } from "./motion/motion-types";
 import { useSceneMotion, type ActivePass } from "./motion/scene-motion-provider";
 import { clamp, useScene } from "./scene-provider";
 import styles from "./toronto-scene.module.css";
 import { TorontoSkylineArt } from "./toronto-skyline-art";
 import { useReducedMotion } from "./use-reduced-motion";
 
-type Slot = "Driver" | "Sky" | "Mid" | "Front" | "Screen";
+type Slot = "Driver" | "Sky" | "Front" | "Screen";
 
-/** Renders one slot of every active pass, backdrop first, keyed so a pass swap remounts it. */
+/** Renders one slot of the active backdrop pass, keyed so a pass swap remounts it. */
 function PassSlot({
   slot,
-  passes,
+  active: { id, pass },
   props,
 }: {
   slot: Slot;
-  passes: readonly ActivePass[];
+  active: ActivePass;
   props: PassProps;
 }): ReactNode {
-  return passes.map(({ id, pass }, index) => {
-    const Part = pass[slot];
-    return Part ? <Part {...props} key={`${index}-${id}`} /> : null;
-  });
-}
-
-function replacedEffects(passes: readonly ScenePass[]): string | undefined {
-  const replaced = new Set(passes.flatMap((pass) => pass.replaces ?? []));
-  return replaced.size > 0 ? [...replaced].join(" ") : undefined;
+  const Part = pass[slot];
+  return Part ? <Part {...props} key={id} /> : null;
 }
 
 export function TorontoScene() {
@@ -35,7 +28,7 @@ export function TorontoScene() {
     state: { phase: visiblePhase, weather: visibleWeather, weatherMode, conditions, depth },
   } = useScene();
   const {
-    state: { backdrop, weather },
+    state: { backdrop },
   } = useSceneMotion();
   const reducedMotion = useReducedMotion();
   const sceneRef = useRef<HTMLDivElement>(null);
@@ -85,38 +78,20 @@ export function TorontoScene() {
     "--edge-offset-strong": `${-2 * depth.edge}px`,
   } as CSSProperties;
 
-  const passes = [backdrop, weather] as const;
-  const passProps: PassProps = {
-    sceneRef,
-    phase: visiblePhase,
-    weather: visibleWeather,
-    weatherMode,
-    conditions,
-    intensity: {
-      cloud: clamp(cloudCover / 100, 0, 1),
-      rain: rainStrength,
-      wind: windX / 65,
-    },
-    depth,
-    reducedMotion,
-  };
-  const slot = (name: Slot) => <PassSlot slot={name} passes={passes} props={passProps} />;
+  const passProps: PassProps = { sceneRef, phase: visiblePhase, depth, reducedMotion };
+  const slot = (name: Slot) => <PassSlot slot={name} active={backdrop} props={passProps} />;
 
   return (
     <div
       ref={sceneRef}
-      className={[styles.scene, backdrop.pass.className, weather.pass.className]
-        .filter(Boolean)
-        .join(" ")}
+      className={[styles.scene, backdrop.pass.className].filter(Boolean).join(" ")}
       data-phase={visiblePhase}
       data-weather={visibleWeather}
       data-backdrop-motion={backdrop.id}
-      data-weather-fx={weather.id}
-      data-fx-replaces={replacedEffects([backdrop.pass, weather.pass])}
       style={sceneStyle}
     >
       {slot("Driver")}
-      <TorontoSkylineArt sky={slot("Sky")} mid={slot("Mid")} front={slot("Front")} />
+      <TorontoSkylineArt sky={slot("Sky")} front={slot("Front")} />
       <div className={styles.screenSlot} aria-hidden="true">
         {slot("Screen")}
       </div>

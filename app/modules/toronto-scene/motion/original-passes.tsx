@@ -64,6 +64,3 @@ function CursorParallax({ sceneRef, depth }: PassProps) {
 
 /** The shipped backdrop motion: cursor parallax across three paper sheets. */
 export const originalBackdrop: ScenePass = { Driver: CursorParallax };
-
-/** The shipped weather: the built-in clouds, rain, snow and water effects, unchanged. */
-export const originalWeather: ScenePass = {};

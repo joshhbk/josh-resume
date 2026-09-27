@@ -669,7 +669,7 @@
   animation-duration: 3.9s;
 }
 
-/* Motion passes: a full-scene HTML layer, and switches for built-in effects a pass replaces. */
+/* Motion passes: a full-scene HTML layer. */
 
 .screenSlot {
   position: absolute;
@@ -677,16 +677,6 @@
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-}
-
-.scene[data-fx-replaces~="clouds"] :is(.weatherCloudBack, .weatherCloudFront),
-.scene[data-fx-replaces~="rain"] :is(.rainFar, .rainNear, .rainRipples),
-.scene[data-fx-replaces~="snow"] :is(.snowFar, .snowNear),
-.scene[data-fx-replaces~="sun"] .sunHalo,
-.scene[data-fx-replaces~="moon"] :is(.moonHalo, .moonAura),
-.scene[data-fx-replaces~="stars"] .nightStars,
-.scene[data-fx-replaces~="water"] :is(.waterGlints, .waterGlow, .waterMarks) {
-  display: none;
 }
 
 .sceneStamp {

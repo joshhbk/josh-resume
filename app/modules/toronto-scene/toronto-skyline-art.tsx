@@ -73,18 +73,10 @@ function SnowField({ count, seed, near = false }: { count: number; seed: number;
 }
 
 /**
- * The layered paper artwork. `sky`, `mid` and `front` are motion-pass layers drawn in the
- * artwork's 1536×1024 space: behind the city, between the buildings and trees, and in front.
+ * The layered paper artwork. `sky` and `front` are motion-pass layers drawn in the artwork's
+ * 1536×1024 space: behind the city and in front of it.
  */
-export function TorontoSkylineArt({
-  sky,
-  mid,
-  front,
-}: {
-  sky?: ReactNode;
-  mid?: ReactNode;
-  front?: ReactNode;
-}) {
+export function TorontoSkylineArt({ sky, front }: { sky?: ReactNode; front?: ReactNode }) {
   return (
     <>
       <svg
@@ -237,7 +229,6 @@ export function TorontoSkylineArt({
               <path className={styles.centerRoofEdge} d="M749 589h121v8H749Z" />
             </g>
           </g>
-          <g data-scene-slot="mid">{mid}</g>
           <g className={`${styles.rainNear} ${styles.rainStreaks}`} data-scene-layer="rain-near">
             <RainField count={14} seed={5} />
           </g>
