@@ -1,4 +1,4 @@
-/* Toronto paper scene: backdrop, artwork, weather and the development depth lab. */
+/* Toronto paper scene: backdrop, artwork and weather. */
 
 .sceneBackdrop {
   position: fixed;
@@ -8,157 +8,6 @@
   overflow: hidden;
   font-family: "IBM Plex Sans", sans-serif;
   pointer-events: none;
-}
-
-.depthLab {
-  position: fixed;
-  z-index: 20;
-  right: clamp(1.25rem, 5vw, 5rem);
-  bottom: 1.25rem;
-  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
-  color: #fff1d5;
-}
-
-.depthLab button {
-  font: inherit;
-  cursor: pointer;
-}
-
-.depthLab button:focus-visible,
-.depthLab input:focus-visible {
-  outline: 2px solid #fff1d5;
-  outline-offset: 3px;
-}
-
-.depthLab .depthLabToggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  min-width: 9rem;
-  margin-left: auto;
-  padding: 0.72rem 0.85rem;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #fff1d5;
-  background: #172d3a;
-  border: 1px solid #d9a66d;
-  box-shadow: 0.25rem 0.3rem 0 rgb(14 35 51 / 28%);
-}
-
-.depthLabToggle span {
-  font-size: 1.1rem;
-  line-height: 0.7;
-}
-
-.depthLabPanel {
-  width: min(20rem, calc(100vw - 2.5rem));
-  max-height: min(72svh, 39rem);
-  margin-bottom: 0.65rem;
-  padding: 1rem;
-  overflow-y: auto;
-  background: #172d3a;
-  border: 1px solid #d9a66d;
-  box-shadow: 0.65rem 0.8rem 1.4rem rgb(9 24 38 / 34%);
-}
-
-.depthLabHeader {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.depthLabKicker {
-  margin: 0 0 0.3rem;
-  font-size: 0.61rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: #e7b987;
-  text-transform: uppercase;
-}
-
-.depthLabHeader h2 {
-  margin: 0;
-  font-size: 1.1rem;
-  line-height: 1.1;
-}
-
-.depthLabHeader button {
-  padding: 0 0.25rem;
-  font-size: 1.5rem;
-  line-height: 1;
-  color: #fff1d5;
-  background: none;
-  border: 0;
-}
-
-.depthLabIntro {
-  margin: 0.8rem 0 1.1rem;
-  font-size: 0.68rem;
-  line-height: 1.5;
-  color: #d5d8d2;
-}
-
-.depthLabControls {
-  display: grid;
-  gap: 0.9rem;
-}
-
-.depthLabControl {
-  display: grid;
-  gap: 0.28rem;
-  font-size: 0.72rem;
-}
-
-.depthLabControlHeading {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.5rem;
-  font-weight: 700;
-}
-
-.depthLabControl output {
-  color: #f0bb82;
-}
-
-.depthLabDetail {
-  font-size: 0.62rem;
-  color: #b9c6c8;
-}
-
-.depthLabControl input {
-  width: 100%;
-  margin: 0.3rem 0 0;
-  accent-color: #e5ad76;
-  cursor: pointer;
-}
-
-.depthLabActions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-  margin-top: 1.2rem;
-}
-
-.depthLabActions button {
-  min-height: 2rem;
-  padding: 0.4rem 0.5rem;
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: #203546;
-  background: #f2e7d1;
-  border: 0;
-}
-
-.depthLabActions button:last-child {
-  background: #e5ad76;
-}
-
-@media (min-width: 1100px) {
-  .depthLab {
-    right: 17.5rem;
-  }
 }
 
 .scene {
@@ -752,22 +601,6 @@
 }
 
 @media (max-width: 500px) {
-  .depthLab {
-    right: 1rem;
-    bottom: 0.8rem;
-  }
-
-  .depthLab .depthLabToggle {
-    min-width: 0;
-    gap: 0.45rem;
-    padding: 0.55rem 0.6rem;
-    font-size: 0.67rem;
-  }
-
-  .depthLabPanel {
-    max-height: 67svh;
-  }
-
   .sceneStamp {
     display: none;
   }

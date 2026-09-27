@@ -48,7 +48,6 @@ describe("portfolio page", () => {
 
   it("has no automated accessibility violations", async () => {
     const { container } = render(<PortfolioPage content={getPortfolio()} />);
-    fireEvent.click(screen.getByRole("button", { name: /Depth lab/ }));
     const results = await axe.run(container, {
       rules: {
         "color-contrast": { enabled: false },
@@ -66,9 +65,9 @@ describe("portfolio page", () => {
 
     fireEvent.pointerMove(window, { clientX: window.innerWidth, clientY: window.innerHeight });
 
-    expect(scene.style.getPropertyValue("--sky-x")).toBe("2px");
-    expect(scene.style.getPropertyValue("--land-x")).toBe("8px");
-    expect(scene.style.getPropertyValue("--water-x")).toBe("17px");
+    expect(scene.style.getPropertyValue("--sky-x")).toBe("5px");
+    expect(scene.style.getPropertyValue("--land-x")).toBe("24px");
+    expect(scene.style.getPropertyValue("--water-x")).toBe("50px");
 
     fireEvent.blur(window);
     expect(scene.style.getPropertyValue("--sky-x")).toBe("");
@@ -107,34 +106,14 @@ describe("portfolio page", () => {
     expect(screen.getByRole("button", { name: "Live" })).toHaveAttribute("aria-pressed", "true");
   });
 
-  it("tunes and resets the skyline depth controls", () => {
+  it("sets the paper sheets' depth at three times the base amounts", () => {
     const { container } = render(<PortfolioPage content={getPortfolio()} />);
     const scene = container.querySelector<HTMLElement>("[data-phase][data-weather]");
-    expect(scene).not.toBeNull();
 
-    fireEvent.click(screen.getByRole("button", { name: /Depth lab/ }));
-    fireEvent.change(screen.getByRole("slider", { name: "Layer spacing" }), {
-      target: { value: "2" },
-    });
-    expect(scene?.style.getPropertyValue("--water-lift")).toBe("10px");
-
-    fireEvent.change(screen.getByRole("slider", { name: "Shadow reach" }), {
-      target: { value: "2" },
-    });
-    expect(scene?.style.getPropertyValue("--building-shadow-y")).toBe("26px");
-
-    fireEvent.change(screen.getByRole("slider", { name: "Cursor parallax" }), {
-      target: { value: "2" },
-    });
-    fireEvent.pointerMove(window, { clientX: window.innerWidth, clientY: window.innerHeight });
-    expect(scene?.style.getPropertyValue("--water-x")).toBe("33px");
-
-    fireEvent.click(screen.getByRole("button", { name: "Save settings" }));
-    expect(screen.getByRole("button", { name: "Saved" })).toBeVisible();
-    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
-    expect(scene?.style.getPropertyValue("--water-lift")).toBe("0px");
-    expect(scene?.style.getPropertyValue("--building-shadow-y")).toBe("13px");
-    expect(screen.getByRole("slider", { name: "Cursor parallax" })).toHaveValue("1");
+    expect(scene?.style.getPropertyValue("--water-lift")).toBe("20px");
+    expect(scene?.style.getPropertyValue("--land-lift")).toBe("-6px");
+    expect(scene?.style.getPropertyValue("--building-shadow-y")).toBe("39px");
+    expect(scene?.style.getPropertyValue("--edge-offset")).toBe("-3px");
   });
 
   it("previews clouds and rain independently of the lighting", () => {

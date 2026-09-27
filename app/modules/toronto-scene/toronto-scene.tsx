@@ -2,7 +2,7 @@ import { useRef, type CSSProperties, type ReactNode } from "react";
 
 import type { PassProps } from "./motion/motion-types";
 import { useSceneMotion, type ActivePass } from "./motion/scene-motion-provider";
-import { clamp, useScene } from "./scene-provider";
+import { clamp, sceneDepth as depth, useScene } from "./scene-provider";
 import styles from "./toronto-scene.module.css";
 import { TorontoSkylineArt } from "./toronto-skyline-art";
 import { useReducedMotion } from "./use-reduced-motion";
@@ -25,7 +25,7 @@ function PassSlot({
 
 export function TorontoScene() {
   const {
-    state: { phase: visiblePhase, weather: visibleWeather, weatherMode, conditions, depth },
+    state: { phase: visiblePhase, weather: visibleWeather, weatherMode, conditions },
   } = useScene();
   const {
     state: { backdrop },

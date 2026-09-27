@@ -21,11 +21,12 @@ export type Conditions = {
   temperature: number | null;
 };
 
-export const defaultDepthSettings: DepthSettings = {
-  parallax: 1,
-  separation: 1,
-  shadow: 1,
-  edge: 1,
+/** How far the paper sheets move, separate, cast shadows and show their cut edges. */
+export const sceneDepth: DepthSettings = {
+  parallax: 3,
+  separation: 3,
+  shadow: 3,
+  edge: 3,
 };
 
 const clearConditions: Conditions = {
@@ -145,12 +146,10 @@ export type SceneContextValue = {
     weather: Weather;
     /** Live Toronto conditions, independent of any preview. */
     conditions: Conditions;
-    depth: DepthSettings;
   };
   actions: {
     setMode: (mode: SceneMode) => void;
     setWeatherMode: (mode: WeatherMode) => void;
-    setDepth: (depth: DepthSettings) => void;
   };
 };
 
@@ -159,7 +158,6 @@ const SceneContext = createContext<SceneContextValue | null>(null);
 export function SceneProvider({ children }: { children: ReactNode }) {
   const [mode, setMode] = useState<SceneMode>("live");
   const [weatherMode, setWeatherMode] = useState<WeatherMode>("live");
-  const [depth, setDepth] = useState(defaultDepthSettings);
   const livePhase = useTorontoPhase();
   const conditions = useTorontoConditions();
 
@@ -170,9 +168,8 @@ export function SceneProvider({ children }: { children: ReactNode }) {
       phase: mode === "live" ? livePhase : mode,
       weather: weatherMode === "live" ? conditions.weather : weatherMode,
       conditions,
-      depth,
     },
-    actions: { setMode, setWeatherMode, setDepth },
+    actions: { setMode, setWeatherMode },
   };
 
   return <SceneContext value={value}>{children}</SceneContext>;

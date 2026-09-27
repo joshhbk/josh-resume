@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 
 import type { Portfolio } from "../portfolio-content/model";
 import { PinnedSky } from "../pinned-sky/pinned-sky";
-import { DepthLab } from "../toronto-scene/depth-lab";
 import { MotionJig } from "../toronto-scene/motion/motion-jig";
 import { SceneMotionProvider, useSceneMotion } from "../toronto-scene/motion/scene-motion-provider";
 import { SceneBackdrop } from "../toronto-scene/scene-backdrop";
@@ -31,7 +30,6 @@ export function PortfolioPage({ content }: { content: Portfolio }) {
             Skip to content
           </a>
           <SceneBackdrop />
-          {import.meta.env.DEV && <DepthLab />}
           {import.meta.env.DEV && <MotionJig />}
           <LayoutStage>
             <PinnedSky content={content} />
