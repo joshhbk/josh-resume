@@ -1,5 +1,31 @@
 import styles from "./portfolio-page.module.css";
 
+const skylineArtwork = {
+  day: "/images/toronto-paper-skyline.webp",
+  night: "/images/toronto-paper-skyline-night.webp",
+  width: 1536,
+  height: 1024,
+} as const;
+
+function SkylineImages({ dayClassName }: { dayClassName: string | undefined }) {
+  return (
+    <>
+      <image
+        className={dayClassName}
+        href={skylineArtwork.day}
+        width={skylineArtwork.width}
+        height={skylineArtwork.height}
+      />
+      <image
+        className={styles.nightArt}
+        href={skylineArtwork.night}
+        width={skylineArtwork.width}
+        height={skylineArtwork.height}
+      />
+    </>
+  );
+}
+
 function RainStreaks({ count, seed }: { count: number; seed: number }) {
   return Array.from({ length: count }, (_, index) => {
     const x = (index * 467 + seed * 83) % 1536;
@@ -152,36 +178,14 @@ export function TorontoSkylineArt() {
               data-building-cutout="left"
               clipPath="url(#toronto-left-buildings-cut)"
             >
-              <image
-                className={styles.buildingArt}
-                href="/images/toronto-paper-skyline.webp"
-                width="1536"
-                height="1024"
-              />
-              <image
-                className={styles.nightArt}
-                href="/images/toronto-paper-skyline-night.webp"
-                width="1536"
-                height="1024"
-              />
+              <SkylineImages dayClassName={styles.buildingArt} />
             </g>
             <g
               className={styles.rightBuildingPlane}
               data-building-cutout="right"
               clipPath="url(#toronto-right-buildings-cut)"
             >
-              <image
-                className={styles.buildingArt}
-                href="/images/toronto-paper-skyline.webp"
-                width="1536"
-                height="1024"
-              />
-              <image
-                className={styles.nightArt}
-                href="/images/toronto-paper-skyline-night.webp"
-                width="1536"
-                height="1024"
-              />
+              <SkylineImages dayClassName={styles.buildingArt} />
             </g>
             <g
               className={styles.towerPlane}
@@ -189,18 +193,7 @@ export function TorontoSkylineArt() {
               clipPath="url(#toronto-tower-above-roofs)"
             >
               <g clipPath="url(#toronto-tower-cut)">
-                <image
-                  className={styles.towerArt}
-                  href="/images/toronto-paper-skyline.webp"
-                  width="1536"
-                  height="1024"
-                />
-                <image
-                  className={styles.nightArt}
-                  href="/images/toronto-paper-skyline-night.webp"
-                  width="1536"
-                  height="1024"
-                />
+                <SkylineImages dayClassName={styles.towerArt} />
               </g>
             </g>
             <g
@@ -208,18 +201,7 @@ export function TorontoSkylineArt() {
               data-building-cutout="center"
               clipPath="url(#toronto-center-buildings-cut)"
             >
-              <image
-                className={styles.buildingArt}
-                href="/images/toronto-paper-skyline.webp"
-                width="1536"
-                height="1024"
-              />
-              <image
-                className={styles.nightArt}
-                href="/images/toronto-paper-skyline-night.webp"
-                width="1536"
-                height="1024"
-              />
+              <SkylineImages dayClassName={styles.buildingArt} />
               <path className={styles.centerRoofEdge} d="M749 589h121v8H749Z" />
             </g>
           </g>
@@ -229,18 +211,7 @@ export function TorontoSkylineArt() {
           <g className={styles.treesPlane} data-scene-layer="trees">
             <path d="M0 797q24-34 51-12 24-39 55-9 25-40 62-6 29-40 62-7 31-40 63-8 34-37 67-5 27-37 63-4 33-35 67-3 33-39 67-3 30-37 64 0 31-35 66-2 31-37 64-1 33-39 68-2 31-35 66 0 34-37 67 0 32-36 65-1 31-37 66-1 31-35 66 1 31-36 64 1 32-32 64 3 32-35 65 4 34-34 68 5 33-34 67 5v198H0Z" />
             <g clipPath="url(#toronto-trees-cut)">
-              <image
-                className={styles.dayArt}
-                href="/images/toronto-paper-skyline.webp"
-                width="1536"
-                height="1024"
-              />
-              <image
-                className={styles.nightArt}
-                href="/images/toronto-paper-skyline-night.webp"
-                width="1536"
-                height="1024"
-              />
+              <SkylineImages dayClassName={styles.dayArt} />
             </g>
             <path
               className={styles.treeHighlights}
@@ -250,18 +221,7 @@ export function TorontoSkylineArt() {
           <g className={styles.shorePlane} data-scene-layer="shore">
             <path d="M0 910q92-9 181 3 96-12 190 2 119-14 231 1 129-12 243 0 105-13 212-2 113-12 227 2 128-11 252 0v36H0Z" />
             <g clipPath="url(#toronto-shore-cut)">
-              <image
-                className={styles.dayArt}
-                href="/images/toronto-paper-skyline.webp"
-                width="1536"
-                height="1024"
-              />
-              <image
-                className={styles.nightArt}
-                href="/images/toronto-paper-skyline-night.webp"
-                width="1536"
-                height="1024"
-              />
+              <SkylineImages dayClassName={styles.dayArt} />
             </g>
             <path
               className={styles.shoreLine}
@@ -272,18 +232,7 @@ export function TorontoSkylineArt() {
         <g className={styles.waterPlane}>
           <path d="M0 941q111 4 221 0 112-4 225 1 108 4 215-1 121-5 238 0 111 5 218 0 118-5 229 1 95 5 190 0v82H0Z" />
           <g clipPath="url(#toronto-water-cut)">
-            <image
-              className={styles.dayArt}
-              href="/images/toronto-paper-skyline.webp"
-              width="1536"
-              height="1024"
-            />
-            <image
-              className={styles.nightArt}
-              href="/images/toronto-paper-skyline-night.webp"
-              width="1536"
-              height="1024"
-            />
+            <SkylineImages dayClassName={styles.dayArt} />
           </g>
           <path
             className={styles.waterMarks}
