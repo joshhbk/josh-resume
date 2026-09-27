@@ -3,6 +3,7 @@ export const rawPortfolio = {
     name: "Joshua Hughes",
     role: "Staff Front-End Engineer",
     location: "Toronto, Ontario",
+    summary: "More than 12 years building and improving software products.",
     profiles: [
       {
         platform: "github",

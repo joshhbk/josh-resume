@@ -1,0 +1,304 @@
+/* Pop-up book: the paper sheets become pages of a book that opens, tilts and turns. */
+
+.book {
+  --book-crease: #3b2a1c;
+  --book-crease-light: #fff8e6;
+  --book-shadow-x: 10px;
+  --book-shadow-y: 6px;
+  --book-shadow-opacity: 0.2;
+
+  perspective: 1500px;
+  perspective-origin: 50% 42%;
+}
+
+.book[data-phase="dawn"] {
+  /* Low sun from the left throws long shadows to the right. */
+  --book-shadow-x: 30px;
+  --book-shadow-y: 3px;
+  --book-shadow-opacity: 0.24;
+}
+
+.book[data-phase="dusk"] {
+  --book-shadow-x: -30px;
+  --book-shadow-y: 3px;
+  --book-shadow-opacity: 0.3;
+}
+
+.book[data-phase="night"] {
+  --book-crease: #02070f;
+  --book-crease-light: #9fb4cc;
+  --book-shadow-x: 7px;
+  --book-shadow-y: 10px;
+  --book-shadow-opacity: 0.34;
+}
+
+/* Every sheet hinges near the fold at the bottom of the spread. */
+.book [data-scene-sheet] {
+  transform-origin: 50% 88%;
+  backface-visibility: hidden;
+}
+
+/* Arrival: the sky page swings up from lying flat, then the cut-outs stand up one after another. */
+.book [data-scene-sheet="base"] {
+  animation: skyPageRise 1150ms cubic-bezier(0.22, 0.82, 0.3, 1.1) 80ms backwards;
+}
+
+.book :is([data-scene-layer="trees"], [data-scene-layer="buildings-left"]),
+.book :is([data-scene-layer="buildings-right"], [data-scene-layer="buildings-center"]),
+.book [data-popup-shadow] {
+  animation: cardRise 680ms backwards;
+}
+
+.book [data-scene-layer="trees"] {
+  transform-origin: 768px 935px;
+  animation-delay: 420ms;
+}
+
+.book :is([data-scene-layer="buildings-left"], [data-popup-shadow="buildings-left"]) {
+  transform-origin: 360px 852px;
+  animation-delay: 600ms;
+}
+
+.book :is([data-scene-layer="buildings-right"], [data-popup-shadow="buildings-right"]) {
+  transform-origin: 1200px 852px;
+  animation-delay: 740ms;
+}
+
+.book :is([data-scene-layer="buildings-center"], [data-popup-shadow="buildings-center"]) {
+  transform-origin: 810px 852px;
+  animation-delay: 880ms;
+}
+
+.book :is([data-scene-layer="tower"], [data-popup-shadow="tower"]) {
+  transform-origin: 784px 598px;
+  animation: towerRise 1150ms 1080ms backwards;
+}
+
+/* Shadows lag their cards a touch, so the shadow sweeps in as each card stands. */
+.book [data-popup-shadow] {
+  animation-name: shadowRise;
+}
+
+.book [data-popup-shadow="tower"] {
+  animation-name: shadowRise;
+  animation-duration: 900ms;
+  animation-delay: 1180ms;
+}
+
+.book :is([data-scene-layer="sun"], [data-scene-layer="moon"], [data-scene-layer="moon-aura"]) {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: discPop 760ms cubic-bezier(0.3, 1.6, 0.5, 1) 1650ms backwards;
+}
+
+.cardShadow {
+  fill: var(--paper-shadow-deep);
+  opacity: var(--book-shadow-opacity);
+  translate: var(--book-shadow-x) var(--book-shadow-y);
+  transition:
+    translate 1.3s cubic-bezier(0.3, 0.7, 0.2, 1),
+    opacity 1.3s ease;
+}
+
+.gutter {
+  pointer-events: none;
+}
+
+.spread {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  perspective: 1800px;
+  perspective-origin: 50% 42%;
+}
+
+.leaf {
+  position: absolute;
+  top: -2%;
+  bottom: -2%;
+  left: 50%;
+  width: 50%;
+  transform-origin: 0 50%;
+  transform-style: preserve-3d;
+  animation: leafTurn 1300ms cubic-bezier(0.5, 0.05, 0.3, 1) forwards;
+}
+
+.leafFront,
+.leafBack {
+  --leaf: rgb(246 236 214 / 86%);
+  --leaf-ink: #3c4c55;
+
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 0.6rem;
+  background:
+    linear-gradient(90deg, rgb(40 26 16 / 26%), rgb(40 26 16 / 0%) 16%),
+    linear-gradient(var(--leaf), var(--leaf)),
+    url("/images/toronto-paper-grain.svg") 0 0 / 192px 192px,
+    #d8cdb8;
+  backface-visibility: hidden;
+  box-shadow: 0 0 2.5rem rgb(20 20 30 / 22%);
+}
+
+.leafFront {
+  animation: leafFadeIn 1300ms linear forwards;
+}
+
+.leafBack {
+  transform: rotateY(180deg);
+  animation: leafFadeOut 1300ms linear forwards;
+}
+
+:is(.leafFront, .leafBack)[data-page="dawn"] {
+  --leaf: rgb(250 223 204 / 86%);
+  --leaf-ink: #8a4b3a;
+}
+
+:is(.leafFront, .leafBack)[data-page="dusk"] {
+  --leaf: rgb(228 176 152 / 86%);
+  --leaf-ink: #5a2f33;
+}
+
+:is(.leafFront, .leafBack)[data-page="night"] {
+  --leaf: rgb(34 54 86 / 88%);
+  --leaf-ink: #e7d9b0;
+}
+
+.folio {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: clamp(0.7rem, 1.1vw, 0.9rem);
+  font-style: italic;
+  color: var(--leaf-ink);
+  opacity: 0.7;
+}
+
+.chapter {
+  font-family: "Archivo Variable", "IBM Plex Sans", sans-serif;
+  font-size: clamp(1.4rem, 4vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.28em;
+  color: var(--leaf-ink);
+  text-transform: uppercase;
+  /* Optically centre the tracked word. */
+  margin-right: -0.28em;
+}
+
+@keyframes skyPageRise {
+  from {
+    rotate: x 86deg;
+  }
+  to {
+    rotate: x 0deg;
+  }
+}
+
+@keyframes cardRise {
+  0% {
+    scale: 1 0.02;
+    animation-timing-function: cubic-bezier(0.3, 0.6, 0.4, 1);
+  }
+  62% {
+    scale: 1 1.06;
+    animation-timing-function: ease-in-out;
+  }
+  82% {
+    scale: 1 0.98;
+  }
+  100% {
+    scale: 1 1;
+  }
+}
+
+@keyframes towerRise {
+  0% {
+    scale: 1 0.01;
+    rotate: -6deg;
+    animation-timing-function: cubic-bezier(0.25, 0.7, 0.4, 1);
+  }
+  52% {
+    scale: 1 1.14;
+    rotate: 3deg;
+    animation-timing-function: ease-in-out;
+  }
+  70% {
+    scale: 1 0.93;
+    rotate: -1.5deg;
+    animation-timing-function: ease-in-out;
+  }
+  85% {
+    scale: 1 1.03;
+    rotate: 0.6deg;
+  }
+  100% {
+    scale: 1 1;
+    rotate: 0deg;
+  }
+}
+
+@keyframes shadowRise {
+  0% {
+    scale: 1 0.02;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+  }
+  75% {
+    scale: 1 1.08;
+  }
+  100% {
+    scale: 1 1;
+  }
+}
+
+@keyframes discPop {
+  from {
+    scale: 0;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+@keyframes leafTurn {
+  from {
+    transform: rotateY(-3deg);
+  }
+  to {
+    transform: rotateY(-179deg);
+  }
+}
+
+@keyframes leafFadeIn {
+  from {
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+}
+
+@keyframes leafFadeOut {
+  80% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book [data-scene-sheet],
+  .book [data-scene-layer],
+  .book [data-popup-shadow] {
+    animation: none !important;
+  }
+
+  .spread {
+    display: none;
+  }
+}

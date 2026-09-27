@@ -1,4 +1,6 @@
-import styles from "./portfolio-page.module.css";
+import type { ReactNode } from "react";
+
+import styles from "./toronto-scene.module.css";
 
 const skylineArtwork = {
   day: "/images/toronto-paper-skyline.webp",
@@ -70,45 +72,61 @@ function SnowField({ count, seed, near = false }: { count: number; seed: number;
   );
 }
 
-export function TorontoSkylineArt() {
+/**
+ * The layered paper artwork. `sky` and `front` are motion-pass layers drawn in the artwork's
+ * 1536×1024 space: behind the city and in front of it.
+ */
+export function TorontoSkylineArt({ sky, front }: { sky?: ReactNode; front?: ReactNode }) {
   return (
     <>
       <svg
         className={styles.sceneBase}
+        data-scene-sheet="base"
         viewBox="0 0 1536 1024"
         preserveAspectRatio="xMidYMin slice"
         role="img"
         aria-label="Layered paper illustration of the Toronto waterfront skyline and CN Tower"
       >
-        <g className={styles.skyPlane}>
+        <g className={styles.skyPlane} data-scene-layer="sky">
           <path
             className={styles.skyBandBack}
+            data-scene-layer="sky-band-back"
             d="M0 0h1536v188q-121 19-233-10-115-28-247 9-139 39-252 6-122-35-249 11-118 42-252 13Q92 183 0 207Z"
           />
           <path
             className={styles.skyBandMiddle}
+            data-scene-layer="sky-band-middle"
             d="M0 178q121-26 231 9 114 38 233-4 131-48 246-5 112 42 213 4 148-46 279-2 152 48 334-4v176q-114-29-235 13-131 43-247 3-128-45-246 2-129 46-266 1-127-41-252 10Q120 416 0 386Z"
           />
           <path
             className={styles.skyBandFront}
+            data-scene-layer="sky-band-front"
             d="M0 352q105-39 225 2 130 49 250 5 132-47 247-10 145 51 265 6 130-48 252-2 143 51 297-5v224H0Z"
           />
           <image
             className={styles.daySkyArt}
+            data-scene-layer="sky-art-day"
             href="/images/toronto-paper-day-sky.webp"
             width="1536"
             height="1024"
           />
           <image
             className={styles.nightSkyArt}
+            data-scene-layer="sky-art-night"
             href="/images/toronto-paper-night-sky.webp"
             width="1536"
             height="1024"
           />
-          <circle className={styles.sunHalo} cx="1250" cy="240" r="83" />
-          <circle className={styles.moonAura} cx="965" cy="240" r="54" />
-          <circle className={styles.moonHalo} cx="965" cy="240" r="28" />
-          <g className={styles.nightStars}>
+          <circle className={styles.sunHalo} data-scene-layer="sun" cx="1250" cy="240" r="83" />
+          <circle
+            className={styles.moonAura}
+            data-scene-layer="moon-aura"
+            cx="965"
+            cy="240"
+            r="54"
+          />
+          <circle className={styles.moonHalo} data-scene-layer="moon" cx="965" cy="240" r="28" />
+          <g className={styles.nightStars} data-scene-layer="stars">
             <circle cx="120" cy="105" r="3" />
             <circle cx="295" cy="157" r="2" />
             <circle cx="460" cy="80" r="2.5" />
@@ -119,22 +137,24 @@ export function TorontoSkylineArt() {
             <circle cx="1460" cy="300" r="2" />
             <path d="M240 248v11m-5-5h10m767-104v13m-6-7h12m315 181v10m-5-5h10" />
           </g>
-          <g className={styles.weatherCloudBack}>
+          <g className={styles.weatherCloudBack} data-scene-layer="clouds-back">
             <path d="M-120 218q78-40 152-12 50-49 110-12 77-47 144-8 87-36 164 2 87-29 169 14 84-34 159 4 65-32 136-4 93-31 180 12 89-27 173 13 90-25 159 12 61-30 130 5v127q-104-27-207 6-102-25-208 8-91-29-195 6-109-27-211 5-94-28-194 7-113-24-224 8-106-30-210 10-99-29-227 14Z" />
           </g>
-          <g className={styles.weatherCloudFront}>
+          <g className={styles.weatherCloudFront} data-scene-layer="clouds-front">
             <path d="M-150 375q76-31 157-6 62-37 132-4 87-35 163 2 83-30 164 8 72-32 148 8 88-29 171 12 80-34 158 9 87-27 171 13 83-28 170 13 71-28 154 17 80-24 153 19v110q-107-28-210 6-113-26-220 10-103-33-208 6-101-31-203 11-114-29-218 11-106-28-216 12-100-31-218 14Z" />
           </g>
+          <g data-scene-slot="sky">{sky}</g>
         </g>
-        <g className={`${styles.rainFar} ${styles.rainStreaks}`}>
+        <g className={`${styles.rainFar} ${styles.rainStreaks}`} data-scene-layer="rain-far">
           <RainField count={17} seed={1} />
         </g>
-        <g className={styles.snowFar}>
+        <g className={styles.snowFar} data-scene-layer="snow-far">
           <SnowField count={10} seed={2} />
         </g>
       </svg>
       <svg
         className={styles.scenePlanes}
+        data-scene-sheet="planes"
         viewBox="0 0 1536 1024"
         preserveAspectRatio="xMidYMin slice"
         aria-hidden="true"
@@ -176,6 +196,7 @@ export function TorontoSkylineArt() {
             <g
               className={styles.leftBuildingPlane}
               data-building-cutout="left"
+              data-scene-layer="buildings-left"
               clipPath="url(#toronto-left-buildings-cut)"
             >
               <SkylineImages dayClassName={styles.buildingArt} />
@@ -183,6 +204,7 @@ export function TorontoSkylineArt() {
             <g
               className={styles.rightBuildingPlane}
               data-building-cutout="right"
+              data-scene-layer="buildings-right"
               clipPath="url(#toronto-right-buildings-cut)"
             >
               <SkylineImages dayClassName={styles.buildingArt} />
@@ -190,6 +212,7 @@ export function TorontoSkylineArt() {
             <g
               className={styles.towerPlane}
               data-building-cutout="tower"
+              data-scene-layer="tower"
               clipPath="url(#toronto-tower-above-roofs)"
             >
               <g clipPath="url(#toronto-tower-cut)">
@@ -199,13 +222,14 @@ export function TorontoSkylineArt() {
             <g
               className={styles.centerBuildingPlane}
               data-building-cutout="center"
+              data-scene-layer="buildings-center"
               clipPath="url(#toronto-center-buildings-cut)"
             >
               <SkylineImages dayClassName={styles.buildingArt} />
               <path className={styles.centerRoofEdge} d="M749 589h121v8H749Z" />
             </g>
           </g>
-          <g className={`${styles.rainNear} ${styles.rainStreaks}`}>
+          <g className={`${styles.rainNear} ${styles.rainStreaks}`} data-scene-layer="rain-near">
             <RainField count={14} seed={5} />
           </g>
           <g className={styles.treesPlane} data-scene-layer="trees">
@@ -229,19 +253,21 @@ export function TorontoSkylineArt() {
             />
           </g>
         </g>
-        <g className={styles.waterPlane}>
+        <g className={styles.waterPlane} data-scene-layer="water">
           <path d="M0 941q111 4 221 0 112-4 225 1 108 4 215-1 121-5 238 0 111 5 218 0 118-5 229 1 95 5 190 0v82H0Z" />
           <g clipPath="url(#toronto-water-cut)">
             <SkylineImages dayClassName={styles.dayArt} />
           </g>
           <path
             className={styles.waterMarks}
+            data-scene-layer="water-marks"
             d="M28 969h113m89 23h170m49-29h140m96 28h117m84-24h180m80 26h132m72-26h147m57 25h88"
           />
         </g>
       </svg>
       <svg
         className={styles.sceneOverlay}
+        data-scene-sheet="overlay"
         viewBox="0 0 1536 1024"
         preserveAspectRatio="xMidYMin slice"
         aria-hidden="true"
@@ -257,24 +283,36 @@ export function TorontoSkylineArt() {
             <stop offset="1" stopColor="var(--scene-water-light)" stopOpacity="0" />
           </linearGradient>
         </defs>
-        <path className={styles.skyWash} d="M0 0h1536v485H0Z" fill="url(#sky-wash)" />
-        <path className={styles.waterGlow} d="M0 953h1536v71H0Z" fill="url(#water-light)" />
-        <g className={styles.waterGlints}>
+        <path
+          className={styles.skyWash}
+          data-scene-layer="sky-wash"
+          d="M0 0h1536v485H0Z"
+          fill="url(#sky-wash)"
+        />
+        <path
+          className={styles.waterGlow}
+          data-scene-layer="water-glow"
+          d="M0 953h1536v71H0Z"
+          fill="url(#water-light)"
+        />
+        <g className={styles.waterGlints} data-scene-layer="water-glints">
           <path d="M55 972h98m103 19h70m109-23h110m271 21h75m101-24h85m199 22h97m-756 19h61m474-2h101" />
         </g>
-        <g className={styles.rainRipples}>
+        <g className={styles.rainRipples} data-scene-layer="rain-ripples">
           <path d="M145 951q19-7 38 0m-30 6q11-4 22 0M319 979q23-8 46 0m-37 7q15-5 30 0M522 957q19-7 38 0m-30 6q11-4 22 0M765 981q23-8 46 0m-37 7q15-5 30 0M1020 952q19-7 38 0m-30 6q11-4 22 0M1265 982q23-8 46 0m-37 7q15-5 30 0M1410 954q19-7 38 0m-30 6q11-4 22 0" />
         </g>
-        <g className={styles.snowNear}>
+        <g className={styles.snowNear} data-scene-layer="snow-near">
           <SnowField count={8} seed={7} near />
         </g>
-        <g className={styles.paperFrame}>
+        <g data-scene-slot="front">{front}</g>
+        <g className={styles.paperFrame} data-scene-layer="frame">
           <path d="M0 0h16l10 73-8 93 9 99-7 103 7 108-8 104 7 113-10 110 9 116-9 105H0Z" />
           <path d="M1536 0h-16l-10 77 8 91-9 100 8 106-8 109 9 106-7 110 9 115-10 105 10 105h16Z" />
           <path d="M0 1008q92-12 184 1 105-12 202-1 89-12 180 0 100-13 195 1 99-12 192 1 92-12 185 0 110-13 213 0 98-11 185 1v13H0Z" />
         </g>
         <path
           className={styles.paperMat}
+          data-scene-layer="mat"
           fillRule="evenodd"
           d="M4 4H1532V1020H4Z M20 20L160 17 310 20 460 17 615 21 770 18 925 21 1080 18 1230 21 1380 17 1516 20 1514 150 1518 300 1515 450 1519 600 1515 750 1518 900 1515 1005 1360 1002 1210 1007 1060 1003 910 1007 760 1003 610 1007 460 1003 310 1007 160 1003 20 1006 23 865 19 720 22 575 19 430 23 285 20 140Z"
         />

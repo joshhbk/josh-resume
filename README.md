@@ -1,6 +1,6 @@
 # Joshua Hughes — portfolio
 
-The site is a Toronto-based personal portfolio with a red, blue and cream editorial layout.
+The site is a Toronto-based personal portfolio: paper cards pinned into a layered cut-paper Toronto skyline.
 
 ## Stack
 
@@ -32,7 +32,7 @@ pnpm build
 
 The review build is copied to `/Users/joshuahughes/Developer/josh-resume` on the Mac mini. A user LaunchAgent runs `pnpm start` on loopback port 3000 and Tailscale Serve provides private tailnet HTTPS. The launch configuration is versioned in `ops/com.joshuahughes.portfolio-preview.plist`.
 
-The interactive design jig has a separate, private development preview at `https://joshuas-mac-mini.tailde9f07.ts.net:10000/`. Its LaunchAgent (`ops/com.joshuahughes.portfolio-jig.plist`) runs `pnpm dev` on loopback port 5173; Tailscale Serve proxies HTTPS port 10000 to that port. Both previews require access to the same tailnet.
+The interactive design jig (see `docs/assets.md`, including the Motion lab) has a separate, private development preview at `https://joshuas-mac-mini.tailde9f07.ts.net:10000/`. Its LaunchAgent (`ops/com.joshuahughes.portfolio-jig.plist`) runs `pnpm dev` on loopback port 5173; Tailscale Serve proxies HTTPS port 10000 to that port. Both previews require access to the same tailnet.
 
 After syncing a change, run the production checks and build on the mini, then restart the service:
 

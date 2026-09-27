@@ -21,6 +21,7 @@ export const portfolioSchema = z.object({
     name: z.string(),
     role: z.string(),
     location: z.string(),
+    summary: z.string(),
     profiles: z
       .array(
         z.object({

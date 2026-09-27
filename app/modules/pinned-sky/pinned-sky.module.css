@@ -1,0 +1,1333 @@
+/* Pinned to the sky: cut-paper cards hung into the Toronto diorama at different depths. */
+
+/* Tokens */
+
+.board {
+  --paper: #f6eedb;
+  --paper-back: #e7dabd;
+  --ink: #172b3d;
+  --ink-soft: #4b5a66;
+  --accent: #a8322b;
+  --pin: #c8423a;
+  --tape: rgb(236 216 166 / 80%);
+  --thread: rgb(23 43 61 / 60%);
+  --shadow-hard: rgb(14 35 51 / 30%);
+  --shadow-soft: rgb(14 35 51 / 20%);
+  --glow: rgb(255 255 255 / 0%);
+  --halo: drop-shadow(0 0 0 rgb(0 0 0 / 0%));
+  --focus: #0d4f8b;
+  --sway-base: 0.35deg;
+  --wind: 0deg;
+  --sway: calc(var(--sway-base) + var(--wind));
+  --sway-duration: 7s;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .16 0 0 0 .11 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  --font-display: "Archivo Variable", "Archivo", sans-serif;
+  --font-body: "IBM Plex Sans", sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-hand: "Iowan Old Style", "Palatino", Georgia, serif;
+  --ease-paper: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  position: relative;
+  overflow-x: clip;
+  font-family: var(--font-body);
+  color: var(--ink);
+}
+
+.board[data-phase="dawn"] {
+  --paper: #f9ebe2;
+  --paper-back: #ead3c8;
+  --shadow-hard: rgb(74 42 62 / 28%);
+  --glow: rgb(255 196 176 / 22%);
+}
+
+.board[data-phase="dusk"] {
+  --paper: #f5e0c2;
+  --paper-back: #e2c49c;
+  --shadow-hard: rgb(60 30 30 / 32%);
+  --glow: rgb(255 170 92 / 24%);
+}
+
+/* At night the cards read like paper lanterns: lit warm from behind, glowing into the dark. */
+.board[data-phase="night"] {
+  --paper: #f3dfb1;
+  --paper-back: #cfb27c;
+  --ink: #1b2430;
+  --ink-soft: #4d4a44;
+  --tape: rgb(222 196 140 / 78%);
+  --thread: rgb(255 226 170 / 55%);
+  --shadow-hard: rgb(2 8 18 / 55%);
+  --shadow-soft: rgb(2 8 18 / 45%);
+  --glow: rgb(255 176 72 / 58%);
+  --halo: drop-shadow(0 0 1.6rem rgb(255 184 96 / 32%));
+}
+
+.board[data-weather="cloudy"] {
+  --sway-base: 0.5deg;
+}
+
+.board[data-weather="rain"] {
+  --sway-base: 1.1deg;
+  --sway-duration: 3.6s;
+}
+
+.board[data-weather="snow"] {
+  --sway-base: 0.7deg;
+  --sway-duration: 5.5s;
+}
+
+.board[data-wind="breezy"] {
+  --wind: 0.5deg;
+}
+
+.board[data-wind="gusty"] {
+  --wind: 1.2deg;
+  --sway-duration: 3s;
+}
+
+.board :where(h1, h2, h3, h4, p, ul, ol) {
+  margin: 0;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Stage: hanging mobiles on narrow screens, a spatial board around the tower on wide ones. */
+
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3.25rem;
+  width: min(100%, 40rem);
+  min-height: 100svh;
+  margin-inline: auto;
+  padding: 2.5rem 1rem 7rem;
+}
+
+.stage:focus {
+  outline: none;
+}
+
+.workGroup {
+  display: contents;
+}
+
+/* On the narrow stack cards hang at alternating sides with sky showing between them. */
+.stage [data-slot] {
+  width: 86%;
+}
+
+.stage [data-slot="name"] {
+  --tilt: -0.8deg;
+  width: 94%;
+  align-self: center;
+}
+
+.stage [data-slot="profiles"] {
+  --tilt: 2deg;
+  --sway-delay: -4s;
+  width: min(64%, 16rem);
+  align-self: flex-end;
+  margin-top: 0.5rem;
+  margin-right: 3%;
+}
+
+.stage [data-slot="work-1"] {
+  --tilt: 1.2deg;
+  --sway-delay: -1.5s;
+  align-self: flex-start;
+}
+
+.stage [data-slot="work-2"] {
+  --tilt: -1.4deg;
+  --sway-delay: -3.2s;
+  --hang: 1.4rem;
+  align-self: flex-end;
+}
+
+.stage [data-slot="work-3"] {
+  --tilt: 0.8deg;
+  --sway-delay: -0.6s;
+  align-self: flex-start;
+}
+
+.stage [data-slot="roles"] {
+  --tilt: -1.2deg;
+  --sway-delay: -2.4s;
+  --hang: calc(100% - 1.4rem);
+  align-self: flex-end;
+}
+
+.stage [data-slot="controls"] {
+  width: auto;
+  align-self: flex-start;
+}
+
+@media (min-width: 40rem) {
+  .stage [data-slot] {
+    width: 78%;
+  }
+
+  .stage [data-slot="name"] {
+    width: 92%;
+  }
+
+  .stage [data-slot="profiles"] {
+    width: 16rem;
+  }
+}
+
+@media (min-width: 76rem) and (min-height: 40rem) {
+  .stage {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: auto auto 1fr auto;
+    align-items: start;
+    gap: clamp(1.5rem, 3.4vh, 2.75rem) clamp(1rem, 1.7vw, 1.75rem);
+    width: min(100%, 96rem);
+    padding: clamp(2rem, 5vh, 3.25rem) clamp(2rem, 4.5vw, 5rem) 1.25rem;
+  }
+
+  .stage [data-slot],
+  .stage [data-slot="name"],
+  .stage [data-slot="profiles"] {
+    width: auto;
+    margin-inline: 0;
+    align-self: start;
+  }
+
+  /* Column 7 is left clear: that's where the CN Tower stands. */
+  .stage [data-slot="name"] {
+    grid-column: 1 / 7;
+    grid-row: 1;
+  }
+
+  .stage [data-slot="work-1"] {
+    grid-column: 8 / 11;
+    grid-row: 1;
+    margin-top: clamp(1rem, 4vh, 2.5rem);
+  }
+
+  .stage [data-slot="profiles"] {
+    grid-column: 11 / 13;
+    grid-row: 1 / span 2;
+    margin-top: clamp(5rem, 13vh, 8rem);
+  }
+
+  .stage [data-slot="roles"] {
+    grid-column: 1 / 4;
+    grid-row: 2;
+    margin-top: -0.5rem;
+  }
+
+  .stage [data-slot="work-2"] {
+    grid-column: 4 / 7;
+    grid-row: 2;
+    margin-top: 0.75rem;
+  }
+
+  .stage [data-slot="work-3"] {
+    grid-column: 8 / 11;
+    grid-row: 2;
+    margin-top: 0.5rem;
+    margin-left: clamp(1rem, 2.5vw, 2.5rem);
+  }
+
+  .stage [data-slot="controls"] {
+    grid-column: 1 / 7;
+    grid-row: 4;
+    align-self: end;
+    justify-self: start;
+  }
+}
+
+/* Paper cards: position → parallax, swing → sway and shadow, paper → the cut sheet. */
+
+.card {
+  --rate: 12px;
+  --shadow-x: 0.45rem;
+  --shadow-y: 0.6rem;
+
+  position: relative;
+  translate: calc(var(--cursor-x, 0) * var(--rate)) calc(var(--cursor-y, 0) * var(--rate) * 0.6);
+  transition:
+    translate 700ms var(--ease-paper),
+    scale 500ms var(--ease-paper),
+    filter 500ms ease,
+    opacity 500ms ease;
+}
+
+.card[data-depth="far"] {
+  z-index: 1;
+  --rate: -6px;
+  --shadow-x: 0.25rem;
+  --shadow-y: 0.35rem;
+}
+
+.card[data-depth="mid"] {
+  z-index: 2;
+  --rate: 11px;
+  --shadow-x: 0.45rem;
+  --shadow-y: 0.6rem;
+}
+
+.card[data-depth="near"] {
+  z-index: 3;
+  --rate: 22px;
+  --shadow-x: 0.7rem;
+  --shadow-y: 0.95rem;
+}
+
+.swing {
+  position: relative;
+  transform-origin: var(--hang, 50%) -0.4rem;
+  rotate: var(--tilt, 0deg);
+  filter: drop-shadow(var(--shadow-x) var(--shadow-y) 0 var(--shadow-hard))
+    drop-shadow(0 0.5rem 1.1rem var(--shadow-soft)) var(--halo);
+  transition:
+    translate 400ms var(--ease-paper),
+    opacity 400ms ease;
+  animation: sway var(--sway-duration) ease-in-out var(--sway-delay, 0s) infinite alternate;
+}
+
+/* A card you are reading settles still. */
+.card:hover > .swing,
+.card:focus-within > .swing {
+  animation-play-state: paused;
+}
+
+@keyframes sway {
+  from {
+    transform: rotate(calc(var(--sway) * -1));
+  }
+
+  to {
+    transform: rotate(var(--sway));
+  }
+}
+
+.paper {
+  --cut: polygon(
+    0.4% 1.1%,
+    18% 0.2%,
+    41% 0.9%,
+    63% 0%,
+    86% 0.8%,
+    99.6% 0.2%,
+    100% 24%,
+    99.3% 51%,
+    100% 77%,
+    99.5% 99.5%,
+    77% 100%,
+    52% 99.1%,
+    26% 100%,
+    0.3% 99.4%,
+    0.9% 72%,
+    0% 44%,
+    0.6% 19%
+  );
+
+  position: relative;
+  padding: 1.2rem 1.3rem 1.3rem;
+  color: var(--ink);
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(130% 95% at 50% 118%, var(--glow), transparent 64%),
+    linear-gradient(165deg, rgb(255 255 255 / 38%), transparent 38%, rgb(120 88 40 / 7%)),
+    var(--grain);
+  clip-path: var(--cut);
+  transition: background-color 900ms ease;
+}
+
+.paper[data-cut="b"] {
+  --cut: polygon(
+    0% 0.6%,
+    24% 0%,
+    49% 1%,
+    74% 0.1%,
+    100% 0.9%,
+    99.4% 27%,
+    100% 55%,
+    99.5% 80%,
+    100% 100%,
+    71% 99.3%,
+    47% 100%,
+    22% 99.2%,
+    0.5% 100%,
+    0% 76%,
+    0.7% 50%,
+    0.1% 25%
+  );
+}
+
+.paper[data-cut="c"] {
+  --cut: polygon(
+    0.7% 0%,
+    30% 0.8%,
+    57% 0.1%,
+    81% 1%,
+    99.2% 0%,
+    100% 31%,
+    99.4% 62%,
+    100% 88%,
+    99% 100%,
+    68% 99.4%,
+    39% 100%,
+    12% 99.2%,
+    0% 99.8%,
+    0.6% 66%,
+    0% 38%,
+    0.8% 12%
+  );
+}
+
+/* A pencil ring drawn around the whole sheet when its unfold button has keyboard focus. It
+   hangs off the card rather than the swing so the paper's drop shadows don't double it. */
+.workCard::after {
+  position: absolute;
+  z-index: 4;
+  inset: -0.55rem;
+  pointer-events: none;
+  content: "";
+  border: 2.5px solid var(--focus);
+  border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;
+  opacity: 0;
+  rotate: var(--tilt, 0deg);
+  transition: opacity 160ms ease;
+}
+
+.workCard:has(.unfoldTrigger:focus-visible)::after {
+  opacity: 1;
+}
+
+/* A soft, uneven drift of snow settles along the top edge of every card. */
+.board[data-weather="snow"] .paper::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 0.75rem;
+  content: "";
+  background:
+    radial-gradient(ellipse 22% 90% at 12% 0, #fdfdfb 55%, transparent 60%),
+    radial-gradient(ellipse 30% 70% at 42% 0, #fdfdfb 55%, transparent 60%),
+    radial-gradient(ellipse 18% 100% at 68% 0, #fdfdfb 55%, transparent 60%),
+    radial-gradient(ellipse 26% 60% at 90% 0, #fdfdfb 55%, transparent 60%),
+    linear-gradient(#fdfdfb, #fdfdfb) 0 0 / 100% 0.2rem no-repeat;
+  filter: drop-shadow(0 0.08rem 0.06rem rgb(80 90 110 / 22%));
+}
+
+/* Rain darkens the paper a touch and leaves a few damp spots. */
+.board[data-weather="rain"] .paper::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background:
+    radial-gradient(0.5rem 0.4rem at 18% 22%, rgb(60 50 30 / 10%), transparent),
+    radial-gradient(0.4rem 0.55rem at 72% 12%, rgb(60 50 30 / 9%), transparent),
+    radial-gradient(0.6rem 0.45rem at 86% 68%, rgb(60 50 30 / 8%), transparent),
+    linear-gradient(rgb(40 40 50 / 5%), rgb(40 40 50 / 5%));
+}
+
+.pushPin {
+  position: absolute;
+  z-index: 3;
+  top: -0.3rem;
+  left: calc(50% - 0.55rem);
+  width: 1.1rem;
+  aspect-ratio: 1;
+  background: radial-gradient(
+    circle at 34% 30%,
+    #ffc2b6 0 10%,
+    var(--pin) 36%,
+    color-mix(in oklab, var(--pin), #000 55%) 100%
+  );
+  border-radius: 50%;
+  box-shadow:
+    0.2rem 0.3rem 0 -0.08rem rgb(14 35 51 / 35%),
+    inset -0.1rem -0.15rem 0.2rem rgb(0 0 0 / 25%);
+}
+
+.pushPin[data-at="left"] {
+  left: 1.25rem;
+}
+
+.pushPin[data-at="right"] {
+  right: 1.25rem;
+  left: auto;
+}
+
+.tape {
+  position: absolute;
+  z-index: 3;
+  top: 0.15rem;
+  width: 6.25rem;
+  height: 1.65rem;
+  background:
+    linear-gradient(90deg, rgb(255 255 255 / 18%), transparent 30%, rgb(255 255 255 / 12%)),
+    var(--tape);
+  clip-path: polygon(
+    3% 6%,
+    0 28%,
+    3.5% 50%,
+    0.5% 76%,
+    3% 100%,
+    97% 96%,
+    100% 72%,
+    96.5% 46%,
+    100% 20%,
+    97% 0
+  );
+}
+
+.tape[data-at="left"] {
+  left: -2.1rem;
+  rotate: -34deg;
+}
+
+.tape[data-at="right"] {
+  right: -2.1rem;
+  rotate: 31deg;
+}
+
+.thread {
+  position: absolute;
+  z-index: 3;
+  bottom: calc(100% - 0.55rem);
+  left: 50%;
+  width: 1.5px;
+  height: 4.5rem;
+  background: linear-gradient(to top, var(--thread) 55%, transparent);
+}
+
+.thread::after {
+  position: absolute;
+  bottom: -0.15rem;
+  left: -0.2rem;
+  width: 0.45rem;
+  aspect-ratio: 1;
+  content: "";
+  background: var(--ink);
+  border-radius: 50%;
+}
+
+.thread[data-at="left"] {
+  left: 1.6rem;
+}
+
+.thread[data-at="right"] {
+  right: 1.6rem;
+  left: auto;
+}
+
+@media (min-width: 76rem) and (min-height: 40rem) {
+  .thread {
+    height: 10rem;
+  }
+}
+
+/* On the narrow stack the tape sits inboard so it is never cut off by the screen edge. */
+@media not ((min-width: 76rem) and (min-height: 40rem)) {
+  .tape[data-at="left"] {
+    left: -1rem;
+    rotate: -28deg;
+  }
+
+  .tape[data-at="right"] {
+    right: -1rem;
+    rotate: 26deg;
+  }
+}
+
+/* Name card */
+
+.nameSheet {
+  padding: clamp(1.6rem, 2.6vw, 2.1rem) clamp(1.3rem, 2.8vw, 2.4rem) clamp(1.1rem, 2vw, 1.5rem);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 4.7vw, 4.6rem);
+  font-weight: 820;
+  font-stretch: 92%;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.role {
+  margin-top: 0.7rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+  font-weight: 620;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+}
+
+.summary {
+  max-width: 30rem;
+  margin-top: 0.55rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.pencilNote {
+  max-width: 31rem;
+  text-wrap: pretty;
+  margin-top: 0.9rem;
+  font-family: var(--font-hand);
+  font-size: 1.02rem;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--ink-soft);
+}
+
+.boardOnly {
+  display: none;
+}
+
+@media (min-width: 76rem) and (min-height: 40rem) {
+  .boardOnly {
+    display: inline;
+  }
+
+  .stackOnly {
+    display: none;
+  }
+}
+
+.sceneReading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  justify-content: space-between;
+  margin-top: 1.1rem;
+  padding-top: 0.7rem;
+  font:
+    500 0.75rem/1.3 var(--font-mono),
+    monospace;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-top: 1px dashed color-mix(in oklab, var(--ink), transparent 70%);
+}
+
+.sceneReading > :last-child::before {
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-right: 0.45rem;
+  vertical-align: 0.05rem;
+  content: "";
+  background: var(--pin);
+  border-radius: 50%;
+}
+
+/* Project cards: the only sheets that open, so the only ones with a crease, a dog-ear and a lift. */
+
+.workCard {
+  cursor: pointer;
+}
+
+.workCard:hover > .swing,
+.workCard:has(:focus-visible) > .swing {
+  translate: 0 -0.35rem;
+  --shadow-y: 1.15rem;
+}
+
+.workSheet {
+  display: grid;
+  gap: 0.3rem;
+  padding: 1.2rem 1.25rem 2.5rem;
+  background-image:
+    linear-gradient(
+      to bottom,
+      transparent calc(52% - 1px),
+      rgb(90 66 30 / 10%) calc(52% - 1px),
+      rgb(255 255 255 / 45%) calc(52% + 1px),
+      transparent calc(52% + 0.6rem)
+    ),
+    radial-gradient(130% 95% at 50% 118%, var(--glow), transparent 64%),
+    linear-gradient(165deg, rgb(255 255 255 / 38%), transparent 38%, rgb(120 88 40 / 7%)),
+    var(--grain);
+}
+
+.workHead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 1rem;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.workCompany {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 1.9vw, 1.85rem);
+  font-weight: 780;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.period {
+  font:
+    500 0.75rem/1.3 var(--font-mono),
+    monospace;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+
+.workTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--accent);
+  text-wrap: balance;
+}
+
+.unfoldTrigger {
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  letter-spacing: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+
+/* The whole card is the button's hit area. */
+.unfoldTrigger::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  content: "";
+}
+
+.unfoldTrigger:focus-visible {
+  outline: none;
+}
+
+.workSummary {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+/* The cue sits beside a dog-eared corner that begs to be unfolded. */
+.unfoldCue {
+  position: absolute;
+  right: 2.55rem;
+  bottom: 0.55rem;
+  display: inline-flex;
+  gap: 0.3rem;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.unfoldCue svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  color: var(--accent);
+}
+
+.workSheet::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 2rem;
+  height: 2rem;
+  content: "";
+  background: linear-gradient(
+    315deg,
+    rgb(0 0 0 / 0%) 0 50%,
+    var(--paper-back) 50% 62%,
+    color-mix(in oklab, var(--paper-back), #fff 30%) 100%
+  );
+  box-shadow: -0.2rem -0.2rem 0.35rem rgb(40 30 10 / 16%);
+  transition:
+    width 300ms var(--ease-paper),
+    height 300ms var(--ease-paper);
+}
+
+.workCard:hover .workSheet::after,
+.workCard:has(:focus-visible) .workSheet::after {
+  width: 2.6rem;
+  height: 2.6rem;
+}
+
+/* The lifted card leaves a faint ghost behind while its sheet is open. */
+.card:has(dialog[open]) > .swing {
+  opacity: 0.22;
+}
+
+.stage:has(dialog[open]) .card:not(:has(dialog[open])) {
+  scale: 0.965;
+  filter: saturate(0.7) brightness(0.88);
+}
+
+/* Unfolded sheet */
+
+.sheetDialog {
+  width: min(40rem, calc(100vw - 1.5rem));
+  max-width: none;
+  max-height: calc(100svh - 1.5rem);
+  padding: 1.25rem 0.75rem 1.75rem;
+  overflow: auto;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+}
+
+.sheetDialog::backdrop {
+  background: rgb(10 22 34 / 42%);
+  backdrop-filter: blur(3px) saturate(0.85);
+}
+
+.sheet {
+  position: relative;
+  perspective: 1600px;
+  rotate: -0.6deg;
+  filter: drop-shadow(0.9rem 1.2rem 0 rgb(8 20 32 / 32%))
+    drop-shadow(0 1.5rem 2.5rem rgb(8 20 32 / 30%)) var(--halo);
+  cursor: auto;
+}
+
+.sheetDialog[open] .sheet {
+  animation: lift 520ms var(--ease-paper) both;
+}
+
+@keyframes lift {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem) scale(0.86) rotate(2.5deg);
+  }
+}
+
+.fold {
+  position: relative;
+  padding: 1.35rem clamp(1.25rem, 4vw, 2rem);
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(130% 95% at 50% 118%, var(--glow), transparent 64%),
+    linear-gradient(165deg, rgb(255 255 255 / 38%), transparent 38%, rgb(120 88 40 / 7%)),
+    var(--grain);
+  transform-origin: top center;
+  backface-visibility: hidden;
+}
+
+.fold[data-fold="head"] {
+  padding-top: 1.6rem;
+}
+
+/* Creases where the sheet was folded. */
+.fold + .fold {
+  box-shadow:
+    inset 0 1px 0 rgb(80 60 30 / 16%),
+    inset 0 0.7rem 0.9rem -0.7rem rgb(80 60 30 / 22%);
+}
+
+.sheetDialog[open] .fold + .fold {
+  animation: unfold 680ms var(--ease-paper) both;
+}
+
+.sheetDialog[open] .fold[data-fold="context"] {
+  animation-delay: 200ms;
+}
+
+.sheetDialog[open] .fold[data-fold="contributions"] {
+  animation-delay: 420ms;
+}
+
+@keyframes unfold {
+  from {
+    filter: brightness(0.6);
+    transform: rotateX(-96deg);
+  }
+
+  60% {
+    filter: brightness(0.95);
+  }
+
+  to {
+    filter: none;
+    transform: rotateX(0deg);
+  }
+}
+
+.sheetCompany {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4.4vw, 2.6rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.sheetCompany:focus {
+  outline: none;
+}
+
+.sheetTitle {
+  max-width: 30rem;
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--accent);
+  text-wrap: balance;
+}
+
+.sheetSummary {
+  max-width: 32rem;
+  margin-top: 0.8rem;
+  font-size: 1.02rem;
+  line-height: 1.5;
+}
+
+.closeForm {
+  margin-top: 1.1rem;
+}
+
+.closeButton {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  padding: 0.5rem 0.8rem 0.5rem 0.6rem;
+  font:
+    600 0.8rem/1 var(--font-body),
+    sans-serif;
+  color: var(--paper);
+  cursor: pointer;
+  background: var(--ink);
+  border: 0;
+  box-shadow: 0.2rem 0.25rem 0 rgb(14 35 51 / 25%);
+}
+
+.closeButton svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.closeButton:hover {
+  background: var(--accent);
+}
+
+.closeButton:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.foldHeading {
+  margin-bottom: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.fold p {
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.contributions {
+  display: grid;
+  gap: 0.6rem;
+  padding: 0;
+  list-style: none;
+  counter-reset: contribution;
+}
+
+.contributions li {
+  position: relative;
+  padding-left: 2rem;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  counter-increment: contribution;
+}
+
+.contributions li::before {
+  position: absolute;
+  top: 0.1rem;
+  left: 0;
+  font:
+    italic 1rem/1.4 var(--font-hand),
+    serif;
+  color: var(--ink-soft);
+  content: counter(contribution, lower-roman) ".";
+}
+
+/* Roles: a little stack of index cards */
+
+.cardHeading {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 720;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.cardNote {
+  margin-top: 0.2rem;
+  font-family: var(--font-hand);
+  font-size: 0.92rem;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--ink-soft);
+}
+
+.stackedSheet {
+  position: absolute;
+  inset: 0;
+  background: var(--paper-back);
+  background-image: var(--grain);
+}
+
+.stackedSheet[data-layer="1"] {
+  rotate: 3deg;
+  translate: 0.35rem 0.2rem;
+}
+
+.stackedSheet[data-layer="2"] {
+  rotate: -2.2deg;
+  translate: -0.25rem 0.35rem;
+  background-color: color-mix(in oklab, var(--paper-back), var(--paper) 50%);
+}
+
+.rolesSheet {
+  padding-top: 1.35rem;
+}
+
+.roles {
+  display: grid;
+  margin-top: 0.7rem;
+  padding: 0;
+  list-style: none;
+  background: repeating-linear-gradient(
+    transparent 0 calc(2.6rem - 1px),
+    color-mix(in oklab, #3a7bb8, transparent 72%) calc(2.6rem - 1px) 2.6rem
+  );
+  border-top: 1.5px solid color-mix(in oklab, var(--pin), transparent 45%);
+}
+
+.roles > li {
+  display: grid;
+}
+
+.roleRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 0.75rem;
+  align-content: center;
+  min-height: 2.6rem;
+  padding: 0.3rem 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+}
+
+/* Roles with a pinned project read as an index into the board. */
+button.roleRow {
+  cursor: pointer;
+  transition: background-color 200ms ease;
+}
+
+button.roleRow:hover {
+  background: color-mix(in oklab, var(--paper-back), transparent 45%);
+}
+
+button.roleRow:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.roleOrganization {
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.rolePeriod {
+  font:
+    500 0.75rem/1.2 var(--font-mono),
+    monospace;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+  letter-spacing: 0.02em;
+  text-align: right;
+}
+
+.roleTitle {
+  font-size: 0.8rem;
+  line-height: 1.25;
+  color: var(--ink-soft);
+}
+
+.roleRow > .roleTitle:last-child {
+  grid-column: 1 / -1;
+}
+
+.roleCue {
+  display: inline-flex;
+  justify-self: end;
+  align-items: center;
+  color: var(--accent);
+}
+
+.roleCue svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+/* Profiles: a luggage tag on a thread */
+
+.tagSheet {
+  --cut: polygon(
+    16% 0%,
+    84% 0%,
+    100% 11%,
+    99.4% 45%,
+    100% 78%,
+    99.3% 100%,
+    60% 99.3%,
+    28% 100%,
+    0.4% 99.4%,
+    0% 70%,
+    0.6% 38%,
+    0% 11%
+  );
+
+  padding: 2.4rem 1.1rem 1rem;
+  text-align: left;
+}
+
+.tagEyelet {
+  position: absolute;
+  top: 0.75rem;
+  left: calc(50% - 0.45rem);
+  width: 0.9rem;
+  aspect-ratio: 1;
+  background: rgb(23 43 61 / 18%);
+  border: 0.2rem solid color-mix(in oklab, var(--paper-back), #8a6a30 25%);
+  border-radius: 50%;
+}
+
+.profileLinks {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.8rem;
+}
+
+.profileLink {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.55rem;
+  align-items: center;
+  padding: 0.45rem 0.4rem;
+  color: var(--ink);
+  text-decoration: none;
+  border-top: 1px dashed color-mix(in oklab, var(--ink), transparent 70%);
+  transition: background-color 200ms ease;
+}
+
+.profileLink:hover {
+  background: color-mix(in oklab, var(--paper-back), transparent 40%);
+}
+
+.profileLink:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.profileMark {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.profileText {
+  display: grid;
+  min-width: 0;
+}
+
+.profileLabel {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.profileIdentity {
+  font-size: 0.8rem;
+  line-height: 1.3;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.profileArrow {
+  width: 0.9rem;
+  height: 0.9rem;
+  color: var(--accent);
+  transition: translate 200ms var(--ease-paper);
+}
+
+.profileLink:hover .profileArrow {
+  translate: 0.12rem -0.12rem;
+}
+
+/* Scene controls: a slip at the foot of the board that unrolls the lighting and weather. */
+
+.controlsSlip {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 0.9rem;
+  align-items: center;
+  max-width: 100%;
+}
+
+.controlsToggle {
+  display: inline-flex;
+  gap: 0.6rem;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.75rem 0.45rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  background: var(--paper);
+  background-image: var(--grain);
+  border: 0;
+  box-shadow:
+    0.25rem 0.3rem 0 var(--shadow-hard),
+    0 0.3rem 0.8rem var(--shadow-soft);
+  rotate: -1deg;
+}
+
+.controlsToggle:hover {
+  background-color: color-mix(in oklab, var(--paper), #fff 35%);
+}
+
+.controlsToggle:focus-visible {
+  outline: 2.5px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.controlsValue {
+  padding: 0.15rem 0.45rem;
+  font-size: 0.75rem;
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.controlsChevron {
+  width: 1rem;
+  height: 1rem;
+  transition: rotate 250ms var(--ease-paper);
+}
+
+.controlsSlip[data-open="false"] .controlsChevron {
+  rotate: 180deg;
+}
+
+.controlsPanel {
+  position: absolute;
+  z-index: 10;
+  bottom: calc(100% + 0.6rem);
+  left: 0;
+  padding: 0.55rem;
+  background: color-mix(in oklab, var(--paper), transparent 8%);
+  background-image: var(--grain);
+  box-shadow:
+    0.35rem 0.45rem 0 var(--shadow-hard),
+    0 0.6rem 1.4rem var(--shadow-soft);
+  transform-origin: bottom left;
+  transition:
+    opacity 220ms ease,
+    translate 320ms var(--ease-paper);
+}
+
+.controlsSlip[data-open="false"] .controlsPanel {
+  opacity: 0;
+  translate: 0 0.6rem;
+  pointer-events: none;
+}
+
+.controlsSlip .controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: stretch;
+  justify-items: start;
+  width: max-content;
+  max-width: calc(100vw - 3rem);
+}
+
+.credit {
+  padding: 0.3rem 0.55rem;
+  font-size: 0.75rem;
+  color: var(--ink);
+  background: var(--paper);
+  box-shadow: 0.2rem 0.25rem 0 var(--shadow-hard);
+}
+
+.credit a {
+  color: inherit;
+  text-underline-offset: 0.15em;
+}
+
+.credit a:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Browser surfaces */
+
+.board ::selection {
+  color: var(--ink);
+  background: color-mix(in oklab, var(--pin), transparent 62%);
+}
+
+/* Motion preferences */
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .swing,
+  .workCard::after,
+  .workSheet::after,
+  .controlsPanel,
+  .controlsChevron,
+  .profileArrow {
+    transition: none;
+  }
+
+  .swing {
+    animation: none;
+  }
+
+  .sheetDialog[open] .sheet,
+  .sheetDialog[open] .fold + .fold {
+    animation: fade 160ms ease both;
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+}
